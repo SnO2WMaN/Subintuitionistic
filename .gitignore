@@ -1,0 +1,6 @@
+# Personal files (notes, reference PDFs)
+/.local/
+
+# Skills (restored from skills-lock.json)
+/.agents/
+/.claude/skills/

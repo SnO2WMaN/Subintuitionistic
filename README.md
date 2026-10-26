@@ -1,0 +1,1 @@
+# Reasearch project for weak propositional logics

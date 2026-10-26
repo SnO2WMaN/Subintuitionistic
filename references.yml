@@ -1,0 +1,1778 @@
+Vis81:
+  type: Article
+  title: A propositional logic with explicit fixed points
+  author:
+    - "Visser, Albert"
+  date: 1981
+  parent:
+    type: Periodical
+    title: Studia Logica
+    volume: 40
+    issue: 2
+  page-range: 155-175
+
+Seg71:
+  type: Book
+  title: An Essay in Classical Modal Logic
+  author:
+    - "Segerberg, Krister"
+  date: 1971
+  publisher:
+    name: Filosofiska Föreningen och Filosofiska Institutionen vid Uppsala Universitet
+    location: Uppsala
+  parent:
+    type: Anthology
+    title: Filosofiska Studier
+    volume: 13
+
+Sol76:
+  type: Article
+  title: Provability interpretations of modal logic
+  author:
+    - "Solovay, Robert M."
+  date: 1976
+  parent:
+    type: Periodical
+    title: Israel Journal of Mathematics
+    volume: 25
+  page-range: 287-304
+
+Boo79:
+  type: Book
+  title: The Unprovability of Consistency
+  author:
+    - "Boolos, George"
+  date: 1979
+  publisher:
+    name: Cambridge University Press
+    location: Cambridge
+
+AA00:
+  type: Article
+  title: "A bounded translation of intuitionistic propositional logic into basic propositional logic"
+  author:
+    - "Aghaei, Mojtaba"
+    - "Ardeshir, Mohammad"
+  date: 2000
+  page-range: 199-206
+  parent:
+    type: Periodical
+    title: Mathematical Logic Quarterly
+    volume: 46
+    issue: "2"
+  serial-number:
+    doi: "10.1002/(SICI)1521-3870(200005)46:2<199::AID-MALQ199>3.0.CO;2-B"
+
+AA01:
+  type: Article
+  title: "Gentzen-style axiomatizations for some conservative extensions of basic propositional logic"
+  author:
+    - "Aghaei, Mojtaba"
+    - "Ardeshir, Mohammad"
+  date: 2001
+  parent:
+    type: Periodical
+    title: Studia Logica
+    volume: 68
+  serial-number:
+    doi: "10.1023/A:1012499207246"
+
+AA04:
+  type: Article
+  title: "On the linear Lindenbaum algebra of Basic Propositional Logic"
+  author:
+    - "Alizadeh, Majid"
+    - "Ardeshir, Mohammad"
+  date: 2004
+  parent:
+    type: Periodical
+    title: Mathematical Logic Quarterly
+    volume: 50
+  serial-number:
+    doi: "10.1002/malq.200310077"
+
+AA06:
+  type: Article
+  title: "Amalgamation property for the class of basic algebras and some of its natural subclasses"
+  author:
+    - "Alizadeh, Majid"
+    - "Ardeshir, Mohammad"
+  date: 2006
+  parent:
+    type: Periodical
+    title: Archive for Mathematical Logic
+    volume: 45
+  serial-number:
+    doi: "10.1007/s00153-006-0018-y"
+
+AA06a:
+  type: Article
+  title: "On Löb algebras"
+  author:
+    - "Alizadeh, Majid"
+    - "Ardeshir, Mohammad"
+  date: 2006
+  parent:
+    type: Periodical
+    title: Mathematical Logic Quarterly
+    volume: 52
+    issue: 1
+  page-range: 95-105
+  serial-number:
+    doi: "10.1002/malq.200510016"
+
+AA22:
+  type: Article
+  title: "Lyndon's interpolation property for the logic of strict implication"
+  author:
+    - "Aboolian, Narbe"
+    - "Alizadeh, Majid"
+  date: 2022
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 30
+  serial-number:
+    doi: "10.1093/jigpal/jzaa029"
+
+AAM24:
+  type: Article
+  title: "On a generalization of Heyting algebras I"
+  author:
+    - "Akbar Tabatabai, Amirhossein"
+    - "Alizadeh, Majid"
+    - "Memarzadeh, Masoud"
+  date: 2024
+  parent:
+    type: Periodical
+    title: Studia Logica
+  serial-number:
+    doi: "10.1007/s11225-024-10110-8"
+    arxiv: "2405.11364"
+
+AAR16:
+  type: Article
+  title: "Boolean algebras in Visser algebras"
+  author:
+    - "Alizadeh, Majid"
+    - "Ardeshir, Mohammad"
+    - "Ruitenburg, Wim"
+  date: 2016
+  page-range: 141-150
+  parent:
+    type: Periodical
+    title: Notre Dame Journal of Formal Logic
+    volume: 57
+    issue: 1
+  serial-number:
+    doi: "10.1215/00294527-3339473"
+
+AAR18:
+  type: Article
+  title: "A new Glivenko theorem"
+  author:
+    - "Alizadeh, Majid"
+    - "Ardeshir, Mohammad"
+    - "Ruitenburg, Wim"
+  date: 2018
+  note: "Extended abstract, TACL 2013 (EasyChair / EPiC)"
+  serial-number:
+    doi: "10.29007/7l98"
+
+AH02:
+  type: Article
+  title: "Every rooted narrow tree Kripke model of HA is locally PA"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Hesaam, Bardyaa"
+  date: 2002
+  page-range: 391-395
+  parent:
+    type: Periodical
+    title: Mathematical Logic Quarterly
+    volume: 48
+    issue: "3"
+  serial-number:
+    doi: "10.1002/1521-3870(200204)48:3<391::AID-MALQ391>3.0.CO;2-T"
+
+AH08:
+  type: Article
+  title: "An introduction to basic arithmetic"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Hesaam, Bardyaa"
+  date: 2008
+  page-range: 1-13
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 16
+    issue: "1"
+  serial-number:
+    doi: "10.1093/jigpal/jzm013"
+
+AJ15:
+  type: Article
+  title: "Counting weak Heyting algebras on finite distributive lattices"
+  author:
+    - "Alizadeh, Majid"
+    - "Joharizadeh, Nima"
+  date: 2015
+  page-range: 247-258
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 23
+    issue: 2
+  serial-number:
+    doi: "10.1093/jigpal/jzu033"
+
+Akb21:
+  type: Chapter
+  title: "Implication via spacetime"
+  author: "Akbar Tabatabai, Amirhossein"
+  date: 2021
+  page-range: 161-216
+  parent:
+    type: Anthology
+    title: "Mathematics, Logic, and their Philosophies: Essays in Honour of Mohammad Ardeshir"
+    publisher: Springer
+  serial-number:
+    doi: "10.1007/978-3-030-53654-1_7"
+    arxiv: "2001.00997"
+
+Akb25:
+  type: Article
+  title: "On geometric implications"
+  author: "Akbar Tabatabai, Amirhossein"
+  date: 2025
+  parent:
+    type: Periodical
+    title: Studia Logica
+    volume: 113
+  page-range: 79-108
+  serial-number:
+    doi: "10.1007/s11225-023-10094-x"
+
+AKS19:
+  type: Article
+  title: "A counterexample to polynomially bounded realizability of basic arithmetic"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Khaniki, Erfan"
+    - "Shahriari, Mohsen"
+  date: 2019
+  page-range: 481-489
+  parent:
+    type: Periodical
+    title: Notre Dame Journal of Formal Logic
+    volume: 60
+    issue: "3"
+  serial-number:
+    doi: "10.1215/00294527-2019-0013"
+
+AKS25:
+  type: Article
+  title: "The provably total functions of basic arithmetic and its extensions"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Khaniki, Erfan"
+    - "Shahriari, Mohsen"
+  date: 2025
+  parent:
+    type: Periodical
+    title: Archive for Mathematical Logic
+    volume: 64
+  page-range: 205-257
+  serial-number:
+    doi: "10.1007/s00153-024-00939-0"
+
+AM14:
+  type: Article
+  title: "The de Jongh property for Basic Arithmetic"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Mojtahedi, Mojtaba"
+  date: 2014
+  page-range: 881-895
+  parent:
+    type: Periodical
+    title: Archive for Mathematical Logic
+    volume: 53
+    issue: "7-8"
+  serial-number:
+    doi: "10.1007/s00153-014-0394-7"
+
+AM22:
+  type: Article
+  title: "Interpolation property on Visser's formal propositional logic"
+  author:
+    - "Alizadeh, Majid"
+    - "Memarzadeh, Masoud"
+  date: 2022
+  page-range: 297-316
+  parent:
+    type: Periodical
+    title: Bulletin of the Section of Logic
+    volume: 51
+    issue: 3
+  serial-number:
+    doi: "10.18778/0138-0680.2022.18"
+
+AR01:
+  type: Article
+  title: "Basic propositional calculus II. Interpolation"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Ruitenburg, Wim"
+  date: 2001
+  parent:
+    type: Periodical
+    title: Archive for Mathematical Logic
+    volume: 40
+    issue: 5
+  serial-number:
+    doi: "10.1007/PL00003844"
+
+AR18:
+  type: Article
+  title: "Latarres, lattices with an arrow"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Ruitenburg, Wim"
+  date: 2018
+  parent:
+    type: Periodical
+    title: Studia Logica
+  serial-number:
+    doi: "10.1007/s11225-017-9765-5"
+
+AR22:
+  type: Article
+  title: "Kolmogorov and Kuroda translations into basic predicate logic"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Ruitenburg, Wim"
+  date: 2024
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 32
+    issue: 1
+  page-range: 47-63
+  serial-number:
+    doi: "10.1093/jigpal/jzac067"
+  note: "Published online 2022"
+
+AR24:
+  type: Article
+  title: "A constructive interpretation of the logical constants"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Ruitenburg, Wim"
+  date: 2024
+  note: "Preprint"
+  url: "https://www.mscsnet.mu.edu/~wim/publica/241029_PrfInt_BaLo_BQE_narrow.pdf"
+
+AR98:
+  type: Article
+  title: "Basic propositional calculus I"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Ruitenburg, Wim"
+  date: 1998
+  parent:
+    type: Periodical
+    title: Mathematical Logic Quarterly
+    volume: 44
+    issue: 3
+  serial-number:
+    doi: "10.1002/malq.19980440304"
+
+AR98-TR:
+  type: Report
+  title: "Basic propositional calculus I"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Ruitenburg, Wim"
+  date: 1995
+  note: "Technical Report No. 418, Marquette University. Preprint version of AR98"
+
+Ard95:
+  type: Thesis
+  title: "Aspects of basic logic"
+  author: "Ardeshir, Mohammad"
+  date: 1995
+  organization: "Marquette University"
+  note: "PhD thesis (as Mohammad Ardeshir Behrostaghi)"
+  url: "https://epublications.marquette.edu/dissertations_mu/1878"
+
+Ard99:
+  type: Article
+  title: "A translation of intuitionistic predicate logic into basic predicate logic"
+  author:
+    - "Ardeshir, Mohammad"
+  date: 1999
+  page-range: 341-352
+  parent:
+    type: Periodical
+    title: Studia Logica
+    volume: 62
+    issue: "3"
+  serial-number:
+    doi: "10.1023/A:1005196310070"
+
+ARS03:
+  type: Article
+  title: "Intuitionistic axiomatizations for bounded extension Kripke models"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Ruitenburg, Wim"
+    - "Salehi, Saeed"
+  date: 2003
+  page-range: 267-285
+  parent:
+    type: Periodical
+    title: Annals of Pure and Applied Logic
+    volume: 124
+    issue: "1-3"
+  serial-number:
+    doi: "10.1016/S0168-0072(03)00058-7"
+
+AV12:
+  type: Article
+  title: "A unification of the basic logics of Sambin and Visser"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Vaezian, Vahid"
+  date: 2012
+  page-range: 1202-1213
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 20
+    issue: "6"
+  serial-number:
+    doi: "10.1093/jigpal/jzs002"
+
+Bou02:
+  type: Article
+  title: "Hilbert-style calculi for ⊢BPL and ⊢FPL"
+  author: "Bou, Félix"
+  date: 2002
+  note: "Manuscript, 6 pages"
+
+Bou05:
+  type: Chapter
+  title: "Complexity of strict implication"
+  author: "Bou, Félix"
+  date: 2005
+  page-range: 1-16
+  parent:
+    type: Proceedings
+    title: "Advances in Modal Logic, Volume 5"
+    publisher: King's College Publications
+
+CCS25:
+  type: Article
+  title: "On weak Lewis distributive lattices"
+  author:
+    - "Calomino, Ismael María"
+    - "Celani, Sergio A."
+    - "San Martín, Hernán Javier"
+  date: 2025
+  page-range: 781-821
+  parent:
+    type: Periodical
+    title: Studia Logica
+    volume: 113
+    issue: 3
+  serial-number:
+    doi: "10.1007/s11225-024-10112-6"
+
+Cel06:
+  type: Article
+  title: "n-linear weakly Heyting algebras"
+  author: "Celani, Sergio A."
+  date: 2006
+  page-range: 404-416
+  parent:
+    type: Periodical
+    title: Mathematical Logic Quarterly
+    volume: 52
+    issue: 4
+  serial-number:
+    doi: "10.1002/malq.200510041"
+
+CFMS22:
+  type: Article
+  title: "On subreducts of subresiduated lattices and logic"
+  author:
+    - "Castiglioni, José Luis"
+    - "Fernández, Víctor"
+    - "Mallea, Héctor Federico"
+    - "San Martín, Hernán Javier"
+  date: 2022
+  serial-number:
+    arxiv: "2211.02963"
+  url: "https://arxiv.org/abs/2211.02963"
+
+Cha03:
+  type: Article
+  title: "Формальная пропозициональная логика А. Виссера и ее расширения [Visser's formal propositional logic and its extensions]"
+  author: "Chagrov, Alexander V."
+  date: 2003
+  parent:
+    type: Periodical
+    title: "Логические исследования [Logical Investigations]"
+    volume: 10
+  note: "Year inferred from the volume number (unverified)"
+  url: "https://iphras.ru/uplfile/logic/log10/Li_10_Chagrov.pdf"
+
+Cha04:
+  type: Article
+  title: "Алгоритмическая проблема финитарного семантического следования для базисной и формальной логик А. Виссера [The algorithmic problem of finitary semantical consequence for Visser's basic and formal logics]"
+  author: "Chagrov, Alexander V."
+  date: 2004
+  parent:
+    type: Periodical
+    title: "Логические исследования [Logical Investigations]"
+    volume: 11
+  note: "Year inferred from the volume number (unverified)"
+  url: "https://iphras.ru/uplfile/logic/log11/Li_11_Chagrov.pdf"
+
+Cha05:
+  type: Article
+  title: "Несколько замечаний о естественных минимальных логиках: базисная и формальная логики А. Виссера и их модальные напарники [Some remarks on natural minimal logics: Visser's basic and formal logics and their modal counterparts]"
+  author: "Chagrov, Alexander V."
+  date: 2005
+  parent:
+    type: Periodical
+    title: "Логические исследования [Logical Investigations]"
+    volume: 12
+  note: "Year inferred from the volume number (unverified)"
+  url: "https://iphras.ru/uplfile/logic/log12/Li_12_chagrov.pdf"
+
+Che21:
+  type: Article
+  title: "弱逻辑F的矢列演算 [Sequent calculus for the weak logic F]"
+  author: "Chen, Yu"
+  date: 2021
+  page-range: 28-48
+  parent:
+    type: Periodical
+    title: "逻辑学研究 (Studies in Logic)"
+    volume: 14
+    issue: 1
+
+Che24a:
+  type: Misc
+  title: "Sequent calculus for propositional logic of weakly connected transitive frames"
+  author: "Chen, Yu"
+  date: 2024
+  note: "Slides, International Workshop on Logic and Games, Taiyuan"
+
+Che25c:
+  type: Article
+  title: "A unified relational semantics for BPL, IPL and OL: axiomatization without disjunction"
+  author: "Chen, Zhicheng"
+  date: 2025
+  parent:
+    type: Periodical
+    title: Studia Logica
+  serial-number:
+    doi: "10.1007/s11225-025-10186-w"
+  url: "https://arxiv.org/abs/2207.07306"
+
+Che26:
+  type: Article
+  title: "Fundamental propositional logic with strict implication"
+  author: "Chen, Zhicheng"
+  date: 2026
+  serial-number:
+    arxiv: "2503.16651"
+  url: "https://arxiv.org/abs/2503.16651"
+
+CJ01:
+  type: Article
+  title: "A closer look at some subintuitionistic logics"
+  author:
+    - "Celani, Sergio"
+    - "Jansana, Ramon"
+  date: 2001
+  page-range: 225-255
+  parent:
+    type: Periodical
+    title: Notre Dame Journal of Formal Logic
+    volume: 42
+    issue: 4
+  serial-number:
+    doi: "10.1305/ndjfl/1063372244"
+
+CJ05:
+  type: Article
+  title: "Bounded distributive lattices with strict implication"
+  author:
+    - "Celani, Sergio"
+    - "Jansana, Ramon"
+  date: 2005
+  page-range: 219-246
+  parent:
+    type: Periodical
+    title: Mathematical Logic Quarterly
+    volume: 51
+    issue: 3
+  serial-number:
+    doi: "10.1002/malq.200410022"
+
+CNS21:
+  type: Article
+  title: "Dualities for subresiduated lattices"
+  author:
+    - "Celani, Sergio A."
+    - "Nagy, Agustín L."
+    - "San Martín, Hernán J."
+  date: 2021
+  parent:
+    type: Periodical
+    title: Algebra Universalis
+    volume: 82
+    issue: 4
+  serial-number:
+    doi: "10.1007/s00012-021-00752-3"
+
+CNZ24:
+  type: Article
+  title: "Bounded distributive lattices with strict implication and weak difference"
+  author:
+    - "Celani, Sergio"
+    - "Nagy, Agustín"
+    - "Zuluaga Botero, William"
+  date: 2024
+  parent:
+    type: Periodical
+    title: Archive for Mathematical Logic
+  serial-number:
+    doi: "10.1007/s00153-024-00945-2"
+  url: "https://arxiv.org/abs/2312.10873"
+
+Cor87:
+  type: Article
+  title: "Weak logics with strict implication"
+  author: "Corsi, Giovanna"
+  date: 1987
+  page-range: 389-406
+  parent:
+    type: Periodical
+    title: Zeitschrift für mathematische Logik und Grundlagen der Mathematik
+    volume: 33
+  serial-number:
+    doi: "10.1002/malq.19870330503"
+
+DdG24:
+  type: Article
+  title: "Sub-sub-intuitionistic logic"
+  author:
+    - "Deakin, Jonte"
+    - "de Groot, Jim"
+  date: 2024
+  serial-number:
+    arxiv: "2408.12030"
+  url: "https://arxiv.org/abs/2408.12030"
+
+dGL26:
+  type: Article
+  title: "Relational semantics for flat Heyting-Lewis logic"
+  author:
+    - "de Groot, Jim"
+    - "Litak, Tadeusz"
+  date: 2026
+  serial-number:
+    arxiv: "2603.28402"
+  url: "https://arxiv.org/abs/2603.28402"
+
+dGLP21:
+  type: Article
+  title: "Gödel-McKinsey-Tarski and (not quite) Blok-Esakia for Heyting-Lewis implication"
+  author:
+    - "de Groot, Jim"
+    - "Litak, Tadeusz"
+    - "Pattinson, Dirk"
+  date: 2021
+  note: "LICS 2021; revised arXiv version v2 (2026) withdraws the Blok-Esakia theorem"
+  serial-number:
+    doi: "10.1109/LICS52264.2021.9470508"
+    arxiv: "2105.01873"
+  url: "https://arxiv.org/abs/2105.01873"
+
+dJSM17:
+  type: Chapter
+  title: "Subintuitionistic logics with Kripke semantics"
+  author:
+    - "de Jongh, Dick"
+    - "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2017
+  parent:
+    type: Proceedings
+    title: "Logic, Language, and Computation (TbiLLC 2015)"
+    publisher: Springer
+  serial-number:
+    doi: "10.1007/978-3-662-54332-0_18"
+
+dJSM17b:
+  type: Article
+  title: "Weak subintuitionistic logics"
+  author:
+    - "de Jongh, Dick"
+    - "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2017
+  page-range: 214-231
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 25
+    issue: 2
+  serial-number:
+    doi: "10.1093/jigpal/jzw062"
+
+dJSM19:
+  type: Chapter
+  title: "Two neighborhood semantics for subintuitionistic logics"
+  author:
+    - "de Jongh, Dick"
+    - "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2019
+  page-range: 64-85
+  parent:
+    type: Proceedings
+    title: "Language, Logic, and Computation (TbiLLC 2017)"
+    publisher: Springer
+  serial-number:
+    doi: "10.1007/978-3-662-59565-7_4"
+
+dJSM19b:
+  type: Misc
+  title: "Subintuitionistic logics with linear models"
+  author:
+    - "de Jongh, Dick"
+    - "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2019
+  note: "Extended abstract (3 pages, EasyChair)"
+
+GJ23:
+  type: Article
+  title: "'Explaining' the Ardeshir-Ruitenburg operator"
+  author:
+    - "Gabelaia, David"
+    - "Jibladze, Mamuka"
+  date: 2023
+  page-range: 87-93
+  parent:
+    type: Proceedings
+    title: "Language, Logic, Computation VII (TbiLLC)"
+  url: "https://rmi.tsu.ge/~jib/pubs/arder.pdf"
+
+HM13:
+  type: Article
+  title: "弱连通传递框架类的命题逻辑 [Propositional logic of the class of weakly connected transitive frames]"
+  author:
+    - "He, Wenkun"
+    - "Ma, Minghui"
+  date: 2013
+  parent:
+    type: Periodical
+    title: "逻辑学研究 [Studies in Logic]"
+    issue: 4
+  page-range: 17-29
+
+IdJZ05:
+  type: Article
+  title: "Properties of intuitionistic provability and preservativity logics"
+  author:
+    - "Iemhoff, Rosalie"
+    - "de Jongh, Dick"
+    - "Zhou, Chunlai"
+  date: 2005
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 13
+  serial-number:
+    doi: "10.1093/jigpal/jzi047"
+
+IK08:
+  type: Article
+  title: "Sequent calculi for some strict implication logics"
+  author:
+    - "Ishigaki, Ryo"
+    - "Kashima, Ryo"
+  date: 2008
+  page-range: 155-174
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 16
+    issue: 2
+  serial-number:
+    doi: "10.1093/jigpal/jzm058"
+
+IKK01:
+  type: Article
+  title: "Sequent calculi for Visser's propositional logics"
+  author:
+    - "Ishii, Katsumasa"
+    - "Kashima, Ryo"
+    - "Kikuchi, Kentaro"
+  date: 2001
+  parent:
+    type: Periodical
+    title: Notre Dame Journal of Formal Logic
+    volume: 42
+    issue: 1
+  serial-number:
+    doi: "10.1305/ndjfl/1054301352"
+
+Joo06:
+  type: Report
+  title: "Semantics for sub-intuitionistic logics"
+  author: "Joosten, Joost J."
+  date: 2006
+  organization: "ILLC, University of Amsterdam"
+  note: "Prepublication PP-2006-56"
+  url: "https://eprints.illc.uva.nl/id/document/569"
+
+Kha20:
+  type: Article
+  title: "Not all Kripke models of HA are locally PA"
+  author: "Khaniki, Erfan"
+  date: 2020
+  serial-number:
+    arxiv: "2006.11910"
+  url: "https://arxiv.org/abs/2006.11910"
+
+KK23:
+  type: Article
+  title: "Semantical cut-elimination for the provability logic of true arithmetic"
+  author:
+    - "Kashima, Ryo"
+    - "Kato, Yutaka"
+  date: 2023
+  serial-number:
+    arxiv: "2309.05948"
+
+KKIM25:
+  type: Article
+  title: "Cut-free sequent calculi for the provability logic D"
+  author:
+    - "Kashima, Ryo"
+    - "Kurahashi, Taishi"
+    - "Iwata, Sohei"
+    - "Morioka, So"
+  date: 2025
+  parent:
+    type: Periodical
+    title: The Review of Symbolic Logic
+    volume: 18
+    issue: 2
+  serial-number:
+    doi: "10.1017/S1755020325000036"
+
+KN26:
+  type: Article
+  title: "Very weak subintuitionistic logics"
+  author:
+    - "Kurahashi, Taishi"
+    - "Noguchi, Mashu"
+  date: 2026
+  serial-number:
+    arxiv: "2605.20769"
+  url: "https://arxiv.org/abs/2605.20769"
+
+Kon21:
+  type: Article
+  title: "Generalized realizability and basic logic"
+  author: "Konovalov, Aleksandr Yu."
+  date: 2021
+  parent:
+    type: Periodical
+    title: ACM Transactions on Computational Logic
+  serial-number:
+    doi: "10.1145/3468856"
+    arxiv: "2001.08989"
+
+Kon22:
+  type: Article
+  title: "Basic predicate calculus is not sound with respect to the strong variant of strictly primitive recursive realizability"
+  author:
+    - "Konovalov, A. Yu."
+  date: 2022
+  page-range: 243-257
+  parent:
+    type: Periodical
+    title: Mathematical Notes
+    volume: 111
+    issue: "2"
+
+Kon23:
+  type: Article
+  title: "Basic predicate calculus is sound with respect to a modified version of strictly primitive recursive realizability"
+  author:
+    - "Konovalov, A. Yu."
+  date: 2023
+  page-range: 1260-1276
+  parent:
+    type: Periodical
+    title: Mathematical Notes
+    volume: 114
+    issue: "6"
+  serial-number:
+    doi: "10.1134/S0001434623110585"
+
+Kus20:
+  type: Article
+  title: "A proof theory for the logic of provability in true arithmetic"
+  author: "Kushida, Hirohiko"
+  date: 2020
+  page-range: 857-875
+  parent:
+    type: Periodical
+    title: Studia Logica
+    volume: 108
+    issue: 4
+  serial-number:
+    doi: "10.1007/s11225-019-09891-0"
+
+LV18:
+  type: Article
+  title: "Lewis meets Brouwer: constructive strict implication"
+  author:
+    - "Litak, Tadeusz"
+    - "Visser, Albert"
+  date: 2018
+  parent:
+    type: Periodical
+    title: Indagationes Mathematicae
+    volume: 29
+    issue: 1
+  serial-number:
+    doi: "10.1016/j.indag.2017.10.003"
+  url: "https://arxiv.org/abs/1708.02143"
+
+LV19:
+  type: Article
+  title: "Lewisian fixed points I: two incomparable constructions"
+  author:
+    - "Litak, Tadeusz"
+    - "Visser, Albert"
+  date: 2019
+  serial-number:
+    arxiv: "1905.09450"
+  url: "https://arxiv.org/abs/1905.09450"
+
+LV24:
+  type: Article
+  title: "Lewis and Brouwer meet strong Löb"
+  author:
+    - "Litak, Tadeusz"
+    - "Visser, Albert"
+  date: 2024
+  serial-number:
+    arxiv: "2404.11969"
+  url: "https://arxiv.org/abs/2404.11969"
+
+Mid20:
+  type: Article
+  title: "A canonical model for constant domain basic first-order logic"
+  author: "Middleton, Ben"
+  date: 2020
+  page-range: 1307-1323
+  parent:
+    type: Periodical
+    title: Studia Logica
+    volume: 108
+    issue: 6
+  serial-number:
+    doi: "10.1007/s11225-020-09900-7"
+    arxiv: "1907.07013"
+
+ML14a:
+  type: Article
+  title: "Residuated basic logic I"
+  author:
+    - "Ma, Minghui"
+    - "Lin, Zhe"
+  date: 2014
+  serial-number:
+    arxiv: "1403.3354"
+
+ML14b:
+  type: Article
+  title: "Residuated basic logic II. Interpolation, decidability and embedding"
+  author:
+    - "Ma, Minghui"
+    - "Lin, Zhe"
+  date: 2014
+  serial-number:
+    arxiv: "1404.7401"
+
+MSM15:
+  type: Article
+  title: "Neighborhood semantics for basic and intuitionistic logic"
+  author:
+    - "Moniri, Morteza"
+    - "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2015
+  page-range: 339-355
+  parent:
+    type: Periodical
+    title: Logic and Logical Philosophy
+    volume: 24
+  serial-number:
+    doi: "10.12775/LLP.2015.015"
+
+MZ16:
+  type: Article
+  title: "Unified correspondence and proof theory for strict implication"
+  author:
+    - "Ma, Minghui"
+    - "Zhao, Zhiguang"
+  date: 2016
+  parent:
+    type: Periodical
+    title: Journal of Logic and Computation
+  serial-number:
+    doi: "10.1093/logcom/exw012"
+  url: "https://arxiv.org/abs/1604.08822"
+
+Nog26:
+  type: Article
+  title: "Embeddings of propositional logics into the provability logics S and D"
+  author: "Noguchi, Mashu"
+  date: 2026
+  serial-number:
+    arxiv: "2608.04620"
+  url: "https://arxiv.org/abs/2608.04620"
+
+Pet23:
+  type: Article
+  title: "A modification of Visser's formal logic and its connection with Solovay's modal logic"
+  author: "Petrukhin, Yaroslav"
+  date: 2023
+  page-range: 12-21
+  parent:
+    type: Periodical
+    title: Russian Mathematics
+    volume: 67
+    issue: 11
+
+Res94:
+  type: Article
+  title: "Subintuitionistic logics"
+  author: "Restall, Greg"
+  date: 1994
+  page-range: 116-129
+  parent:
+    type: Periodical
+    title: Notre Dame Journal of Formal Logic
+    volume: 35
+    issue: 1
+  serial-number:
+    doi: "10.1305/ndjfl/1040609299"
+
+Rui91:
+  type: Article
+  title: "Constructive logic and the paradoxes"
+  author: "Ruitenburg, Wim"
+  date: 1991
+  parent:
+    type: Periodical
+    title: Modern Logic
+    volume: 1
+  url: "https://www.mscsnet.mu.edu/~wim/publica/noponens_new.pdf"
+
+Rui91b:
+  type: Chapter
+  title: "The unintended interpretations of intuitionistic logic"
+  author: "Ruitenburg, Wim"
+  date: 1991
+  parent:
+    type: Book
+    title: "Perspectives on the History of Mathematical Logic"
+    publisher: Birkhäuser
+  url: "https://www.mscsnet.mu.edu/~wim/publica/8802hist_print.pdf"
+
+Rui93:
+  type: Chapter
+  title: "Basic logic and Fregean set theory"
+  author: "Ruitenburg, Wim"
+  date: 1993
+  page-range: 121-142
+  parent:
+    type: Book
+    title: "Dirk van Dalen Festschrift (Quaestiones Infinitae 5)"
+    publisher: "Department of Philosophy, Utrecht University"
+
+Rui98:
+  type: Article
+  title: "Basic predicate calculus"
+  author: "Ruitenburg, Wim"
+  date: 1998
+  parent:
+    type: Periodical
+    title: Notre Dame Journal of Formal Logic
+    volume: 39
+    issue: 1
+  serial-number:
+    doi: "10.1305/ndjfl/1039293019"
+
+Rui99:
+  type: Article
+  title: "Basic logic, K4, and persistence"
+  author: "Ruitenburg, Wim"
+  date: 1999
+  parent:
+    type: Periodical
+    title: Studia Logica
+    volume: 63
+  serial-number:
+    doi: "10.1023/A:1005298819843"
+
+RuiT18:
+  type: Misc
+  title: "Intuitionistic logic versus constructive logic"
+  author: "Ruitenburg, Wim"
+  date: 2018
+  note: "Talk slides (joint work with M. Ardeshir)"
+  url: "https://www.mscsnet.mu.edu/~wim/publica/181128_PrfInt_BaLo_SWLC_post.pdf"
+
+RuiT19:
+  type: Misc
+  title: "The unsettled story of the proof interpretation"
+  author: "Ruitenburg, Wim"
+  date: 2019
+  note: "Talk slides (joint work with M. Ardeshir)"
+  url: "https://www.mscsnet.mu.edu/~wim/publica/191015_PrfInt_BaLo_SWLC.pdf"
+
+RuiT22:
+  type: Misc
+  title: "One hundred years of logic for constructive mathematics"
+  author: "Ruitenburg, Wim"
+  date: 2022
+  note: "Talk slides (joint work with M. Ardeshir)"
+  url: "https://www.mscsnet.mu.edu/~wim/publica/220325_LogConst_MSSC.pdf"
+
+RuiT23:
+  type: Misc
+  title: "Basic logic"
+  author: "Ruitenburg, Wim"
+  date: 2023-10-24
+  note: "Talk slides, University of Wisconsin logic seminar"
+  url: "https://web.math.wisc.edu/logic/talks/231024-Ruitenburg.pdf"
+
+RuiT24:
+  type: Misc
+  title: "A special logic for transitive Kripke models"
+  author: "Ruitenburg, Wim"
+  date: 2024
+  note: "Talk slides (joint work with M. Ardeshir)"
+  url: "https://www.mscsnet.mu.edu/~wim/publica/240421_allbxc_UWMi.pdf"
+
+Sal03:
+  type: Article
+  title: "Provably total functions of Basic Arithmetic"
+  author:
+    - "Salehi, Saeed"
+  date: 2003
+  page-range: 316-322
+  parent:
+    type: Periodical
+    title: Mathematical Logic Quarterly
+    volume: 49
+    issue: "3"
+  serial-number:
+    doi: "10.1002/malq.200310032"
+
+Sal05:
+  type: Article
+  title: "Polynomially bounded recursive realizability"
+  author:
+    - "Salehi, Saeed"
+  date: 2005
+  page-range: 407-417
+  parent:
+    type: Periodical
+    title: Notre Dame Journal of Formal Logic
+    volume: 46
+    issue: "4"
+  serial-number:
+    doi: "10.1305/ndjfl/1134397659"
+
+San16:
+  type: Article
+  title: "Principal congruences in weak Heyting algebras"
+  author: "San Martín, Hernán Javier"
+  date: 2016
+  page-range: 405-418
+  parent:
+    type: Periodical
+    title: Algebra Universalis
+    volume: 75
+    issue: 4
+  serial-number:
+    doi: "10.1007/s00012-016-0381-4"
+
+Sas01:
+  type: Thesis
+  title: "Logics and provability"
+  author: "Sasaki, Katsumi"
+  date: 2001
+  organization: "ILLC, University of Amsterdam"
+  note: "PhD thesis, DS-2001-07"
+  url: "https://eprints.illc.uva.nl/id/eprint/2026/"
+
+Sas99:
+  type: Article
+  title: "Formalizations for the consequence relation of Visser's propositional logic"
+  author: "Sasaki, Katsumi"
+  date: 1999
+  parent:
+    type: Periodical
+    title: Reports on Mathematical Logic
+    volume: 33
+  page-range: 65-78
+
+SM15:
+  type: Article
+  title: "Alternative semantics for Visser's propositional logics"
+  author:
+    - "Sano, Katsuhiko"
+    - "Ma, Minghui"
+  date: 2015
+  parent:
+    type: Proceedings
+    title: "Logic, Language, and Computation (TbiLLC 2013), LNCS 8984"
+    publisher: Springer
+  serial-number:
+    doi: "10.1007/978-3-662-46906-4_15"
+
+SM24a:
+  type: Article
+  title: "Sequent calculi for some subintuitionistic logics"
+  author: "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2024
+  serial-number:
+    arxiv: "2410.20425"
+  url: "https://arxiv.org/abs/2410.20425"
+
+SM24b:
+  type: Article
+  title: "Natural deduction systems for some weak subintuitionistic logics"
+  author: "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2024
+  serial-number:
+    arxiv: "2412.00459"
+  url: "https://arxiv.org/abs/2412.00459"
+
+SM25:
+  type: Article
+  title: "Sequent calculus for the subintuitionistic logic WF_N2"
+  author: "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2026
+  parent:
+    type: Periodical
+    title: Studia Logica
+  serial-number:
+    doi: "10.1007/s11225-026-10265-6"
+  note: "arXiv version: SM25-preprint (2025)"
+
+SMdJ25:
+  type: Article
+  title: "Fragments of some subintuitionistic logics"
+  author:
+    - "Shirmohammadzadeh Maleki, Fatemeh"
+    - "de Jongh, Dick"
+  date: 2025
+  serial-number:
+    arxiv: "2507.09348"
+  url: "https://arxiv.org/abs/2507.09348"
+
+SO97:
+  type: Report
+  title: "Hilbert style proof system for BPL"
+  author:
+    - "Suzuki, Yasuhito"
+    - "Ono, Hiroakira"
+  date: 1997
+  organization: "School of Information Science, JAIST"
+  note: "Research report IS-RR-97-0040F"
+
+SWZ97:
+  type: Article
+  title: "Speaking about transitive frames in propositional languages"
+  author:
+    - "Suzuki, Yasuhito"
+    - "Wolter, Frank"
+    - "Zakharyaschev, Michael"
+  date: 1997
+  page-range: 142-166
+  parent:
+    type: Periodical
+    title: RIMS Kôkyûroku
+    volume: 1010
+  url: "https://www.kurims.kyoto-u.ac.jp/~kyodo/kokyuroku/contents/pdf/1010-10.pdf"
+
+SWZ98:
+  type: Article
+  title: "Speaking about transitive frames in propositional languages"
+  author:
+    - "Suzuki, Yasuhito"
+    - "Wolter, Frank"
+    - "Zakharyaschev, Michael"
+  date: 1998
+  page-range: 317-339
+  parent:
+    type: Periodical
+    title: Journal of Logic, Language and Information
+    volume: 7
+    issue: 3
+  serial-number:
+    doi: "10.1023/A:1008237600846"
+
+Tes24:
+  type: Article
+  title: "Subintuitionistic logics and their modal companions: a nested approach"
+  author: "Tesi, Matteo"
+  date: 2024
+  page-range: 493-526
+  parent:
+    type: Periodical
+    title: Journal of Applied Non-Classical Logics
+    volume: 34
+    issue: 4
+  serial-number:
+    doi: "10.1080/11663081.2024.2366756"
+
+Vis02:
+  type: Article
+  title: "Substitutions of Σ⁰₁-sentences: explorations between intuitionistic propositional logic and intuitionistic arithmetic"
+  author: "Visser, Albert"
+  date: 2002
+  page-range: 227-271
+  parent:
+    type: Periodical
+    title: Annals of Pure and Applied Logic
+    volume: 114
+  serial-number:
+    doi: "10.1016/S0168-0072(01)00081-3"
+
+Vis21:
+  type: Misc
+  title: "Arithmetical interpretations"
+  author: "Visser, Albert"
+  date: 2021
+  note: "Lecture slides (L1), ESSLLI 2021 course with T. Litak"
+  url: "https://www8.cs.fau.de/wp-content/uploads/2021/08/esslli21_L1_AV.pdf"
+
+Vis81a:
+  type: Thesis
+  title: "Aspects of diagonalization and provability"
+  author: "Visser, Albert"
+  date: 1981
+  organization: "Utrecht University"
+  note: "PhD thesis; reprinted as ILLC Historical Dissertation Series HDS-22"
+  url: "https://eprints.illc.uva.nl/id/eprint/1854/"
+
+Wan97:
+  type: Chapter
+  title: "Displaying as temporalizing: sequent systems for subintuitionistic logics"
+  author: "Wansing, Heinrich"
+  date: 1997
+  page-range: 159-178
+  parent:
+    type: Book
+    title: "Logic, Language and Computation"
+    publisher: Kluwer
+
+YS17:
+  type: Chapter
+  title: "Proof-theoretic embedding from Visser's basic propositional logic to modal logic K4 via non-labelled sequent calculi"
+  author:
+    - "Yamasaki, Sakiko"
+    - "Sano, Katsuhiko"
+  date: 2017
+  parent:
+    type: Book
+    title: "Philosophical Logic: Current Trends in Asia"
+    publisher: Springer
+  serial-number:
+    doi: "10.1007/978-981-10-6355-8_12"
+
+KS03:
+  type: Article
+  title: "A cut-free Gentzen formulation of basic propositional calculus"
+  author:
+    - "Kikuchi, Kentaro"
+    - "Sasaki, Katsumi"
+  date: 2003
+  page-range: 213-225
+  parent:
+    type: Periodical
+    title: Journal of Logic, Language and Information
+    volume: 12
+    issue: 2
+  serial-number:
+    doi: "10.1023/A:1022363219134"
+
+dJSM18:
+  type: Article
+  title: "Subintuitionistic logics and the implications they prove"
+  author:
+    - "de Jongh, Dick"
+    - "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2018
+  parent:
+    type: Periodical
+    title: Indagationes Mathematicae
+    volume: 29
+    issue: 6
+  serial-number:
+    doi: "10.1016/j.indag.2018.01.013"
+
+AA03:
+  type: Article
+  title: "A Gentzen-style axiomatization for basic predicate calculus"
+  author:
+    - "Aghaei, Mojtaba"
+    - "Ardeshir, Mohammad"
+  date: 2003
+  parent:
+    type: Periodical
+    title: Archive for Mathematical Logic
+    volume: 42
+  page-range: 245-259
+  serial-number:
+    doi: "10.1007/s001530100132"
+
+AA12:
+  type: Article
+  title: "On Löb algebras, II"
+  author:
+    - "Alizadeh, Majid"
+    - "Ardeshir, Mohammad"
+  date: 2012
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 20
+    issue: 1
+  page-range: 27-44
+  serial-number:
+    doi: "10.1093/jigpal/jzr024"
+
+AA19:
+  type: Article
+  title: "Basic propositional logic and the weak excluded middle"
+  author:
+    - "Alizadeh, Majid"
+    - "Ardeshir, Mohammad"
+  date: 2019
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 27
+    issue: 3
+  page-range: 371-383
+  serial-number:
+    doi: "10.1093/jigpal/jzy052"
+
+AKS25-preprint:
+  type: Article
+  title: "The provably total recursive functions and the MRDP theorem in Basic Arithmetic and its extensions"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Khaniki, Erfan"
+    - "Shahriari, Mohsen"
+  date: 2020
+  note: "arXiv preprint of AKS25"
+  serial-number:
+    arxiv: "2003.01603"
+
+AR22-preprint:
+  type: Article
+  title: "Kolmogorov and Kuroda translations into basic predicate logic"
+  author:
+    - "Ardeshir, Mohammad"
+    - "Ruitenburg, Wim"
+  date: 2022
+  note: "Preprint of AR22 (author's page)"
+  url: "https://www.mscsnet.mu.edu/~wim/publica/220730_BaLo_Kolmogorov_final.pdf"
+
+Ani26:
+  type: Article
+  title: "On modal companions of logics with strong negation"
+  author: "Anishchenko, Dmitry M."
+  date: 2026
+  parent:
+    type: Periodical
+    title: Studia Logica
+  serial-number:
+    doi: "10.1007/s11225-025-10225-6"
+
+Ish03:
+  type: Article
+  title: "New sequent calculi for Visser's formal propositional logic"
+  author: "Ishii, Katsumasa"
+  date: 2003
+  parent:
+    type: Periodical
+    title: Mathematical Logic Quarterly
+    volume: 49
+    issue: 5
+  page-range: 525-535
+  serial-number:
+    doi: "10.1002/malq.200310056"
+
+IK07:
+  type: Article
+  title: "A tree-sequent calculus for a natural predicate extension of Visser's propositional logic"
+  author:
+    - "Ishigaki, Ryo"
+    - "Kikuchi, Kentaro"
+  date: 2007
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 15
+    issue: 2
+  page-range: 149-164
+  serial-number:
+    doi: "10.1093/jigpal/jzm004"
+
+Kik02:
+  type: Article
+  title: "Dual-context sequent calculus and strict implication"
+  author: "Kikuchi, Kentaro"
+  date: 2002
+  parent:
+    type: Periodical
+    title: Mathematical Logic Quarterly
+    volume: 48
+    issue: 1
+  page-range: 87-92
+  serial-number:
+    doi: "10.1002/1521-3870(200201)48:1<87::AID-MALQ87>3.0.CO;2-N"
+
+Kon16:
+  type: Article
+  title: "Arithmetical realizability and basic logic"
+  author: "Konovalov, Aleksandr Yu."
+  date: 2016
+  parent:
+    type: Periodical
+    title: Moscow University Mathematics Bulletin
+    volume: 71
+    issue: 1
+  page-range: 35-38
+  serial-number:
+    doi: "10.3103/S0027132216010071"
+
+Kon20:
+  type: Article
+  title: "General recursive realizability and basic logic"
+  author: "Konovalov, Aleksandr Yu."
+  date: 2020
+  parent:
+    type: Periodical
+    title: Algebra and Logic
+    volume: 59
+    issue: 5
+  page-range: 367-384
+  serial-number:
+    doi: "10.1007/s10469-020-09610-y"
+
+Kos26:
+  type: Article
+  title: "On unification in some subintuitionistic logics"
+  author: "Kostrzycka, Zofia"
+  date: 2026
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 34
+    issue: 5
+  serial-number:
+    doi: "10.1093/jigpal/jzag010"
+
+KP15:
+  type: Article
+  title: "On hyperarithmetical realizability"
+  author:
+    - "Konovalov, Aleksandr Yu."
+    - "Plisko, Valery E."
+  date: 2015
+  parent:
+    type: Periodical
+    title: Mathematical Notes
+    volume: 98
+    issue: 5
+  page-range: 778-797
+  serial-number:
+    doi: "10.1134/S0001434615110073"
+
+LM23:
+  type: Article
+  title: "Residuated basic logic"
+  author:
+    - "Lin, Zhe"
+    - "Ma, Minghui"
+  date: 2023
+  parent:
+    type: Periodical
+    title: Axioms
+    volume: 12
+    issue: 10
+  page-range: 966
+  serial-number:
+    doi: "10.3390/axioms12100966"
+
+Ma19:
+  type: Article
+  title: "Labelled tableau systems for some subintuitionistic logics"
+  author: "Ma, Minghui"
+  date: 2019
+  parent:
+    type: Periodical
+    title: Logica Universalis
+    volume: 13
+    issue: 2
+  page-range: 273-288
+  serial-number:
+    doi: "10.1007/s11787-018-0201-z"
+
+NGB23:
+  type: Article
+  title: "On self-distributive weak Heyting algebras"
+  author:
+    - "Nourany, Mohsen"
+    - "Ghorbani, Shokoofeh"
+    - "Borumand Saeid, Arsham"
+  date: 2023
+  parent:
+    type: Periodical
+    title: Mathematical Logic Quarterly
+    volume: 69
+    issue: 2
+  page-range: 192-206
+  serial-number:
+    doi: "10.1002/malq.202200073"
+
+SM25-preprint:
+  type: Article
+  title: "Sequent calculus for the subintuitionistic logic WF_N2"
+  author: "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2025
+  note: "arXiv preprint of SM25"
+  serial-number:
+    arxiv: "2501.02322"
+
+SM25a:
+  type: Article
+  title: "Algebraic semantics for weak subintuitionistic logic WF"
+  author: "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2025
+  parent:
+    type: Periodical
+    title: Archive for Mathematical Logic
+    volume: 64
+  page-range: 1133-1147
+  serial-number:
+    doi: "10.1007/s00153-025-00979-0"
+
+dJSM24:
+  type: Article
+  title: "Binary modal logic and unary modal logic"
+  author:
+    - "de Jongh, Dick"
+    - "Shirmohammadzadeh Maleki, Fatemeh"
+  date: 2024
+  parent:
+    type: Periodical
+    title: Logic Journal of the IGPL
+    volume: 32
+    issue: 3
+  page-range: 420-441
+  serial-number:
+    doi: "10.1093/jigpal/jzac083"
+
+Zho25:
+  type: Article
+  title: "Propositional logic and modal logic—a connection via relational semantics"
+  author: "Zhong, Shengyang"
+  date: 2025
+  parent:
+    type: Periodical
+    title: Journal of Logic and Computation
+    volume: 35
+    issue: 6
+  serial-number:
+    doi: "10.1093/logcom/exae060"
+
+dGP22:
+  type: Article
+  title: "Monotone subintuitionistic logic: duality and transfer results"
+  author:
+    - "de Groot, Jim"
+    - "Pattinson, Dirk"
+  date: 2022
+  page-range: 213-242
+  parent:
+    type: Periodical
+    title: Notre Dame Journal of Formal Logic
+    volume: 63
+    issue: 2
+  serial-number:
+    doi: "10.1215/00294527-2022-0014"
+
+Vis82:
+  type: Article
+  title: "On the completeness principle: a study of provability in Heyting's arithmetic and extensions"
+  author: "Visser, Albert"
+  date: 1982
+  parent:
+    type: Periodical
+    title: Annals of Mathematical Logic
+    volume: 22
+  page-range: 263-295
+  serial-number:
+    doi: "10.1016/0003-4843(82)90024-9"
+
+GS24:
+  type: Article
+  title: "Extensions of Solovay's system S without independent sets of axioms"
+  author:
+    - "Gorbunov, Igor A."
+    - "Shkatov, Dmitry"
+  date: 2024
+  parent:
+    type: Periodical
+    title: Annals of Pure and Applied Logic
+    volume: 175
+  page-range: "103360"
+  serial-number:
+    doi: "10.1016/j.apal.2023.103360"
+
+YS16:
+  type: Chapter
+  title: "Constructive embedding from extensions of logics of strict implication into modal logics"
+  author:
+    - "Yamasaki, Sakiko"
+    - "Sano, Katsuhiko"
+  date: 2016
+  page-range: 223-251
+  parent:
+    type: Anthology
+    title: "Structural Analysis of Non-Classical Logics (Logic in Asia: Studia Logica Library)"
+    editor: "Yang, Syraya Chin-Mu"
+    publisher: Springer
+  serial-number:
+    doi: "10.1007/978-3-662-48357-2_11"

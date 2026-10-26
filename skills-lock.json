@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "skills": {
+    "imozuru": {
+      "source": "MaryCache/imozuru",
+      "sourceType": "github",
+      "skillPath": "skills/imozuru/SKILL.md",
+      "computedHash": "2adef0e799b50d219ce68c27414675f29761f9af580f5a7f3935331a9af111d6"
+    },
+    "japanese-tech-writing": {
+      "source": "https://gist.github.com/fd287c3133457c4fd8f5601d34aa817d.git",
+      "sourceUrl": "https://gist.github.com/fd287c3133457c4fd8f5601d34aa817d.git",
+      "sourceType": "git",
+      "skillPath": "SKILL.md",
+      "computedHash": "9ddea7db32f38a243da9ff3c08f19fa1f4eb39f9cc27f3a966842cfb323376f3"
+    },
+    "lean4": {
+      "source": "cameronfreer/lean4-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/lean4/skills/lean4/SKILL.md",
+      "computedHash": "931dadceac278a40101b2e646b39a900d267f7fcf4b6cd03d577ce81cc40a334"
+    }
+  }
+}
