@@ -1776,3 +1776,17 @@ YS16:
     publisher: Springer
   serial-number:
     doi: "10.1007/978-3-662-48357-2_11"
+
+SV82:
+  type: Article
+  title: "The modal logic of provability. The sequential approach"
+  author:
+    - "Sambin, Giovanni"
+    - "Valentini, Silvio"
+  date: 1982
+  parent:
+    type: Periodical
+    title: Journal of Philosophical Logic
+    volume: 11
+    issue: 3
+  page-range: 311-342

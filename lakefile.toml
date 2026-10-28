@@ -1,0 +1,19 @@
+name = "Subintuitionistic"
+version = "0.1.0"
+defaultTargets = ["Subintuitionistic"]
+
+# `autoImplicit` off and Mathlib's standard linter set, without the header linter (this repository
+# carries no Mathlib copyright header).
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+weak.linter.mathlibStandardSet = true
+weak.linter.style.header = false
+
+[[lean_lib]]
+name = "Subintuitionistic"
+
+[[require]]
+scope = "leanprover-community"
+name = "mathlib"
+rev = "v4.35.0"
