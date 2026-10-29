@@ -17,8 +17,6 @@ namespace Finset
 
 variable {β : Type*} {P : Finset β → Finset β → Prop} {Λ Γ Δ : Finset β}
 
-/-- Among the pairs `(Γ', Δ')` with `Γ ⊆ Γ' ⊆ Λ`, `Δ ⊆ Δ' ⊆ Λ` and `¬P Γ' Δ'`, there is one
-that no other such pair properly extends. -/
 lemma exists_maximal_pair (hΓ : Γ ⊆ Λ) (hΔ : Δ ⊆ Λ) (h : ¬P Γ Δ) :
     ∃ Γ' Δ', Γ ⊆ Γ' ∧ Γ' ⊆ Λ ∧ Δ ⊆ Δ' ∧ Δ' ⊆ Λ ∧ ¬P Γ' Δ' ∧
       ∀ Γ'' Δ'', Γ' ⊆ Γ'' → Γ'' ⊆ Λ → Δ' ⊆ Δ'' → Δ'' ⊆ Λ → ¬P Γ'' Δ'' →

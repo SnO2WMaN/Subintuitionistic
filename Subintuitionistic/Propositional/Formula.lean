@@ -15,7 +15,6 @@ the namespace `Propositional`, and the expected type tells the two apart.
 
 namespace Propositional
 
-/-- Propositional formulas over the variables `α`. -/
 inductive Formula (α : Type*) where
   | atom   : α → Formula α
   | falsum : Formula α
@@ -24,10 +23,10 @@ inductive Formula (α : Type*) where
   | imp    : Formula α → Formula α → Formula α
   deriving DecidableEq
 
-/-- Sets of formulas. -/
 abbrev FormulaSet (α : Type*) := Set (Formula α)
 
-/-- Finite sets of formulas. -/
+abbrev Logic (α : Type*) := Set (Formula α)
+
 abbrev FormulaFinset (α : Type*) := Finset (Formula α)
 
 namespace Formula
@@ -41,13 +40,38 @@ scoped[Propositional] infixr:60 " 🡒 " => Formula.imp
 scoped[Propositional] infixr:69 " ⋏ " => Formula.and
 scoped[Propositional] infixr:68 " ⋎ " => Formula.or
 
-@[simp, grind =] lemma falsum_eq : (falsum : Formula α) = ⊥ := rfl
+@[simp] lemma falsum_eq : (falsum : Formula α) = ⊥ := rfl
+
+@[grind =] lemma bot_eq_falsum : (⊥ : Formula α) = falsum := rfl
+
+/-- Recursion on formulas, with the cases written in notation. -/
+@[elab_as_elim, induction_eliminator]
+def rec' {motive : Formula α → Sort*} (atom : ∀ a, motive (#a)) (falsum : motive ⊥)
+    (and : ∀ A B, motive A → motive B → motive (A ⋏ B))
+    (or : ∀ A B, motive A → motive B → motive (A ⋎ B))
+    (imp : ∀ A B, motive A → motive B → motive (A 🡒 B)) : ∀ A, motive A
+  | .atom a  => atom a
+  | .falsum  => falsum
+  | .and A B => and A B (rec' atom falsum and or imp A) (rec' atom falsum and or imp B)
+  | .or A B  => or A B (rec' atom falsum and or imp A) (rec' atom falsum and or imp B)
+  | .imp A B => imp A B (rec' atom falsum and or imp A) (rec' atom falsum and or imp B)
+
+/-- Case analysis on formulas, with the cases written in notation. -/
+@[elab_as_elim, cases_eliminator]
+def cases' {motive : Formula α → Sort*} (atom : ∀ a, motive (#a)) (falsum : motive ⊥)
+    (and : ∀ A B, motive (A ⋏ B)) (or : ∀ A B, motive (A ⋎ B)) (imp : ∀ A B, motive (A 🡒 B)) :
+    ∀ A, motive A
+  | .atom a  => atom a
+  | .falsum  => falsum
+  | .and A B => and A B
+  | .or A B  => or A B
+  | .imp A B => imp A B
 
 /-! ### Subformulas -/
 
 variable [DecidableEq α] {A B : Formula α}
 
-/-- The subformulas of a formula, the formula itself included. -/
+/-- The formula itself is included. -/
 def subfmls : Formula α → FormulaFinset α
   | .atom a  => {.atom a}
   | .falsum  => {⊥}
@@ -70,7 +94,6 @@ namespace FormulaFinset
 
 variable {α : Type*}
 
-/-- `Γ` is closed under taking immediate subformulas. -/
 structure SubformulaClosed (Γ : FormulaFinset α) : Prop where
   and : ∀ {A B}, A ⋏ B ∈ Γ → A ∈ Γ ∧ B ∈ Γ
   or  : ∀ {A B}, A ⋎ B ∈ Γ → A ∈ Γ ∧ B ∈ Γ
@@ -78,7 +101,6 @@ structure SubformulaClosed (Γ : FormulaFinset α) : Prop where
 
 variable [DecidableEq α] {Γ : FormulaFinset α}
 
-/-- The subformulas of the formulas in `Γ`. -/
 def subfmls (Γ : FormulaFinset α) : FormulaFinset α := Γ.biUnion Formula.subfmls
 
 @[grind .] lemma subset_subfmls : Γ ⊆ Γ.subfmls :=

@@ -72,7 +72,8 @@ shims.
   namespace `Propositional` or `Modal`. `FormulaSet α` and `FormulaFinset α` abbreviate sets
   and finite sets of formulas.
 - Sequents are a structure per formula type, `Propositional.Sequent α` and `Modal.Sequent α`,
-  with fields `ant` and `suc` and notation `Γ ⟹ Δ`.
+  with fields `ant` and `suc` and notation `Γ ⟹ Δ`. Layered sequents `Γ ⟹[ℓ] Δ`
+  (`LayeredSequent α`, levels `ℓ : Fin 3`) are defined in the same `Sequent.lean`.
 - Kripke models are structures with fields `Rel'` and `Val'` (and `hereditary'` for
   propositional models). Points are written `x : M.World` through `abbrev World`, so that the
   type keeps the model; never write `x : κ` for a point. `abbrev Rel` gives `x ≺ y`,
@@ -80,8 +81,14 @@ shims.
 - Forcing is `x ⊩ A`, `x ⊩[M] A`, `x ⊮ A`, also for a sequent `x ⊩ S`; validity of a sequent in
   a model is `M ⊧ S`. Frame conditions are classes on models (`Model.IsFPL`,
   `Model.IsFiniteGL`).
-- Derivability in a sequent calculus is an inductive `Gentzen` with notation `⊢ᴳ[𝐅𝐏𝐋] S`,
-  `⊢ᴳ[𝐆𝐋] S` (and `⊬ᴳ[…] S`). Completeness is stated as
+- A sequent calculus is a `Type`-valued inductive `Derivation` of derivations, with notation
+  `⊢ᴳ[𝐆𝐋]! S`, and derivability is `Derivable S := Nonempty (Derivation S)`, with notation
+  `⊢ᴳ[𝐆𝐋] S` (and `⊬ᴳ[…] S`); likewise for `𝐅𝐏𝐋`, `𝐃`, `𝐃𝐏𝐋`. A calculus lives in the
+  namespace of its logic (`Modal.logicGL.Derivation`, `Propositional.logicDPL.Derivable`, …).
+  The rules are also stated as lemmas on `Derivable`, and `Derivable.rec` (an
+  `@[induction_eliminator]`) is induction on derivability, so `induction h` works on `h : ⊢ᴳ[𝐆𝐋] S`.
+  Heights of derivations are a recursive `Derivation.height`; do not index derivability by
+  heights. Completeness is stated as
   `⊢ᴳ[𝐆𝐋] S ↔ ∀ {κ : Type u} (M : Model κ α), [M.IsFiniteGL] → M ⊧ S`.
 - Translations are postfix: `Aᵍ` (Gödel), `Aᵛ` (Visser), and `Γᵍ`, `Γᵛ` on finite sets.
 - Notation follows the code base, not the proof notes.
@@ -106,19 +113,24 @@ Follow Mathlib's naming conventions, plus these word choices:
   `Γ₁ Γ₂`). A lone object is `Γ`, not `Γ'`.
 - **Intermediate `have`s** get short names (`h₁`, `h₂`, `hp`, `ih`); the type carries the
   meaning. Give a descriptive name only to a fact used several times.
+- **Derivations** (terms of `Derivation S`) are `D`, `D₁`, `D₂`, `D'`.
 - **A hypothesis `x ≺ y`** is named `Rxy` after its points (`Ryz`, `Rwv`, …); `x ⊀ y` is `nRxy`.
 - **Constructions on models** are named after what they do, not after the letters of a source
   (`removeTerminals`, not `phi`).
 - **Names after two or more people** start with the lowercase initials of their surnames. A name
   after one person keeps the surname (`gödel`, `visser`).
-- **No named sets for an axiom schema.** Write the set-builder directly. Named logics are fine.
+- **No named sets for an axiom schema.** Write the set-builder directly. Named logics are fine:
+  a logic is `logicSPL : Logic α` (`Logic α` abbreviates `Set (Formula α)`), with notation
+  `𝐒𝐏𝐋`. The logics are `𝐆𝐋`, `𝐒`, `𝐃` (namespace `Modal`) and `𝐅𝐏𝐋`, `𝐒𝐏𝐋`, `𝐃𝐏𝐋` (namespace
+  `Propositional`). The namespace of a calculus is the `logicX` of its logic, not `X`.
 - Declare universes (`universe u`) and bind every free variable explicitly; `autoImplicit` is
   off. Put implicit variables in `variable` inside a `section` or namespace, not ad hoc in
   statements. Write no redundant type ascriptions.
 
 ### Declarations
 
-Extract lemmas that are reused; keep one-off lemmas inside their proof; do not add what follows
+Extract lemmas that are reused; keep one-off lemmas inside their proof (no `_aux` lemmas: to
+induct on a derivation of a non-variable sequent, `generalize` the sequent inside the proof); do not add what follows
 from existing results in about two steps. Bundle lemmas into a `structure … : Prop` only when
 three or more travel together through an induction. Attach `@[grind]` attributes (`=`, `.`,
 `→`, `←`, …) actively to basic lemmas (forcing clauses, membership and inclusion facts, rules of a
@@ -143,6 +155,8 @@ any block over about thirty lines into lemmas.
 | `f $ x`, `f (g x)` at the end of a term | `f <\| x` |
 | `by exact t` | `t` |
 | `show` restating the displayed goal | nothing |
+| `have h := ih …` then `clear ih` | `replace ih := ih …` |
+| `suffices ∀ S, …` then `clear` to induct on a non-variable sequent | `generalize hS : (Γ ⟹[ℓ] Δ) = S at D`, `induction D generalizing …`, `cases hS` |
 
 Use `obtain` for existential witnesses. Prefer term-mode pattern matching for structural
 induction.
@@ -153,6 +167,11 @@ English. A docstring says what the declaration states, never why or how it is pr
 for module docstrings too. Comments only for what code cannot say, about one line. No
 development artifacts: plan steps, issue numbers, `§2`-style labels, TODOs, stale skeleton
 comments.
+
+No docstring text that the declaration already says plainly (its name, signature or notation):
+when only a citation is left, the docstring is the citation line alone; without a citation it is
+omitted. Use the names and notations of the code base, not those of the papers (no `G_D`,
+`G_DPL`; write `⊢ᴳ[𝐃]`, `logicDPL.Derivable`).
 
 ### Citations
 

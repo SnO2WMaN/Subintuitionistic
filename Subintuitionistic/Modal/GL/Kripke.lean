@@ -7,63 +7,52 @@ public import Mathlib.Basic.Finite.Prod
 /-!
 # Kripke soundness and completeness of `GL`
 
-A sequent is derivable in the sequent calculus of `GL` if and only if it is valid in every
-finite GL model. The finite countermodel of an unprovable sequent has the saturated
-unprovable sequents inside a subformula-closed finite set as points.
+`⊢ᴳ[𝐆𝐋] S ↔ ∀ M, [M.IsFiniteGL] → M ⊧ S` (`logicGL.Derivable.iff_valid`). The countermodel of an
+unprovable sequent is `countermodel`, whose points are `SaturatedSequent`s.
 -/
 
 @[expose] public section
 
-namespace Modal.GL.Gentzen
+namespace Modal.logicGL.Derivable
 
 open Model Model.World
 
-variable {κ α : Type*} [DecidableEq α] {M : Model κ α} [M.IsFiniteGL] {S : Sequent α}
+variable {κ α : Type*} [DecidableEq α] {M : Model κ α} [M.IsGL] {S : Sequent α}
 
-/-- The modal rule is sound: Löb's principle on a finite irreflexive transitive frame. -/
+/-- The modal rule is sound: Löb's principle on a transitive conversely well-founded frame. -/
 lemma forces_box_of_löb {x : M.World} {Θ : FormulaFinset α} {A : Formula α}
-    (hΘ : ∀ C ∈ Θ, x ⊩ □C) (ih : M ⊧ (insert (□A) (Θ ∪ Θ.image Formula.box) ⟹ {A})) :
+    (hΘ : ∀ C ∈ Θ, x ⊩ □C) (ih : M ⊧ (insert (□A) (Θ ∪ Θ.box) ⟹ {A})) :
     x ⊩ □A := by
   by_contra hx
   obtain ⟨y₀, hy₀⟩ : ∃ y, x ≺ y ∧ y ⊮ A := by simpa using hx
-  obtain ⟨y, ⟨Rxy, hyA⟩, hmin⟩ := M.wellFounded_swap_rel.has_min {y | x ≺ y ∧ y ⊮ A} ⟨y₀, hy₀⟩
+  obtain ⟨y, ⟨Rxy, hyA⟩, hmin⟩ := IsGL.converseWellFounded.has_min {y | x ≺ y ∧ y ⊮ A} ⟨y₀, hy₀⟩
   have htr : ∀ z, y ≺ z → x ≺ z := fun z Ryz ↦ IsTrans.trans _ _ _ Rxy Ryz
   have hbox : y ⊩ □A := by
     by_contra hy
     grind
-  have hall : ∀ C ∈ insert (□A) (Θ ∪ Θ.image Formula.box), y ⊩ C := by grind
+  have hall : ∀ C ∈ insert (□A) (Θ ∪ Θ.box), y ⊩ C := by grind
   have := ih y
   grind
 
 variable (M) in
-/-- Every sequent derivable in `GL` holds at every point of every GL model.
-
-- [SV82] -/
+/-- - [SV82] -/
 theorem sound (h : ⊢ᴳ[𝐆𝐋] S) : M ⊧ S := by
-  intro x
-  induction h generalizing x with
+  induction h with
   | axm hA hB => grind
   | botL h => grind
-  | impL hAB _ _ ih₁ ih₂ =>
-    have := ih₁ x
-    have := ih₂ x
-    grind
-  | impR hAB _ ih =>
-    have := ih x
-    grind
-  | boxGL hΘ hA _ ih =>
-    intro hall
-    exact ⟨_, hA, forces_box_of_löb (fun C hC ↦ hall _ (hΘ (Finset.mem_image_of_mem _ hC))) ih⟩
+  | impL hAB _ _ ih₁ ih₂ => exact fun x ↦ by grind [ih₁ x, ih₂ x]
+  | impR hAB _ ih => exact fun x ↦ by grind [ih x]
+  | boxGL hΘ hA _ ih => exact fun x hx ↦ ⟨_, hA, forces_box_of_löb (by grind) ih⟩
 
-end Modal.GL.Gentzen
+end Modal.logicGL.Derivable
 
-namespace Modal.GL
+namespace Modal.logicGL
 
 open Model Model.World
 
 variable {α : Type*} [DecidableEq α] {Λ : FormulaFinset α} {S T : Sequent α} {A : Formula α}
 
-/-- The points of the countermodel: saturated unprovable sequents inside `Λ`. -/
+/-- The points of the countermodel. -/
 structure SaturatedSequent (Λ : FormulaFinset α) extends Sequent α where
   saturated : toSequent.Saturated
   subset : toSequent ⊆ (Λ ⟹ Λ)
@@ -84,43 +73,16 @@ instance : Finite (SaturatedSequent Λ) :=
       obtain ⟨h₁, h₂⟩ := Prod.mk.inj h
       exact ext (congrArg Subtype.val h₁) (congrArg Subtype.val h₂)
 
-/-- A maximal unprovable sequent inside a subformula-closed `Λ` is saturated. -/
-lemma saturated_of_maximal (hΛ : Λ.SubformulaClosed) (hT : T ⊆ (Λ ⟹ Λ)) (hd : ⊬ᴳ[𝐆𝐋] T)
-    (hmax : ∀ U, T ⊆ U → U ⊆ (Λ ⟹ Λ) → ⊬ᴳ[𝐆𝐋] U → U = T) : T.Saturated := by
-  have key : ∀ U, T ⊆ U → U ⊆ (Λ ⟹ Λ) → U ⊆ T ∨ ⊢ᴳ[𝐆𝐋] U := by
-    intro U h₁ h₂
-    by_cases hU : ⊢ᴳ[𝐆𝐋] U
-    · exact Or.inr hU
-    · have e := hmax U h₁ h₂ hU
-      exact Or.inl ⟨(congrArg Sequent.ant e).subset, (congrArg Sequent.suc e).subset⟩
-  constructor
-  · intro A B hAB
-    have hAB' := hΛ.imp (hT.1 hAB)
-    have h₁ := key (T.ant ⟹ insert A T.suc) (by grind) (by grind)
-    have h₂ := key (insert B T.ant ⟹ T.suc) (by grind) (by grind)
-    by_contra hc
-    have d₁ : ⊢ᴳ[𝐆𝐋] T.ant ⟹ insert A T.suc := by grind
-    have d₂ : ⊢ᴳ[𝐆𝐋] insert B T.ant ⟹ T.suc := by grind
-    exact hd (.impL hAB d₁ d₂)
-  · intro A B hAB
-    have hAB' := hΛ.imp (hT.2 hAB)
-    have h := key (insert A T.ant ⟹ insert B T.suc) (by grind) (by grind)
-    obtain h | d := h
-    · grind
-    · exact (hd (.impR hAB d)).elim
-
-/-- An unprovable sequent inside a subformula-closed `Λ` extends to a point of the countermodel. -/
 lemma lindenbaum (hΛ : Λ.SubformulaClosed) (hS : S ⊆ (Λ ⟹ Λ)) (h : ⊬ᴳ[𝐆𝐋] S) :
     ∃ x : SaturatedSequent Λ, S ⊆ x.toSequent := by
-  obtain ⟨T, h₁, h₂, h₃, hmax⟩ := Sequent.exists_maximal Gentzen hS h
-  exact ⟨⟨T, saturated_of_maximal hΛ h₂ h₃ hmax, h₂, h₃⟩, h₁⟩
+  obtain ⟨T, h₁, h₂, h₃, hmax⟩ := Sequent.exists_maximal Derivable hS h
+  exact ⟨⟨T, Sequent.saturated_of_maximal Derivable hΛ h₂ h₃ hmax (fun hAB d₁ d₂ ↦ .impL hAB d₁ d₂)
+    (fun hAB d ↦ .impR hAB d), h₂, h₃⟩, h₁⟩
 
 end SaturatedSequent
 
 open SaturatedSequent
 
-/-- The finite countermodel. `x ≺ y` when every `□A` in the antecedent of `x` is in that of `y`
-together with `A`, and the antecedent of `y` has a boxed formula that of `x` lacks. -/
 def countermodel (Λ : FormulaFinset α) : Model (SaturatedSequent Λ) α where
   Rel' x y := (∀ A, □A ∈ x.ant → A ∈ y.ant ∧ □A ∈ y.ant) ∧ ∃ A, □A ∈ y.ant ∧ □A ∉ x.ant
   Val' x a := #a ∈ x.ant
@@ -135,17 +97,16 @@ instance : (countermodel Λ).IsFiniteGL where
     obtain ⟨A, hA, hAx⟩ := Rxx.2
     exact hAx hA
 
-/-- If `□A` is in the succedent of `x`, some `y` with `x ≺ y` has `A` in its succedent. -/
 lemma exists_rel_of_box_mem_suc (hΛ : Λ.SubformulaClosed) {x : (countermodel Λ).World}
     (h : □A ∈ x.suc) : ∃ y : (countermodel Λ).World, x ≺ y ∧ A ∈ y.suc := by
   let Θ : FormulaFinset α := Λ.filter (fun C ↦ □C ∈ x.ant)
   have hΘ : ∀ {C}, C ∈ Θ ↔ C ∈ Λ ∧ □C ∈ x.ant := by simp [Θ]
   have hboxΛ : □A ∈ Λ := x.subset.2 h
   have := x.subset
-  have hU : (insert (□A) (Θ ∪ Θ.image Formula.box) ⟹ {A}) ⊆ (Λ ⟹ Λ) := by
+  have hU : (insert (□A) (Θ ∪ Θ.box) ⟹ {A}) ⊆ (Λ ⟹ Λ) := by
     have := hΛ.box hboxΛ
     constructor <;> grind
-  have hnd : ⊬ᴳ[𝐆𝐋] (insert (□A) (Θ ∪ Θ.image Formula.box) ⟹ {A}) := by
+  have hnd : ⊬ᴳ[𝐆𝐋] (insert (□A) (Θ ∪ Θ.box) ⟹ {A}) := by
     intro hd
     apply x.unprovable (.boxGL (Θ := Θ) _ h hd)
     grind
@@ -184,15 +145,13 @@ lemma truthlemma (hΛ : Λ.SubformulaClosed) (x : (countermodel Λ).World) :
 
 end countermodel
 
-namespace Gentzen
+namespace Derivable
 
 universe u
 
 variable {α : Type u} [DecidableEq α] {S : Sequent α}
 
-/-- A sequent that holds in every finite GL model is derivable in `GL`.
-
-- [Seg71]
+/-- - [Seg71]
 - [SV82] -/
 theorem complete (h : ∀ {κ : Type u} (M : Model κ α), [M.IsFiniteGL] → M ⊧ S) : ⊢ᴳ[𝐆𝐋] S := by
   by_contra hS
@@ -201,16 +160,26 @@ theorem complete (h : ∀ {κ : Type u} (M : Model κ α), [M.IsFiniteGL] → M 
     fun C hC ↦ (countermodel.truthlemma Sequent.subformulaClosed_subfmls x).1 (hx.1 hC)
   exact (countermodel.truthlemma Sequent.subformulaClosed_subfmls x).2 (hx.2 hD) hxD
 
-/-- Completeness and soundness of `GL`: a sequent is derivable iff it holds in every finite GL
-model.
-
-- [Seg71]
+/-- - [Seg71]
 - [SV82] -/
 theorem iff_valid : ⊢ᴳ[𝐆𝐋] S ↔ ∀ {κ : Type u} (M : Model κ α), [M.IsFiniteGL] → M ⊧ S :=
   ⟨fun h _ M _ ↦ sound M h, complete⟩
 
-end Gentzen
+variable {Γ Γ' Γ₁ Γ₂ Δ Δ' Δ₁ Δ₂ : FormulaFinset α} {A : Formula α}
 
-end Modal.GL
+lemma wk (d : ⊢ᴳ[𝐆𝐋] Γ ⟹ Δ) (hΓ : Γ ⊆ Γ') (hΔ : Δ ⊆ Δ') : ⊢ᴳ[𝐆𝐋] Γ' ⟹ Δ' := by
+  apply complete
+  intro _ M _ x hx
+  obtain ⟨D, hD, hxD⟩ := sound M d x fun C hC ↦ hx C (hΓ hC)
+  exact ⟨D, hΔ hD, hxD⟩
+
+/-- - [SV82] -/
+theorem cut (d₁ : ⊢ᴳ[𝐆𝐋] Γ₁ ⟹ insert A Δ₁) (d₂ : ⊢ᴳ[𝐆𝐋] insert A Γ₂ ⟹ Δ₂) :
+    ⊢ᴳ[𝐆𝐋] Γ₁ ∪ Γ₂ ⟹ Δ₁ ∪ Δ₂ :=
+  complete fun M _ x ↦ forcesSequent_cut (sound M d₁ x) (sound M d₂ x)
+
+end Derivable
+
+end Modal.logicGL
 
 end

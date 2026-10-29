@@ -7,14 +7,13 @@ public import Mathlib.Basic.Finite.Prod
 /-!
 # Kripke soundness and completeness of `FPL`
 
-A sequent is derivable in the sequent calculus of `FPL` if and only if it is valid in every
-finite FPL model. The finite countermodel of an unprovable sequent has the saturated
-unprovable sequents inside a subformula-closed finite set as points.
+`⊢ᴳ[𝐅𝐏𝐋] S ↔ ∀ M, [M.IsFPL] → M ⊧ S` (`logicFPL.Derivable.iff_valid`). The countermodel of an
+unprovable sequent is `countermodel`, whose points are `SaturatedSequent`s.
 -/
 
 @[expose] public section
 
-namespace Propositional.FPL.Gentzen
+namespace Propositional.logicFPL.Derivable
 
 open Model Model.World
 
@@ -57,18 +56,14 @@ lemma forces_imp_of_forces_premises [M.IsFPL] {Θ : FormulaFinset α}
 
 end
 
-/-- Every derivable sequent holds at every point of every FPL model.
-- [IKK01, Theorem 3.2] -/
+/-- - [IKK01, Theorem 3.2] -/
 theorem sound {S : Sequent α} (M : Model κ α) [M.IsFPL] (h : ⊢ᴳ[𝐅𝐏𝐋] S) : M ⊧ S := by
   intro x
   induction h generalizing x with
   | axm A => exact fun hx ↦ ⟨A, by simp, hx A (by simp)⟩
   | botL => exact fun hx ↦ absurd (hx ⊥ (by simp)) not_forces_bot
   | wkL _ hΓ ih => exact fun hx ↦ ih x fun A hA ↦ hx A (hΓ hA)
-  | wkR _ hΔ ih =>
-    intro hx
-    obtain ⟨B, hB, hxB⟩ := ih x hx
-    exact ⟨B, hΔ hB, hxB⟩
+  | wkR _ hΔ ih => exact fun hx ↦ by grind [ForcesSequent, ih x hx]
   | andL _ ih => simp_all [ForcesSequent]
   | @andR Γ Δ A B _ _ ih₁ ih₂ =>
     intro hx
@@ -90,19 +85,17 @@ theorem sound {S : Sequent α} (M : Model κ α) [M.IsFPL] (h : ⊢ᴳ[𝐅𝐏�
     obtain h | ⟨D, hD, hxD⟩ := this
     · exact ⟨A ⋎ B, by simp, h⟩
     · exact ⟨D, by simp [hD], hxD⟩
-  | impR _ ih =>
-    intro hx
-    exact ⟨_, by simp, forces_imp_of_forces_premises ih hx⟩
+  | impR _ ih => exact fun hx ↦ ⟨_, by simp, forces_imp_of_forces_premises ih hx⟩
 
-end Propositional.FPL.Gentzen
+end Propositional.logicFPL.Derivable
 
-namespace Propositional.FPL
+namespace Propositional.logicFPL
 
 open Model Model.World
 
 variable {α : Type*} [DecidableEq α] {Λ : FormulaFinset α} {S : Sequent α} {A : Formula α}
 
-/-- The points of the countermodel: saturated unprovable sequents inside `Λ`.
+/-- The points of the countermodel.
 - [IKK01, Definition 2.5] -/
 structure SaturatedSequent (Λ : FormulaFinset α) extends Sequent α where
   saturated : toSequent.Saturated
@@ -155,7 +148,7 @@ lemma andL_of_maximal {A B : Formula α} (h : A ⋏ B ∈ T.ant) : A ∈ T.ant �
   apply hT
   have hd := derivable_of_not_subset hmax (U := insert A (insert B T.ant) ⟹ T.suc)
     ⟨by grind, subset_rfl⟩ ⟨by grind, hTΛ.2⟩ (by grind)
-  exact (Gentzen.andL hd).wk (by grind) subset_rfl
+  exact (Derivable.andL hd).wk (by grind) subset_rfl
 
 lemma andR_of_maximal {A B : Formula α} (h : A ⋏ B ∈ T.suc) : A ∈ T.suc ∨ B ∈ T.suc := by
   obtain ⟨hA, hB⟩ := hΛ.and (hTΛ.2 h)
@@ -163,7 +156,7 @@ lemma andR_of_maximal {A B : Formula α} (h : A ⋏ B ∈ T.suc) : A ∈ T.suc �
   apply hT
   have h₁ := derivable_insert_suc hmax hTΛ hA (by grind)
   have h₂ := derivable_insert_suc hmax hTΛ hB (by grind)
-  exact (Gentzen.andR h₁ h₂).wk subset_rfl (by grind)
+  exact (Derivable.andR h₁ h₂).wk subset_rfl (by grind)
 
 lemma orL_of_maximal {A B : Formula α} (h : A ⋎ B ∈ T.ant) : A ∈ T.ant ∨ B ∈ T.ant := by
   obtain ⟨hA, hB⟩ := hΛ.or (hTΛ.1 h)
@@ -171,7 +164,7 @@ lemma orL_of_maximal {A B : Formula α} (h : A ⋎ B ∈ T.ant) : A ∈ T.ant �
   apply hT
   have h₁ := derivable_insert_ant hmax hTΛ hA (by grind)
   have h₂ := derivable_insert_ant hmax hTΛ hB (by grind)
-  exact (Gentzen.orL h₁ h₂).wk (by grind) subset_rfl
+  exact (Derivable.orL h₁ h₂).wk (by grind) subset_rfl
 
 lemma orR_of_maximal {A B : Formula α} (h : A ⋎ B ∈ T.suc) : A ∈ T.suc ∧ B ∈ T.suc := by
   obtain ⟨hA, hB⟩ := hΛ.or (hTΛ.2 h)
@@ -179,13 +172,11 @@ lemma orR_of_maximal {A B : Formula α} (h : A ⋎ B ∈ T.suc) : A ∈ T.suc �
   apply hT
   have hd := derivable_of_not_subset hmax (U := T.ant ⟹ insert A (insert B T.suc))
     ⟨subset_rfl, by grind⟩ ⟨hTΛ.1, by grind⟩ (by grind)
-  exact (Gentzen.orR hd).wk subset_rfl (by grind)
+  exact (Derivable.orR hd).wk subset_rfl (by grind)
 
 end Maximal
 
-/-- An unprovable sequent inside a subformula-closed `Λ` extends to a saturated unprovable
-sequent inside `Λ`.
-- [IKK01, Lemma 2.6] -/
+/-- - [IKK01, Lemma 2.6] -/
 lemma lindenbaum (hΛ : Λ.SubformulaClosed) (hS : S ⊆ (Λ ⟹ Λ)) (h : ⊬ᴳ[𝐅𝐏𝐋] S) :
     ∃ x : SaturatedSequent Λ, S ⊆ x.toSequent := by
   obtain ⟨T, hST, hTΛ, hT, hmax⟩ := Sequent.exists_maximal (fun S ↦ ⊢ᴳ[𝐅𝐏𝐋] S) hS h
@@ -196,10 +187,7 @@ end SaturatedSequent
 
 open SaturatedSequent
 
-/-- The finite countermodel: `x ≺ y` when the antecedent of `x` is properly contained in that of
-`y` and every implication `C 🡒 D` in the antecedent of `x` has `C` in the succedent or `D` in the
-antecedent of `y`.
-- [IKK01, Theorem 3.3] -/
+/-- - [IKK01, Theorem 3.3] -/
 def countermodel (Λ : FormulaFinset α) : Model (SaturatedSequent Λ) α where
   Rel' x y := x.ant ⊂ y.ant ∧ ∀ C D, C 🡒 D ∈ x.ant → C ∈ y.suc ∨ D ∈ y.ant
   Val' x a := #a ∈ x.ant
@@ -215,7 +203,6 @@ section Successor
 
 variable {E F : Formula α}
 
-/-- The implications `C 🡒 D` in the antecedent of `x`, as pairs `(C, D)` of formulas of `Λ`. -/
 def impPairs (x : SaturatedSequent Λ) : Finset (Formula α × Formula α) :=
   (Λ ×ˢ Λ).filter fun p ↦ p.1 🡒 p.2 ∈ x.ant
 
@@ -232,7 +219,7 @@ lemma exists_unprovable_premise {x : SaturatedSequent Λ} (h : E 🡒 F ∈ x.su
       ⟹ insert F ((impPairs x \ I).image Prod.fst)) := by
   by_contra hcon
   push Not at hcon
-  have h₁ := Gentzen.impR (Θ := x.ant) (P := impPairs x) (A := E) (B := F) hcon
+  have h₁ := Derivable.impR (Θ := x.ant) (P := impPairs x) (A := E) (B := F) hcon
   exact x.unprovable <| h₁.wk (Finset.union_subset subset_rfl (imps_impPairs_subset x))
     (Finset.singleton_subset_iff.mpr h)
 
@@ -253,7 +240,7 @@ lemma exists_rel_of_imp_mem_suc (hΛ : Λ.SubformulaClosed) {x : (countermodel �
     change x.ant ⊂ y.ant ∧ ∀ C D, C 🡒 D ∈ x.ant → C ∈ y.suc ∨ D ∈ y.ant
     constructor
     · exact (Finset.ssubset_iff_of_subset (by grind)).mpr
-        ⟨E 🡒 F, by grind, fun hmem ↦ x.unprovable (Gentzen.union hmem h)⟩
+        ⟨E 🡒 F, by grind, fun hmem ↦ x.unprovable (Derivable.union hmem h)⟩
     · intro C D hCD
       have hCD' := (mem_impPairs hΛ).mpr hCD
       obtain ⟨hy₁, hy₂⟩ := hy
@@ -265,14 +252,12 @@ lemma exists_rel_of_imp_mem_suc (hΛ : Λ.SubformulaClosed) {x : (countermodel �
 
 end Successor
 
-/-- Every point of the countermodel forces the formulas of its antecedent and no formula of its
-succedent.
-- [IKK01, Theorem 3.3] -/
+/-- - [IKK01, Theorem 3.3] -/
 lemma truthlemma (hΛ : Λ.SubformulaClosed) (x : (countermodel Λ).World) :
     (A ∈ x.ant → x ⊩ A) ∧ (A ∈ x.suc → x ⊮ A) := by
   induction A generalizing x with
-  | atom a => exact ⟨fun h ↦ h, fun h hx ↦ x.unprovable (Gentzen.union hx h)⟩
-  | falsum => exact ⟨fun h ↦ (x.unprovable (Gentzen.botL_mem h)).elim, fun _ ↦ not_forces_bot⟩
+  | atom a => exact ⟨fun h ↦ h, fun h hx ↦ x.unprovable (Derivable.union hx h)⟩
+  | falsum => exact ⟨fun h ↦ (x.unprovable (Derivable.botL_mem h)).elim, fun _ ↦ not_forces_bot⟩
   | and A B ihA ihB =>
     obtain ⟨h₁, h₂, -, -⟩ := x.saturated
     grind
@@ -291,14 +276,13 @@ lemma truthlemma (hΛ : Λ.SubformulaClosed) (x : (countermodel Λ).World) :
 
 end countermodel
 
-namespace Gentzen
+namespace Derivable
 
 universe u
 
 variable {α : Type u} [DecidableEq α] {S : Sequent α}
 
-/-- A sequent valid in all FPL models is derivable.
-- [IKK01, Theorem 3.3] -/
+/-- - [IKK01, Theorem 3.3] -/
 theorem complete (h : ∀ {κ : Type u} (M : Model κ α), [M.IsFPL] → M ⊧ S) : ⊢ᴳ[𝐅𝐏𝐋] S := by
   by_contra hS
   obtain ⟨x, hx⟩ := lindenbaum Sequent.subformulaClosed_subfmls Sequent.subset_subfmls hS
@@ -306,13 +290,12 @@ theorem complete (h : ∀ {κ : Type u} (M : Model κ α), [M.IsFPL] → M ⊧ S
     fun C hC ↦ (countermodel.truthlemma Sequent.subformulaClosed_subfmls x).1 (hx.1 hC)
   exact (countermodel.truthlemma Sequent.subformulaClosed_subfmls x).2 (hx.2 hD) hxD
 
-/-- A sequent is derivable if and only if it is valid in all FPL models.
-- [IKK01, Theorem 3.2, Theorem 3.3] -/
+/-- - [IKK01, Theorem 3.2, Theorem 3.3] -/
 theorem iff_valid : ⊢ᴳ[𝐅𝐏𝐋] S ↔ ∀ {κ : Type u} (M : Model κ α), [M.IsFPL] → M ⊧ S :=
   ⟨fun h _ M _ ↦ sound M h, complete⟩
 
-end Gentzen
+end Derivable
 
-end Propositional.FPL
+end Propositional.logicFPL
 
 end

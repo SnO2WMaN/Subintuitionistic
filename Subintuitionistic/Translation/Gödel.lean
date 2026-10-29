@@ -6,9 +6,8 @@ public import Mathlib.Basic.Finite.Sum
 /-!
 # Semantics of the Gödel translation
 
-The FPL model `M.removeTerminals` on the non-terminal points of a GL model `M`, the GL model
-`K.addTerminals` of an FPL model `K`, the forcing of `Aᵍ` in them, and the equivalence of validity
-of `Γ ⟹ A` in FPL models with validity of `Γᵍ ⟹ Aᵍ` in GL models.
+`Modal.Model.removeTerminals` and `Propositional.Model.addTerminals`, the forcing of `Aᵍ` in them
+(`removeTerminals_forces_iff`, `addTerminals_forces_gödel_iff`), and `valid_iff_gödel`.
 
 ## References
 
@@ -23,12 +22,9 @@ namespace Modal.Model
 
 variable {κ α : Type*} {M : Model κ α}
 
-/-- The non-terminal points of `M`. -/
 def NonTerminal (M : Model κ α) : Type _ := { x : M.World // ∃ y, x ≺ y }
 
-/-- The FPL model on the non-terminal points of `M` whose truth set of `p` is the truth set of
-`□p` in `M`.
-- [Vis81, Theorem 5.4] -/
+/-- - [Vis81, Theorem 5.4] -/
 def removeTerminals (M : Model κ α) [IsTrans _ M.Rel] : Propositional.Model M.NonTerminal α where
   Rel' x y := x.1 ≺ y.1
   Val' x a := ∀ y, x.1 ≺ y → M y a
@@ -65,10 +61,7 @@ namespace Propositional.Model
 
 variable {κ α : Type*} {K : Model κ α}
 
-/-- The GL model on `K.World ⊕ K.World` in which each point `w` of `K` (`Sum.inl w`) sees a new
-terminal point `w'` (`Sum.inr w`) with the valuation of `w`, and `w'` is seen by `w` and by every
-point that sees `w`.
-- [Vis81, Theorem 5.4] -/
+/-- - [Vis81, Theorem 5.4] -/
 def addTerminals (K : Model κ α) : Modal.Model (K.World ⊕ K.World) α where
   Rel'
     | .inl u, .inl w => u ≺ w
@@ -125,8 +118,7 @@ universe u
 variable {α : Type u} [DecidableEq α] {Γ : Propositional.FormulaFinset α}
   {A : Propositional.Formula α}
 
-/-- `Γ ⟹ {A}` is valid in every FPL model if and only if `Γᵍ ⟹ {Aᵍ}` is valid in every GL model.
-- [Vis81, Theorem 5.4] -/
+/-- - [Vis81, Theorem 5.4] -/
 theorem valid_iff_gödel :
     (∀ {κ : Type u} (K : Propositional.Model κ α), [K.IsFPL] → K ⊧ Γ ⟹ {A}) ↔
     ∀ {κ : Type u} (M : Modal.Model κ α), [M.IsFiniteGL] → M ⊧ Γᵍ ⟹ {Aᵍ} := by

@@ -7,15 +7,14 @@ public import Subintuitionistic.ToMathlib.Order.Preorder.Finite
 # Sequents of propositional formulas
 
 A sequent `Γ ⟹ Δ` is a pair of finite sets of formulas. `S ⊆ T` is inclusion side by side, so
-`S ⊆ (Λ ⟹ Λ)` states that every formula of `S` is in `Λ`.
+`S ⊆ (Λ ⟹ Λ)` states that every formula of `S` is in `Λ`. A layered sequent `Γ ⟹[ℓ] Δ` is a
+sequent with a level `ℓ : Fin 3`; the levels `0`, `1`, `2` belong to `FPL`, `SPL` and `DPL`.
 -/
 
 @[expose] public section
 
 namespace Propositional
 
-/-- A sequent: a finite set `ant` of antecedent formulas and a finite set `suc` of succedent
-formulas. -/
 structure Sequent (α : Type*) where
   ant : FormulaFinset α
   suc : FormulaFinset α
@@ -33,8 +32,6 @@ instance : HasSubset (Sequent α) := ⟨fun S T ↦ S.ant ⊆ T.ant ∧ S.suc �
 
 @[grind =] lemma subset_iff : S ⊆ T ↔ S.ant ⊆ T.ant ∧ S.suc ⊆ T.suc := Iff.rfl
 
-/-- Among the sequents `T` with `S ⊆ T ⊆ (Λ ⟹ Λ)` and `¬P T`, there is one that no other such
-sequent properly extends. -/
 lemma exists_maximal (P : Sequent α → Prop) (hS : S ⊆ (Λ ⟹ Λ)) (h : ¬P S) :
     ∃ T, S ⊆ T ∧ T ⊆ (Λ ⟹ Λ) ∧ ¬P T ∧ ∀ U, T ⊆ U → U ⊆ (Λ ⟹ Λ) → ¬P U → U = T := by
   obtain ⟨Γ, Δ, h₁, h₂, h₃, h₄, h₅, hmax⟩ :=
@@ -42,8 +39,7 @@ lemma exists_maximal (P : Sequent α → Prop) (hS : S ⊆ (Λ ⟹ Λ)) (h : ¬P
   exact ⟨Γ ⟹ Δ, ⟨h₁, h₃⟩, ⟨h₂, h₄⟩, h₅, fun U hU₁ hU₂ hU ↦
     (hmax U.ant U.suc hU₁.1 hU₂.1 hU₁.2 hU₂.2 hU).elim ext⟩
 
-/-- `S` is saturated with respect to `⋏` and `⋎`.
-- [IKK01, Definition 2.5] -/
+/-- - [IKK01, Definition 2.5] -/
 structure Saturated (S : Sequent α) : Prop where
   andL : ∀ {A B}, A ⋏ B ∈ S.ant → A ∈ S.ant ∧ B ∈ S.ant
   andR : ∀ {A B}, A ⋏ B ∈ S.suc → A ∈ S.suc ∨ B ∈ S.suc
@@ -52,7 +48,6 @@ structure Saturated (S : Sequent α) : Prop where
 
 variable [DecidableEq α]
 
-/-- The subformulas of the formulas of `S`. -/
 def subfmls (S : Sequent α) : FormulaFinset α := (S.ant ∪ S.suc).subfmls
 
 @[grind .] lemma subset_subfmls : S ⊆ (S.subfmls ⟹ S.subfmls) :=
@@ -63,6 +58,12 @@ lemma subformulaClosed_subfmls : S.subfmls.SubformulaClosed :=
   FormulaFinset.subformulaClosed_subfmls
 
 end Sequent
+
+/-- - [Nog26] -/
+structure LayeredSequent (α : Type*) extends Sequent α where
+  level : Fin 3
+
+scoped[Propositional] notation:50 Γ:51 " ⟹[" ℓ "] " Δ:51 => LayeredSequent.mk (Sequent.mk Γ Δ) ℓ
 
 end Propositional
 

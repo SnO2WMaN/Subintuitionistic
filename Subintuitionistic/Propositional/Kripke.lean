@@ -16,8 +16,7 @@ successor of `x` forcing `A` forces `B`; `x` itself is not inspected, so modus p
 
 namespace Propositional
 
-/-- A Kripke model: a relation `Rel'` and a valuation `Val'` that is upward closed along `Rel'`.
-- [Vis81, 1.4] -/
+/-- - [Vis81, 1.4] -/
 structure Model (κ α : Type*) where
   Rel' : κ → κ → Prop
   Val' : κ → α → Prop
@@ -42,8 +41,7 @@ instance : CoeFun (Model κ α) (fun M ↦ M.World → α → Prop) := ⟨fun M 
 @[grind →] lemma hereditary {x y : M.World} (Rxy : x ≺ y) {a : α} : M x a → M y a :=
   M.hereditary' Rxy
 
-/-- An FPL model: the frame is finite, irreflexive and transitive.
-- [Vis81, 1.4]
+/-- - [Vis81, 1.4]
 - [IKK01, Section 3] -/
 class IsFPL (M : Model κ α) : Prop extends IsTrans _ M.Rel, Std.Irrefl M.Rel where
   [finite : Finite M.World]
@@ -56,9 +54,7 @@ namespace Model.World
 
 variable {κ α : Type*} {M : Model κ α} {x y : M.World} {A B : Formula α}
 
-/-- The forcing relation: an implication `A 🡒 B` holds at `x` when every proper successor
-forcing `A` forces `B`.
-- [Vis81, 1.4] -/
+/-- - [Vis81, 1.4] -/
 def Forces (M : Model κ α) (x : M.World) : Formula α → Prop
   | .atom a  => M x a
   | .falsum  => False
@@ -77,7 +73,7 @@ scoped[Propositional] notation:55 x:56 " ⊮ " A:56 => ¬Model.World.Forces _ x 
 @[simp, grind =] lemma forces_or : x ⊩ A ⋎ B ↔ x ⊩ A ∨ x ⊩ B := Iff.rfl
 @[grind =] lemma forces_imp : x ⊩ A 🡒 B ↔ ∀ y, x ≺ y → y ⊩ A → y ⊩ B := Iff.rfl
 
-/-- Persistence: forcing is preserved along the accessibility relation.
+/-- Persistence.
 - [Vis81, 1.4.2] -/
 @[grind →] lemma forces_of_rel [IsTrans _ M.Rel] (Rxy : x ≺ y) (h : x ⊩ A) : y ⊩ A := by
   induction A generalizing x y with
@@ -87,9 +83,7 @@ scoped[Propositional] notation:55 x:56 " ⊮ " A:56 => ¬Model.World.Forces _ x 
   | or A B ihA ihB => exact h.imp (ihA Rxy) (ihB Rxy)
   | imp A B _ _ => exact fun z Ryz ↦ h z (_root_.trans Rxy Ryz)
 
-/-- The sequent `S` holds at `x`: if `x` forces all of its antecedent, it forces some formula of
-its succedent.
-- [IKK01, Section 3] -/
+/-- - [IKK01, Section 3] -/
 def ForcesSequent (M : Model κ α) (x : M.World) (S : Sequent α) : Prop :=
   (∀ C ∈ S.ant, x ⊩ C) → ∃ D ∈ S.suc, x ⊩ D
 
@@ -104,8 +98,7 @@ open World
 
 variable {κ α : Type*} {M : Model κ α} {Γ : FormulaFinset α} {A : Formula α}
 
-/-- The sequent `S` holds at every point of `M`.
-- [IKK01, Section 3] -/
+/-- - [IKK01, Section 3] -/
 def ValidateSequent (M : Model κ α) (S : Sequent α) : Prop := ∀ x : M.World, x ⊩ S
 
 scoped[Propositional] infix:45 " ⊧ " => Model.ValidateSequent
