@@ -5,3 +5,9 @@
 /.agents/
 /.claude/skills/
 /.lake
+
+# Typst (preprint/)
+/preprint/*.pdf
+
+# VSCode
+.vscode/settings.json

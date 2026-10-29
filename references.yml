@@ -10,6 +10,8 @@ Vis81:
     volume: 40
     issue: 2
   page-range: 155-175
+  serial-number:
+    doi: "10.1007/BF01874706"
 
 Seg71:
   type: Book
@@ -36,6 +38,8 @@ Sol76:
     title: Israel Journal of Mathematics
     volume: 25
   page-range: 287-304
+  serial-number:
+    doi: "10.1007/BF02757006"
 
 Boo79:
   type: Book
@@ -558,12 +562,14 @@ Che21:
   title: "弱逻辑F的矢列演算 [Sequent calculus for the weak logic F]"
   author: "Chen, Yu"
   date: 2021
+  note: "In Chinese"
   page-range: 28-48
   parent:
     type: Periodical
     title: "逻辑学研究 (Studies in Logic)"
     volume: 14
     issue: 1
+  url: "https://studiesinlogic.sysu.edu.cn/zh-hans/article/153"
 
 Che24a:
   type: Misc
@@ -859,6 +865,7 @@ KK23:
   date: 2023
   serial-number:
     arxiv: "2309.05948"
+  url: "https://arxiv.org/abs/2309.05948"
 
 KKIM25:
   type: Article
@@ -1064,6 +1071,8 @@ Pet23:
     title: Russian Mathematics
     volume: 67
     issue: 11
+  serial-number:
+    doi: "10.3103/S1066369X23110051"
 
 Res94:
   type: Article
@@ -1304,7 +1313,7 @@ SO97:
     - "Ono, Hiroakira"
   date: 1997
   organization: "School of Information Science, JAIST"
-  note: "Research report IS-RR-97-0040F"
+  url: "https://hdl.handle.net/10119/8377"
 
 SWZ97:
   type: Article
@@ -1790,3 +1799,284 @@ SV82:
     volume: 11
     issue: 3
   page-range: 311-342
+  serial-number:
+    doi: "10.1007/BF00293433"
+
+AB05:
+  type: Chapter
+  title: "Provability logic"
+  author:
+    - "Artemov, Sergei N."
+    - "Beklemishev, Lev D."
+  date: 2005
+  page-range: 189-360
+  parent:
+    type: Anthology
+    title: "Handbook of Philosophical Logic, 2nd Edition"
+    editor:
+      - "Gabbay, D. M."
+      - "Guenthner, F."
+    publisher:
+      name: Springer Netherlands
+      location: Dordrecht
+  serial-number:
+    doi: "10.1007/1-4020-3521-7_3"
+
+Avr84:
+  type: Article
+  title: "On modal systems having arithmetical interpretations"
+  author: "Avron, Arnon"
+  date: 1984
+  page-range: 935-942
+  parent:
+    type: Periodical
+    title: Journal of Symbolic Logic
+    volume: 49
+    issue: 3
+  serial-number:
+    doi: "10.2307/2274147"
+
+Bek87:
+  type: Article
+  title: "Normalization of deductions and interpolation for some logics of provability"
+  author: "Beklemishev, Lev D."
+  date: 1987
+  page-range: 223-224
+  parent:
+    type: Periodical
+    title: Russian Mathematical Surveys
+    volume: 42
+    issue: 6
+  serial-number:
+    doi: "10.1070/RM1987v042n06ABEH001496"
+
+Bek89:
+  type: Article
+  title: "Provability logic without Craig's interpolation property"
+  author: "Beklemishev, Lev D."
+  date: 1989
+  page-range: 437-445
+  parent:
+    type: Periodical
+    title: Mathematical Notes of the Academy of Sciences of the USSR
+    volume: 45
+    issue: 6
+  serial-number:
+    doi: "10.1007/BF01158230"
+
+Bek90:
+  type: Article
+  title: "On the classification of propositional provability logics"
+  author: "Beklemishev, Lev D."
+  date: 1990
+  page-range: 247-275
+  parent:
+    type: Periodical
+    title: Mathematics of the USSR-Izvestiya
+    volume: 35
+    issue: 2
+  serial-number:
+    doi: "10.1070/IM1990v035n02ABEH000701"
+
+Boo94:
+  type: Book
+  title: "The Logic of Provability"
+  author: "Boolos, George"
+  date: 1994
+  publisher:
+    name: Cambridge University Press
+    location: Cambridge
+  serial-number:
+    doi: "10.1017/CBO9780511625183"
+
+Bor83:
+  type: Article
+  title: "On some proof theoretical properties of the modal logic GL"
+  author: "Borga, Marco"
+  date: 1983
+  page-range: 453-459
+  parent:
+    type: Periodical
+    title: Studia Logica
+    volume: 42
+    issue: 4
+  serial-number:
+    doi: "10.1007/BF01371633"
+
+Bri16:
+  type: Article
+  title: "Cut elimination for GLS using the terminability of its regress process"
+  author: "Brighton, Jude"
+  date: 2016
+  page-range: 147-153
+  parent:
+    type: Periodical
+    title: Journal of Philosophical Logic
+    volume: 45
+    issue: 2
+  serial-number:
+    doi: "10.1007/s10992-015-9368-4"
+
+CZ97:
+  type: Book
+  title: "Modal Logic"
+  author:
+    - "Chagrov, Alexander"
+    - "Zakharyaschev, Michael"
+  date: 1997
+  publisher:
+    name: Clarendon Press
+    location: Oxford
+  parent:
+    type: Book
+    title: Oxford Logic Guides
+    volume: 35
+
+God33:
+  type: Article
+  title: "Eine Interpretation des intuitionistischen Aussagenkalküls"
+  author: "Gödel, Kurt"
+  date: 1933
+  page-range: 39
+  parent:
+    type: Periodical
+    title: Ergebnisse eines mathematischen Kolloquiums
+    volume: 4
+
+GR12:
+  type: Article
+  title: "Valentini's cut-elimination for provability logic resolved"
+  author:
+    - "Goré, Rajeev"
+    - "Ramanayake, Revantha"
+  date: 2012
+  page-range: 212-238
+  parent:
+    type: Periodical
+    title: The Review of Symbolic Logic
+    volume: 5
+    issue: 2
+  serial-number:
+    doi: "10.1017/S1755020311000323"
+
+GRS21:
+  type: Chapter
+  title: "Cut-elimination for provability logic by terminating proof-search: formalised and deconstructed using Coq"
+  author:
+    - "Goré, Rajeev"
+    - "Ramanayake, Revantha"
+    - "Shillito, Ian"
+  date: 2021
+  page-range: 299-313
+  parent:
+    type: Anthology
+    title: "Automated Reasoning with Analytic Tableaux and Related Methods"
+    editor:
+      - "Das, Anupam"
+      - "Negri, Sara"
+    publisher:
+      name: Springer International Publishing
+      location: Cham
+  serial-number:
+    doi: "10.1007/978-3-030-86059-2_18"
+
+Jap86:
+  type: Thesis
+  title: "The modal logical means of investigation of provability"
+  author: "Japaridze, Giorgi"
+  date: 1986
+  genre: "Thesis"
+  publisher:
+    name: "Moscow State University"
+    location: Moscow
+  note: "In Russian"
+
+Lei81:
+  type: Article
+  title: "On the proof theory of the modal logic for arithmetic provability"
+  author: "Leivant, Daniel"
+  date: 1981
+  page-range: 531-538
+  parent:
+    type: Periodical
+    title: Journal of Symbolic Logic
+    volume: 46
+    issue: 3
+  serial-number:
+    doi: "10.2307/2273755"
+
+Moe01:
+  type: Article
+  title: "The proposed algorithms for eliminating cuts in the provability calculus GLS do not terminate"
+  author: "Moen, Andres"
+  date: 2001
+  parent:
+    type: Proceedings
+    title: "The 13th Nordic Workshop in Programming Theory"
+  url: "https://nr.no/en/publication/146681/"
+
+MT48:
+  type: Article
+  title: "Some theorems about the sentential calculi of Lewis and Heyting"
+  author:
+    - "McKinsey, J. C. C."
+    - "Tarski, Alfred"
+  date: 1948
+  page-range: 1-15
+  parent:
+    type: Periodical
+    title: The Journal of Symbolic Logic
+    volume: 13
+    issue: 1
+  serial-number:
+    doi: "10.2307/2268135"
+
+NvP11:
+  type: Book
+  title: "Proof Analysis: A Contribution to Hilbert's Last Problem"
+  author:
+    - "Negri, Sara"
+    - "von Plato, Jan"
+  date: 2011
+  publisher:
+    name: Cambridge University Press
+    location: Cambridge
+  serial-number:
+    doi: "10.1017/CBO9781139003513"
+
+TS00:
+  type: Book
+  title: "Basic Proof Theory"
+  author:
+    - "Troelstra, Anne Sjerp"
+    - "Schwichtenberg, Helmut"
+  date: 2000
+  publisher: Cambridge University Press
+
+Val83:
+  type: Article
+  title: "The modal logic of provability: cut-elimination"
+  author: "Valentini, Silvio"
+  date: 1983
+  page-range: 471-476
+  parent:
+    type: Periodical
+    title: Journal of Philosophical Logic
+    volume: 12
+    issue: 4
+  serial-number:
+    doi: "10.1007/BF00249262"
+
+Vis84:
+  type: Article
+  title: "The provability logics of recursively enumerable theories extending Peano Arithmetic at arbitrary theories extending Peano Arithmetic"
+  author: "Visser, Albert"
+  date: 1984
+  page-range: 97-113
+  parent:
+    type: Periodical
+    title: Journal of Philosophical Logic
+    volume: 13
+    issue: 1
+  serial-number:
+    doi: "10.1007/BF00297579"
