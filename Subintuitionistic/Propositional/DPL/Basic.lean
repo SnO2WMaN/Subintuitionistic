@@ -1,14 +1,9 @@
 module
 
-public import Subintuitionistic.Propositional.Sequent
 public import Subintuitionistic.Propositional.FPL.Basic
 
 /-!
-# The sequent calculus of `DPL`, and the logics `SPL` and `DPL`
-
-`logicDPL.Derivation` is a calculus on layered sequents with levels `0`, `1`, `2`; the levels `0`
-and `1` alone are the calculus of `SPL`. `𝐒𝐏𝐋` and `𝐃𝐏𝐋` are given by derivability at level `1`
-and `2`.
+# The sequent calculus of `𝐃𝐏𝐋`, and the logics `𝐒𝐏𝐋` and `𝐃𝐏𝐋`
 -/
 
 @[expose] public section
@@ -17,7 +12,7 @@ namespace Propositional
 
 namespace logicDPL
 
-open logicFPL (imps)
+open FormulaFinset (imps)
 
 variable {α : Type*} [DecidableEq α]
 
@@ -70,7 +65,7 @@ def logicDPL : Logic α := {A | ⊢ᴳ[𝐃𝐏𝐋] ∅ ⟹[2] {A}}
 
 namespace logicDPL.Derivable
 
-open logicFPL (imps)
+open FormulaFinset (imps)
 
 variable {ℓ : Fin 3} {Γ Γ' Δ Δ' Θ : FormulaFinset α} {A B : Formula α}
   {P Q : Finset (Formula α × Formula α)} {Φ : Finset α}
@@ -149,7 +144,7 @@ theorem rec {motive : (S : LayeredSequent α) → ⊢ᴳ[𝐃𝐏𝐋] S → Pro
   | liftUp₀₁ _ ih => exact liftUp₀₁ _ ih
   | liftUp₁₂ _ ih => exact liftUp₁₂ _ ih
 
-lemma union (hΓ : A ∈ Γ) (hΔ : A ∈ Δ) (hA : ∃ a, A = #a) : ⊢ᴳ[𝐃𝐏𝐋] Γ ⟹[ℓ] Δ := by
+lemma axm_mem (hΓ : A ∈ Γ) (hΔ : A ∈ Δ) (hA : ∃ a, A = #a) : ⊢ᴳ[𝐃𝐏𝐋] Γ ⟹[ℓ] Δ := by
   obtain ⟨a, rfl⟩ := hA
   exact wk (axm ℓ a) (by simpa) (by simpa)
 

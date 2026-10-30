@@ -1,16 +1,9 @@
 module
 
 public import Subintuitionistic.Propositional.Sequent
-public import Mathlib.Data.Finset.Image
-public import Mathlib.Data.Finset.Preimage
-public import Mathlib.Data.Finset.Prod
 
 /-!
-# The sequent calculus of `FPL`
-
-`logicFPL.Derivation` has a single rule for `🡒`, `impR`: the implications `imps P` of a finite set
-`P` of pairs have one premise for each subset `I ⊆ P`. The occurrence of `A 🡒 B` in the
-antecedent of the premises is Löb's rule.
+# The sequent calculus of `𝐅𝐏𝐋`
 -/
 
 @[expose] public section
@@ -19,19 +12,9 @@ namespace Propositional
 
 namespace logicFPL
 
+open FormulaFinset (imps)
+
 variable {α : Type*} [DecidableEq α]
-
-def imps (P : Finset (Formula α × Formula α)) : FormulaFinset α := P.image fun p ↦ p.1 🡒 p.2
-
-@[grind ←] lemma mem_imps_of_mem {A B : Formula α} {P : Finset (Formula α × Formula α)}
-    (h : (A, B) ∈ P) : A 🡒 B ∈ imps P :=
-  Finset.mem_image_of_mem _ h
-
-lemma exists_imps (Γ : FormulaFinset α) :
-    ∃ P : Finset (Formula α × Formula α), imps P ⊆ Γ ∧ ∀ A B, A 🡒 B ∈ Γ → (A, B) ∈ P := by
-  have hf : Function.Injective fun p : Formula α × Formula α ↦ p.1 🡒 p.2 :=
-    fun p q hpq ↦ by grind
-  exact ⟨Γ.preimage _ hf.injOn, fun x ↦ by grind [imps, Finset.mem_preimage], by simp⟩
 
 /-- - [IKK01, Section 3] -/
 inductive Derivation : Sequent α → Type _
@@ -73,6 +56,8 @@ def logicFPL : Logic α := {A | ⊢ᴳ[𝐅𝐏𝐋] ∅ ⟹ {A}}
 end
 
 namespace logicFPL.Derivable
+
+open FormulaFinset (imps)
 
 variable {α : Type*} [DecidableEq α] {Γ Γ' Δ Δ' Θ : FormulaFinset α} {A B : Formula α}
   {P : Finset (Formula α × Formula α)}
@@ -136,7 +121,8 @@ theorem rec {motive : (S : Sequent α) → ⊢ᴳ[𝐅𝐏𝐋] S → Prop}
 @[grind →] lemma wk (h : ⊢ᴳ[𝐅𝐏𝐋] Γ ⟹ Δ) (hΓ : Γ ⊆ Γ') (hΔ : Δ ⊆ Δ') : ⊢ᴳ[𝐅𝐏𝐋] Γ' ⟹ Δ' :=
   wkR (wkL h hΓ) hΔ
 
-@[grind →] lemma union (hΓ : A ∈ Γ) (hΔ : A ∈ Δ) : ⊢ᴳ[𝐅𝐏𝐋] Γ ⟹ Δ := (axm A).wk (by simpa) (by simpa)
+@[grind →] lemma axm_mem (hΓ : A ∈ Γ) (hΔ : A ∈ Δ) : ⊢ᴳ[𝐅𝐏𝐋] Γ ⟹ Δ :=
+  (axm A).wk (by simpa) (by simpa)
 
 @[grind ←] lemma botL_mem (h : ⊥ ∈ Γ) : ⊢ᴳ[𝐅𝐏𝐋] Γ ⟹ Δ := botL.wk (by simpa) (Finset.empty_subset _)
 

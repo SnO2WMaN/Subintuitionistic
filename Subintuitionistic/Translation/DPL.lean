@@ -1,73 +1,21 @@
 module
 
-public import Subintuitionistic.Translation.Visser
-public import Subintuitionistic.Propositional.DPL.Basic
 public import Subintuitionistic.Modal.D.Kripke
+public import Subintuitionistic.Propositional.DPL.Basic
+public import Subintuitionistic.Translation.Basic
 
 /-!
-# The embedding of `DPL` into `D`
-
-`logicDPL.Derivable.iff_visser` is proved from `visser` and `of_visser`. It gives
-`mem_logicSPL_iff`, `mem_logicDPL_iff` and the admissibility of `cut` for `⊢ᴳ[𝐃𝐏𝐋]`.
+# The embedding of `𝐃𝐏𝐋` into `𝐃`
 -/
 
 @[expose] public section
 
-namespace Translation
+namespace Propositional.FormulaFinset
 
 open Modal
-open Propositional.logicFPL (imps exists_imps)
 
-variable {α : Type*} [DecidableEq α] {Γ : Propositional.FormulaFinset α} {Φ₁ Φ₂ : Finset α}
-  {Δ Θ : FormulaFinset α} {C : Formula α}
-
-/-- - [Nog26, Lemmas 5.2, 8.2] -/
-lemma persist (A : Propositional.Formula α) (ℓ : Fin 3) : ⊢ᴳ[𝐃] {Aᵛ} ⟹[ℓ] {□Aᵛ} := by
-  induction A with
-  | atom a =>
-    have d : ⊢ᴳ[𝐃] FormulaFinset.box {#a} ∪ {#a} ⟹[0] {#a ⋏ □#a} :=
-      .andR (Δ := ∅) (.union (A := #a) (by grind) (by grind))
-        (.union (A := □#a) (by grind) (by grind))
-    exact .andL (Γ := ∅) ((logicD.Derivable.boxK4 d ℓ).wk (by grind) (by grind))
-  | falsum => exact logicD.Derivable.botL_mem (by grind)
-  | and B C ihB ihC =>
-    have h : ∀ x ∈ ({Bᵛ, Cᵛ} : FormulaFinset α), ⊢ᴳ[𝐃] {x} ⟹[ℓ] {□x} := by grind
-    have d : ⊢ᴳ[𝐃] FormulaFinset.box {Bᵛ, Cᵛ} ∪ {Bᵛ, Cᵛ} ⟹[0] {Bᵛ ⋏ Cᵛ} :=
-      .andR (Δ := ∅) (.union (A := Bᵛ) (by grind) (by grind))
-        (.union (A := Cᵛ) (by grind) (by grind))
-    exact .andL (Γ := ∅) ((logicD.Derivable.box_of_persist h d).wk (by grind) (by grind))
-  | or B C ihB ihC =>
-    have dB : ⊢ᴳ[𝐃] FormulaFinset.box {Bᵛ} ∪ {Bᵛ} ⟹[0] {Bᵛ ⋎ Cᵛ} :=
-      .orR (Δ := ∅) (.union (A := Bᵛ) (by grind) (by grind))
-    have dC : ⊢ᴳ[𝐃] FormulaFinset.box {Cᵛ} ∪ {Cᵛ} ⟹[0] {Bᵛ ⋎ Cᵛ} :=
-      .orR (Δ := ∅) (.union (A := Cᵛ) (by grind) (by grind))
-    exact .orL (Γ := ∅) (logicD.Derivable.box_of_persist (by grind) dB)
-      (logicD.Derivable.box_of_persist (by grind) dC)
-  | imp B C _ _ =>
-    have d : ⊢ᴳ[𝐃] FormulaFinset.box {Bᵛ 🡒 Cᵛ} ∪ {Bᵛ 🡒 Cᵛ} ⟹[0] {□(Bᵛ 🡒 Cᵛ)} :=
-      .union (A := □(Bᵛ 🡒 Cᵛ)) (by grind) (by grind)
-    exact (logicD.Derivable.boxK4 (Γ := {Bᵛ 🡒 Cᵛ}) d ℓ).wk (by grind) (by grind)
-
-/-- - [Nog26, Lemma 5.3] -/
-lemma box_intro (d : ⊢ᴳ[𝐃] Γᵛ ∪ insert (□C) Δ ⟹[0] {C}) : ⊢ᴳ[𝐃] Γᵛ ∪ Δ.box ⟹[0] {□C} := by
-  have d₁ : ⊢ᴳ[𝐃] insert (□C) ((Γᵛ ∪ Δ).box ∪ (Γᵛ ∪ Δ)) ⟹[0] {C} := d.wk (by grind) (by grind)
-  have d₂ : ⊢ᴳ[𝐃] Γᵛ.box ∪ Δ.box ⟹[0] {□C} := d₁.boxGL.wk (by grind) (by grind)
-  exact (logicD.Derivable.unbox_of_persist (fun B hB ↦ by grind [persist]) d₂).wk (by grind)
-    (by grind)
-
-open Propositional in
-/-- - [Nog26, Lemma 8.4] -/
-lemma var1 (a : α) : ⊢ᴳ[𝐃] {□#a} ⟹[1] {(#a)ᵛ} :=
-  .andR (Δ := ∅) (.boxL (Γ := ∅) (.refl 1 #a)) (.refl 1 (□#a))
-
-open Propositional in
-/-- - [Nog26, Lemma 8.5] -/
-lemma var2 (a : α) : ⊢ᴳ[𝐃] {(#a)ᵛ} ⟹[2] {□#a} :=
-  .andL (Γ := ∅) ((logicD.Derivable.refl 2 (□#a)).wk (by grind) (by grind))
-
-@[grind =] lemma visser_erase_bot : (Γ.erase ⊥)ᵛ = Γᵛ.erase ⊥ := by
-  ext x
-  grind
+variable {α : Type*} [DecidableEq α] {Γ : FormulaFinset α} {Φ₁ Φ₂ : Finset α}
+  {Θ : Modal.FormulaFinset α}
 
 lemma exists_imps_of_box_subset (hΓ : Θ.box ⊆ Γᵛ ∪ Φ₁.image (#·) ∪ Φ₂.image (□#·)) :
     ∃ P, imps P ⊆ Γ ∧ P.image (fun p ↦ p.1ᵛ 🡒 p.2ᵛ) ⊆ Θ ∧
@@ -83,11 +31,60 @@ lemma exists_imps_of_box_subset (hΓ : Θ.box ⊆ Γᵛ ∪ Φ₁.image (#·) �
     have := hΓ (Finset.mem_image_of_mem _ hy)
     grind [Finset.mem_image_of_mem]
 
-end Translation
+end Propositional.FormulaFinset
+
+namespace Modal.logicD.Derivable
+
+variable {α : Type*} [DecidableEq α] {Γ : Propositional.FormulaFinset α} {Δ : FormulaFinset α}
+  {C : Formula α}
+
+/-- - [Nog26, Lemmas 5.2, 8.2] -/
+lemma persist_visser (A : Propositional.Formula α) (ℓ : Fin 3) : ⊢ᴳ[𝐃] {Aᵛ} ⟹[ℓ] {□Aᵛ} := by
+  induction A with
+  | atom a =>
+    have d : ⊢ᴳ[𝐃] FormulaFinset.box {#a} ∪ {#a} ⟹[0] {#a ⋏ □#a} :=
+      .andR (Δ := ∅) (.axm_mem (A := #a) (by grind) (by grind))
+        (.axm_mem (A := □#a) (by grind) (by grind))
+    exact .andL (Γ := ∅) ((boxK4 d ℓ).wk (by grind) (by grind))
+  | falsum => exact botL_mem (by grind)
+  | and B C ihB ihC =>
+    have h : ∀ x ∈ ({Bᵛ, Cᵛ} : FormulaFinset α), ⊢ᴳ[𝐃] {x} ⟹[ℓ] {□x} := by grind
+    have d : ⊢ᴳ[𝐃] FormulaFinset.box {Bᵛ, Cᵛ} ∪ {Bᵛ, Cᵛ} ⟹[0] {Bᵛ ⋏ Cᵛ} :=
+      .andR (Δ := ∅) (.axm_mem (A := Bᵛ) (by grind) (by grind))
+        (.axm_mem (A := Cᵛ) (by grind) (by grind))
+    exact .andL (Γ := ∅) ((box_of_persist h d).wk (by grind) (by grind))
+  | or B C ihB ihC =>
+    have dB : ⊢ᴳ[𝐃] FormulaFinset.box {Bᵛ} ∪ {Bᵛ} ⟹[0] {Bᵛ ⋎ Cᵛ} :=
+      .orR (Δ := ∅) (.axm_mem (A := Bᵛ) (by grind) (by grind))
+    have dC : ⊢ᴳ[𝐃] FormulaFinset.box {Cᵛ} ∪ {Cᵛ} ⟹[0] {Bᵛ ⋎ Cᵛ} :=
+      .orR (Δ := ∅) (.axm_mem (A := Cᵛ) (by grind) (by grind))
+    exact .orL (Γ := ∅) (box_of_persist (by grind) dB) (box_of_persist (by grind) dC)
+  | imp B C _ _ =>
+    have d : ⊢ᴳ[𝐃] FormulaFinset.box {Bᵛ 🡒 Cᵛ} ∪ {Bᵛ 🡒 Cᵛ} ⟹[0] {□(Bᵛ 🡒 Cᵛ)} :=
+      .axm_mem (A := □(Bᵛ 🡒 Cᵛ)) (by grind) (by grind)
+    exact (boxK4 (Γ := {Bᵛ 🡒 Cᵛ}) d ℓ).wk (by grind) (by grind)
+
+/-- - [Nog26, Lemma 5.3] -/
+lemma boxGL_visser (d : ⊢ᴳ[𝐃] Γᵛ ∪ insert (□C) Δ ⟹[0] {C}) : ⊢ᴳ[𝐃] Γᵛ ∪ Δ.box ⟹[0] {□C} := by
+  have d₁ : ⊢ᴳ[𝐃] insert (□C) ((Γᵛ ∪ Δ).box ∪ (Γᵛ ∪ Δ)) ⟹[0] {C} := d.wk (by grind) (by grind)
+  have d₂ : ⊢ᴳ[𝐃] Γᵛ.box ∪ Δ.box ⟹[0] {□C} := d₁.boxGL.wk (by grind) (by grind)
+  exact (unbox_of_persist (fun B hB ↦ by grind [persist_visser]) d₂).wk (by grind) (by grind)
+
+open Propositional in
+/-- - [Nog26, Lemma 8.4] -/
+lemma visser_atom_of_box (a : α) : ⊢ᴳ[𝐃] {□#a} ⟹[1] {(#a)ᵛ} :=
+  .andR (Δ := ∅) (.boxL (Γ := ∅) (.refl 1 #a)) (.refl 1 (□#a))
+
+open Propositional in
+/-- - [Nog26, Lemma 8.5] -/
+lemma box_of_visser_atom (a : α) : ⊢ᴳ[𝐃] {(#a)ᵛ} ⟹[2] {□#a} :=
+  .andL (Γ := ∅) ((refl 2 (□#a)).wk (by grind) (by grind))
+
+end Modal.logicD.Derivable
 
 namespace Propositional.logicDPL.Derivable
 
-open Modal Translation
+open Modal
 
 variable {α : Type*} [DecidableEq α] {ℓ : Fin 3} {Γ Γ₁ Γ₂ Δ Δ₁ Δ₂ : FormulaFinset α}
   {A : Formula α} {Φ₁ Φ₂ Ψ : Finset α}
@@ -124,18 +121,19 @@ theorem visser (d : ⊢ᴳ[𝐃𝐏𝐋] Γ ⟹[ℓ] Δ) : ⊢ᴳ[𝐃] Γᵛ �
     have h₂ := logicD.Derivable.impR (A := A₁ᵛ) (B := A₂ᵛ) (Δ := ∅)
       (Γ := Θᵛ ∪ insert (□(A₁ᵛ 🡒 A₂ᵛ)) (P.image fun p ↦ p.1ᵛ 🡒 p.2ᵛ))
       (h₁.wk (by grind) (by grind))
-    exact (box_intro (Γ := Θ) h₂).wk (by simp) (by simp [Formula.visser])
+    exact (logicD.Derivable.boxGL_visser (Γ := Θ) h₂).wk (by simp) (by simp [Formula.visser])
   | liftUp₀₁ _ ih =>
     exact (ih rfl).liftUp₀₁
   | @liftUp₁₂ P Q Φ _ ih =>
     have h₁ : ⊢ᴳ[𝐃] Φ.image (fun a ↦ (#a)ᵛ) ∪ P.image (fun p ↦ □(p.1ᵛ 🡒 p.2ᵛ)) ⟹[1]
         Q.image fun p ↦ □(p.1ᵛ 🡒 p.2ᵛ) := by
       simpa [Finset.union_comm] using ih rfl
-    have h₂ := logicD.Derivable.replace_ant (g := fun a ↦ □#a) (fun a _ ↦ var1 a) h₁
+    have h₂ := logicD.Derivable.replace_ant (g := fun a ↦ □#a)
+      (fun a _ ↦ logicD.Derivable.visser_atom_of_box a) h₁
     have h₃ := logicD.Derivable.liftUp₁₂ (Γ := (P.image fun p ↦ p.1ᵛ 🡒 p.2ᵛ) ∪ Φ.image (#·))
       (Δ := Q.image fun p ↦ p.1ᵛ 🡒 p.2ᵛ) (h₂.wk (by simp [Finset.union_comm]) (by simp))
     have h₄ := logicD.Derivable.replace_ant (S := Φ) (f := fun a ↦ □#a) (g := fun a ↦ (#a)ᵛ)
-      (fun a _ ↦ var2 a) (Θ := P.image fun p ↦ □(p.1ᵛ 🡒 p.2ᵛ))
+      (fun a _ ↦ logicD.Derivable.box_of_visser_atom a) (Θ := P.image fun p ↦ □(p.1ᵛ 🡒 p.2ᵛ))
       (Δ := Q.image fun p ↦ □(p.1ᵛ 🡒 p.2ᵛ)) (h₃.wk (by simp [Finset.union_comm]) (by simp))
     simpa [Finset.union_comm] using h₄
 
@@ -151,7 +149,7 @@ theorem of_visser (d : ⊢ᴳ[𝐃] Γᵛ ∪ Φ₁.image (#·) ∪ Φ₂.image 
   replace hΓ := hΓ.symm.subset
   replace hΔ := hΔ.symm.subset
   induction D using logicD.Derivation.height_induction generalizing Θ Ξ ℓ Γ Δ Φ₁ Φ₂ Ψ with cases hS
-  | axm ℓ a => exact union (by grind) (by grind) ⟨a, rfl⟩
+  | axm ℓ a => exact axm_mem (by grind) (by grind) ⟨a, rfl⟩
   | botL ℓ =>
     obtain ⟨E, hE, hE'⟩ : ∃ E ∈ Γ, Eᵛ = ⊥ := by simpa using hΓ
     exact botL_mem (by grind)
@@ -159,7 +157,7 @@ theorem of_visser (d : ⊢ᴳ[𝐃] Γᵛ ∪ Φ₁.image (#·) ∪ Φ₂.image 
     exact ih _ _ rfl (hΓ'.trans hΓ) (hΔ'.trans hΔ)
   | @impL ℓ Θ Ξ B C D₁ D₂ ih =>
     obtain ⟨E, hE, hEBC⟩ : ∃ E ∈ Γ, Eᵛ = B 🡒 C := by simpa using hΓ (Finset.mem_insert_self _ _)
-    rcases visser_eq_imp.mp hEBC with ⟨a, rfl, rfl, rfl⟩ | ⟨A₁, A₂, rfl, rfl, rfl⟩ |
+    rcases Formula.visser_eq_imp.mp hEBC with ⟨a, rfl, rfl, rfl⟩ | ⟨A₁, A₂, rfl, rfl, rfl⟩ |
       ⟨A₁, A₂, rfl, rfl, rfl⟩
     · obtain ⟨D₃, h₃⟩ := D₁.invImpR (Finset.mem_insert_self _ _)
       obtain ⟨D₄, h₄⟩ := D₃.invImpR (Finset.mem_insert_self _ _)
@@ -189,7 +187,7 @@ theorem of_visser (d : ⊢ᴳ[𝐃] Γᵛ ∪ Φ₁.image (#·) ∪ Φ₂.image 
         (ih.wk (fun x _ ↦ by grind) (fun x _ ↦ by grind))
   | @impR ℓ Θ Ξ B C D ih =>
     obtain ⟨E, hE, hEBC⟩ : ∃ E ∈ Δ, Eᵛ = B 🡒 C := by simpa using hΔ (Finset.mem_insert_self _ _)
-    rcases visser_eq_imp.mp hEBC with ⟨a, rfl, rfl, rfl⟩ | ⟨A₁, A₂, rfl, rfl, rfl⟩ |
+    rcases Formula.visser_eq_imp.mp hEBC with ⟨a, rfl, rfl, rfl⟩ | ⟨A₁, A₂, rfl, rfl, rfl⟩ |
       ⟨A₁, A₂, rfl, rfl, rfl⟩
     · obtain ⟨D₁, h₁⟩ := D.invImpL_left (Finset.mem_insert_self _ _)
       obtain ⟨D₂, h₂⟩ := D₁.erase_bot
@@ -219,11 +217,11 @@ theorem of_visser (d : ⊢ᴳ[𝐃] Γᵛ ∪ Φ₁.image (#·) ∪ Φ₂.image 
         (ih.wk (fun x _ ↦ by grind) (fun x _ ↦ by grind))
   | @boxGL Θ B D ih =>
     obtain ⟨A₁, A₂, h, rfl⟩ : ∃ A₁ A₂ : Formula α, A₁ 🡒 A₂ ∈ Δ ∧ B = A₁ᵛ 🡒 A₂ᵛ := by grind
-    obtain ⟨P, hP₁, hP₂, hP₃⟩ := exists_imps_of_box_subset hΓ
+    obtain ⟨P, hP₁, hP₂, hP₃⟩ := FormulaFinset.exists_imps_of_box_subset hΓ
     apply impR_of_mem (P := P) (A := A₁) (B := A₂) (by grind) (by grind)
     intro I hI
     have hinj : Function.Injective fun p : Formula α × Formula α ↦ p.1ᵛ 🡒 p.2ᵛ :=
-      fun p q e ↦ by grind [visser_injective.eq_iff]
+      fun p q e ↦ by grind [Formula.visser_injective.eq_iff]
     obtain ⟨D₁, h₁⟩ := D.invImpR (Finset.mem_singleton_self _)
     obtain ⟨D₂, h₂⟩ := D₁.invImps (f := fun p ↦ p.1ᵛ) (g := fun p ↦ p.2ᵛ) hinj
       (fun x _ ↦ by grind) hI
@@ -241,7 +239,7 @@ theorem of_visser (d : ⊢ᴳ[𝐃] Γᵛ ∪ Φ₁.image (#·) ∪ Φ₂.image 
   | @boxL Θ Ξ B D ih =>
     obtain ⟨E, hE, hEB⟩ | ⟨a, ha, ⟨⟩⟩ : (∃ E ∈ Γ, Eᵛ = □B) ∨ ∃ a ∈ Φ₂, □#a = □B := by
       simpa using hΓ (Finset.mem_insert_self _ _)
-    · obtain ⟨A₁, A₂, rfl, rfl⟩ := visser_eq_box.mp hEB
+    · obtain ⟨A₁, A₂, rfl, rfl⟩ := Formula.visser_eq_box.mp hEB
       obtain ⟨D₁, h₁⟩ := D.invImpL_left (Finset.mem_insert_self _ _)
       obtain ⟨D₂, h₂⟩ := D.invImpL_right (Finset.mem_insert_self _ _)
       have h₃ := ih D₁ h₁ (Γ := Γ) (Δ := insert A₁ Δ) (Φ₁ := Φ₁) (Φ₂ := Φ₂) (Ψ := Ψ) _ _ rfl
@@ -257,9 +255,9 @@ theorem of_visser (d : ⊢ᴳ[𝐃] Γᵛ ∪ Φ₁.image (#·) ∪ Φ₂.image 
   | liftUp₀₁ D ih =>
     exact liftUp₀₁ (ih D le_rfl _ _ rfl hΓ hΔ)
   | liftUp₁₂ D ih =>
-    obtain ⟨P, hP₁, hP₂⟩ := logicFPL.exists_imps Γ
-    obtain ⟨Q, hQ₁, hQ₂⟩ := logicFPL.exists_imps Δ
-    replace ih := ih D le_rfl (Γ := logicFPL.imps P) (Δ := logicFPL.imps Q) (Φ₁ := ∅)
+    obtain ⟨P, hP₁, hP₂⟩ := FormulaFinset.exists_imps Γ
+    obtain ⟨Q, hQ₁, hQ₂⟩ := FormulaFinset.exists_imps Δ
+    replace ih := ih D le_rfl (Γ := FormulaFinset.imps P) (Δ := FormulaFinset.imps Q) (Φ₁ := ∅)
       (Φ₂ := Φ₂) (Ψ := ∅) _ _ rfl
     replace ih := ih (fun x _ ↦ by have := @hΓ x; grind) (fun x _ ↦ by have := @hΔ x; grind)
     have h₂ := liftUp₁₂ (P := P) (Q := Q) (Φ := Φ₂)

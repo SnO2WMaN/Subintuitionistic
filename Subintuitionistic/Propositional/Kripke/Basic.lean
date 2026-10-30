@@ -1,15 +1,9 @@
 module
 
 public import Subintuitionistic.Propositional.Sequent
-public import Mathlib.Order.Defs.Unbundled
-public import Mathlib.Data.Fintype.Card
 
 /-!
-# Kripke semantics of `FPL`
-
-Kripke models with an upward closed valuation; an `FPL` model has a finite, irreflexive and
-transitive frame. In the forcing relation, an implication `A 🡒 B` holds at `x` when every *proper*
-successor of `x` forcing `A` forces `B`; `x` itself is not inspected, so modus ponens fails.
+# Kripke semantics of `𝐅𝐏𝐋`
 -/
 
 @[expose] public section
@@ -83,7 +77,6 @@ scoped[Propositional] notation:55 x:56 " ⊮ " A:56 => ¬Model.World.Forces _ x 
   | or A B ihA ihB => exact h.imp (ihA Rxy) (ihB Rxy)
   | imp A B _ _ => exact fun z Ryz ↦ h z (_root_.trans Rxy Ryz)
 
-/-- - [IKK01, Section 3] -/
 def ForcesSequent (M : Model κ α) (x : M.World) (S : Sequent α) : Prop :=
   (∀ C ∈ S.ant, x ⊩ C) → ∃ D ∈ S.suc, x ⊩ D
 
@@ -98,7 +91,6 @@ open World
 
 variable {κ α : Type*} {M : Model κ α} {Γ : FormulaFinset α} {A : Formula α}
 
-/-- - [IKK01, Section 3] -/
 def ValidateSequent (M : Model κ α) (S : Sequent α) : Prop := ∀ x : M.World, x ⊩ S
 
 scoped[Propositional] infix:45 " ⊧ " => Model.ValidateSequent

@@ -1,15 +1,10 @@
 module
 
-public import Subintuitionistic.Modal.Kripke
+public import Subintuitionistic.Modal.Kripke.Basic
 public import Mathlib.Data.ENat.Basic
 
 /-!
 # Tails
-
-`M.attachTail r V` attaches below the point `r` of `M` a descending chain indexed by `ℕ∞`: the
-point `i` of the chain sees the points `j < i` of the chain, `r` and the points that `r` sees, and
-forces the variables `V i`. The points of `M` keep their forcing, and the attached model is
-again transitive and conversely well-founded.
 -/
 
 @[expose] public section

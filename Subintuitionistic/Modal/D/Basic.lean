@@ -3,12 +3,7 @@ module
 public import Subintuitionistic.Modal.Sequent
 
 /-!
-# The sequent calculus of `D`
-
-`logicD.Derivation` is a cut-free calculus on layered sequents with levels `0`, `1`, `2`; the
-levels `0` and `1` alone are the calculus of `S`. `𝐒` and `𝐃` are given by derivability at level
-`1` and `2`. `erase_bot`, `invImpR`, `invImpL_left`, `invImpL_right` and `invImps` do not
-increase the height.
+# The sequent calculus of `𝐃`
 -/
 
 @[expose] public section
@@ -59,14 +54,12 @@ section
 
 variable {α : Type*} [DecidableEq α]
 
-/-- - [Nog26, Definition 3.1] -/
 def logicS : Logic α := {A | ⊢ᴳ[𝐃] ∅ ⟹[1] {A}}
 
-/-- - [Nog26, Definition 6.1] -/
 def logicD : Logic α := {A | ⊢ᴳ[𝐃] ∅ ⟹[2] {A}}
 
-@[inherit_doc] scoped[Modal] notation "𝐒" => logicS
-@[inherit_doc] scoped[Modal] notation "𝐃" => logicD
+scoped[Modal] notation "𝐒" => logicS
+scoped[Modal] notation "𝐃" => logicD
 
 end
 
@@ -146,7 +139,7 @@ lemma refl (ℓ : Fin 3) (A : Formula α) : ⊢ᴳ[𝐃] {A} ⟹[ℓ] {A} := by
     | 1 => exact liftUp₀₁ h₀
     | 2 => exact liftUp₁₂_singleton (Γ := {B}) (liftUp₀₁ h₀)
 
-lemma union (hΓ : A ∈ Γ) (hΔ : A ∈ Δ) : ⊢ᴳ[𝐃] Γ ⟹[ℓ] Δ :=
+lemma axm_mem (hΓ : A ∈ Γ) (hΔ : A ∈ Δ) : ⊢ᴳ[𝐃] Γ ⟹[ℓ] Δ :=
   wk (refl ℓ A) (by grind) (by grind)
 
 lemma botL_mem (h : ⊥ ∈ Γ) : ⊢ᴳ[𝐃] Γ ⟹[ℓ] Δ :=

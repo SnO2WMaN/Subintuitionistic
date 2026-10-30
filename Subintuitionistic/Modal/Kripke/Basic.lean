@@ -1,15 +1,9 @@
 module
 
 public import Subintuitionistic.Modal.Sequent
-public import Mathlib.Order.Defs.Unbundled
-public import Mathlib.Data.Fintype.Card
 
 /-!
-# Kripke semantics of `GL`
-
-Kripke models, forcing and validity of sequents for modal formulas, and the frame classes
-`IsFiniteGL` (finite, irreflexive, transitive) and the wider `IsGL` (transitive, conversely
-well-founded).
+# Kripke semantics of `𝐆𝐋`
 -/
 
 @[expose] public section

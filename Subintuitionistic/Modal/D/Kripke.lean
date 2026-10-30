@@ -2,17 +2,12 @@ module
 
 public import Subintuitionistic.Modal.D.Basic
 public import Subintuitionistic.Modal.GL.Kripke
-public import Subintuitionistic.Modal.Tail
+public import Subintuitionistic.Modal.Kripke.Tail
 public import Mathlib.Order.Filter.AtTopBot.Basic
 public import Mathlib.Order.Filter.Finite
 
 /-!
-# Kripke semantics and cut admissibility for `D`
-
-`iff_GL` identifies the level `0` of `logicD` with `logicGL`. The levels `1` and `2` are
-characterized by forcing along descending chains of transitive conversely well-founded models
-(`eventually_forces`, `complete₁`, `forces_of_level₂`, `complete₂`). `cut` is admissible at every
-level.
+# Kripke semantics and cut admissibility for `𝐃`
 -/
 
 @[expose] public section
@@ -30,29 +25,22 @@ variable {α : Type u} [DecidableEq α] {ℓ : Fin 3}
 
 lemma toGL {S : LayeredSequent α} (h : ⊢ᴳ[𝐃] S) (hS : S.level = 0) : ⊢ᴳ[𝐆𝐋] S.toSequent := by
   induction h with
-  | axm => exact .axm (Finset.mem_singleton_self _) (Finset.mem_singleton_self _)
-  | botL => exact .botL (Finset.mem_singleton_self _)
+  | axm _ a => exact .axm a
+  | botL _ => exact .botL
   | wk _ hΓ hΔ ih => exact (ih hS).wk hΓ hΔ
-  | impL _ _ ih₁ ih₂ =>
-    exact .impL (Finset.mem_insert_self _ _) ((ih₁ hS).wk (Finset.subset_insert _ _) subset_rfl)
-      ((ih₂ hS).wk (Finset.insert_subset_insert _ (Finset.subset_insert _ _)) subset_rfl)
-  | impR _ ih =>
-    exact .impR (Finset.mem_insert_self _ _)
-      ((ih hS).wk subset_rfl (Finset.insert_subset_insert _ (Finset.subset_insert _ _)))
-  | boxGL _ ih =>
-    exact .boxGL subset_rfl (Finset.mem_singleton_self _)
-      ((ih rfl).wk (Finset.insert_subset_insert _ (Finset.union_comm _ _).subset) subset_rfl)
+  | impL _ _ ih₁ ih₂ => exact .impL (ih₁ hS) (ih₂ hS)
+  | impR _ ih => exact (ih hS).impR
+  | boxGL _ ih => exact (ih rfl).boxGL
   | boxL | liftUp₀₁ | liftUp₁₂ => nomatch hS
 
 lemma ofGL {T : Sequent α} (h : ⊢ᴳ[𝐆𝐋] T) : ⊢ᴳ[𝐃] T.ant ⟹[0] T.suc := by
   induction h with
-  | axm hA hB => exact union hA hB
-  | botL h => exact botL_mem h
-  | impL hAB _ _ ih₁ ih₂ => exact (impL ih₁ ih₂).wk (Finset.insert_subset hAB subset_rfl) subset_rfl
-  | impR hAB _ ih => exact ih.impR.wk subset_rfl (Finset.insert_subset hAB subset_rfl)
-  | boxGL hΘ hA _ ih =>
-    exact (boxGL (ih.wk (Finset.insert_subset_insert _ (Finset.union_comm _ _).subset)
-      subset_rfl)).wk hΘ (Finset.singleton_subset_iff.mpr hA)
+  | axm a => exact ⟨.axm 0 a⟩
+  | botL => exact ⟨.botL 0⟩
+  | wk _ hΓ hΔ ih => exact ih.wk hΓ hΔ
+  | impL _ _ ih₁ ih₂ => exact impL ih₁ ih₂
+  | impR _ ih => exact ih.impR
+  | boxGL _ ih => exact ih.boxGL
 
 /-- - [KKIM25, Theorem 4.1] -/
 theorem iff_GL : ⊢ᴳ[𝐃] Γ ⟹[0] Δ ↔ ⊢ᴳ[𝐆𝐋] Γ ⟹ Δ :=
@@ -224,7 +212,7 @@ lemma truthlemma_bottom (hΛ : Λ.SubformulaClosed) {U : Sequent α} (hU : U.Sat
   | atom a =>
     constructor
     · exact (hV' a).mpr
-    · exact fun h hf ↦ hUd (union ((hV' a).mp hf) h)
+    · exact fun h hf ↦ hUd (axm_mem ((hV' a).mp hf) h)
   | falsum => exact ⟨fun h ↦ (hUd (botL_mem h)).elim, fun _ ↦ not_forces_bot⟩
   | imp A B ihA ihB => grind
   | box A ih =>

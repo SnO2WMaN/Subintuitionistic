@@ -5,10 +5,6 @@ public import Subintuitionistic.ToMathlib.Order.Preorder.Finite
 
 /-!
 # Sequents of propositional formulas
-
-A sequent `Γ ⟹ Δ` is a pair of finite sets of formulas. `S ⊆ T` is inclusion side by side, so
-`S ⊆ (Λ ⟹ Λ)` states that every formula of `S` is in `Λ`. A layered sequent `Γ ⟹[ℓ] Δ` is a
-sequent with a level `ℓ : Fin 3`; the levels `0`, `1`, `2` belong to `FPL`, `SPL` and `DPL`.
 -/
 
 @[expose] public section
@@ -47,6 +43,42 @@ structure Saturated (S : Sequent α) : Prop where
   orR  : ∀ {A B}, A ⋎ B ∈ S.suc → A ∈ S.suc ∧ B ∈ S.suc
 
 variable [DecidableEq α]
+
+lemma saturated_of_maximal (P : Sequent α → Prop) (hΛ : Λ.SubformulaClosed)
+    (hT : T ⊆ (Λ ⟹ Λ)) (hd : ¬P T) (hmax : ∀ U, T ⊆ U → U ⊆ (Λ ⟹ Λ) → ¬P U → U = T)
+    (andL : ∀ {Γ Δ A B}, A ⋏ B ∈ Γ → P (insert A (insert B Γ) ⟹ Δ) → P (Γ ⟹ Δ))
+    (andR : ∀ {Γ Δ A B}, A ⋏ B ∈ Δ → P (Γ ⟹ insert A Δ) → P (Γ ⟹ insert B Δ) → P (Γ ⟹ Δ))
+    (orL : ∀ {Γ Δ A B}, A ⋎ B ∈ Γ → P (insert A Γ ⟹ Δ) → P (insert B Γ ⟹ Δ) → P (Γ ⟹ Δ))
+    (orR : ∀ {Γ Δ A B}, A ⋎ B ∈ Δ → P (Γ ⟹ insert A (insert B Δ)) → P (Γ ⟹ Δ)) :
+    T.Saturated := by
+  have key : ∀ U, T ⊆ U → U ⊆ (Λ ⟹ Λ) → U ⊆ T ∨ P U := by
+    intro U h₁ h₂
+    by_cases hU : P U
+    · exact Or.inr hU
+    · exact Or.inl (hmax U h₁ h₂ hU ▸ ⟨subset_rfl, subset_rfl⟩)
+  constructor
+  · intro A B h
+    have hAB := hΛ.and (hT.1 h)
+    obtain h₁ | h₁ := key (insert A (insert B T.ant) ⟹ T.suc) (by grind) (by grind)
+    · grind
+    · exact (hd (andL h h₁)).elim
+  · intro A B h
+    have hAB := hΛ.and (hT.2 h)
+    have h₁ := key (T.ant ⟹ insert A T.suc) (by grind) (by grind)
+    have h₂ := key (T.ant ⟹ insert B T.suc) (by grind) (by grind)
+    by_contra hc
+    exact hd (andR h (by grind) (by grind))
+  · intro A B h
+    have hAB := hΛ.or (hT.1 h)
+    have h₁ := key (insert A T.ant ⟹ T.suc) (by grind) (by grind)
+    have h₂ := key (insert B T.ant ⟹ T.suc) (by grind) (by grind)
+    by_contra hc
+    exact hd (orL h (by grind) (by grind))
+  · intro A B h
+    have hAB := hΛ.or (hT.2 h)
+    obtain h₁ | h₁ := key (T.ant ⟹ insert A (insert B T.suc)) (by grind) (by grind)
+    · grind
+    · exact (hd (orR h h₁)).elim
 
 def subfmls (S : Sequent α) : FormulaFinset α := (S.ant ∪ S.suc).subfmls
 

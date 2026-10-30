@@ -1,15 +1,10 @@
 module
 
-public import Mathlib.Data.Finset.Insert
-public import Mathlib.Data.Finset.Union
 public import Mathlib.Data.Finset.Image
+public import Mathlib.Data.Finset.Union
 
 /-!
 # Modal formulas
-
-Formulas built from variables and `⊥` with `🡒` and `□`; `∼`, `⋏`, `⋎` and `⊤` are abbreviations.
-The connectives share their notation with propositional formulas (`Propositional.Formula`); the
-notation is scoped to the namespace `Modal`, and the expected type tells the two apart.
 -/
 
 @[expose] public section

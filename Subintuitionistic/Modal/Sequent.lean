@@ -5,10 +5,6 @@ public import Subintuitionistic.ToMathlib.Order.Preorder.Finite
 
 /-!
 # Sequents of modal formulas
-
-A sequent `Γ ⟹ Δ` is a pair of finite sets of formulas. `S ⊆ T` is inclusion side by side, so
-`S ⊆ (Λ ⟹ Λ)` states that every formula of `S` is in `Λ`. A layered sequent `Γ ⟹[ℓ] Δ` is a
-sequent with a level `ℓ : Fin 3`; the levels `0`, `1`, `2` belong to `GL`, `S` and `D`.
 -/
 
 @[expose] public section
@@ -36,11 +32,8 @@ lemma exists_maximal (P : Sequent α → Prop) (hS : S ⊆ (Λ ⟹ Λ)) (h : ¬P
     ∃ T, S ⊆ T ∧ T ⊆ (Λ ⟹ Λ) ∧ ¬P T ∧ ∀ U, T ⊆ U → U ⊆ (Λ ⟹ Λ) → ¬P U → U = T := by
   obtain ⟨Γ, Δ, h₁, h₂, h₃, h₄, h₅, hmax⟩ :=
     Finset.exists_maximal_pair (P := fun Γ Δ ↦ P (Γ ⟹ Δ)) hS.1 hS.2 h
-  have key : ∀ U, (Γ ⟹ Δ) ⊆ U → U ⊆ (Λ ⟹ Λ) → ¬P U → U = (Γ ⟹ Δ) := by
-    intro U hU₁ hU₂ hU
-    obtain ⟨e₁, e₂⟩ := hmax U.ant U.suc hU₁.1 hU₂.1 hU₁.2 hU₂.2 hU
-    exact ext e₁ e₂
-  exact ⟨Γ ⟹ Δ, ⟨h₁, h₃⟩, ⟨h₂, h₄⟩, h₅, key⟩
+  exact ⟨Γ ⟹ Δ, ⟨h₁, h₃⟩, ⟨h₂, h₄⟩, h₅, fun U hU₁ hU₂ hU ↦
+    (hmax U.ant U.suc hU₁.1 hU₂.1 hU₁.2 hU₂.2 hU).elim ext⟩
 
 structure Saturated (S : Sequent α) : Prop where
   impL : ∀ {A B}, A 🡒 B ∈ S.ant → A ∈ S.suc ∨ B ∈ S.ant
@@ -59,8 +52,7 @@ lemma saturated_of_maximal (P : Sequent α → Prop) (hΛ : Λ.SubformulaClosed)
     intro U h₁ h₂
     by_cases hU : P U
     · exact Or.inr hU
-    · have e := hmax U h₁ h₂ hU
-      exact Or.inl ⟨(congrArg Sequent.ant e).subset, (congrArg Sequent.suc e).subset⟩
+    · exact Or.inl (hmax U h₁ h₂ hU ▸ ⟨subset_rfl, subset_rfl⟩)
   constructor
   · intro A B hAB
     have hAB' := hΛ.imp (hT.1 hAB)

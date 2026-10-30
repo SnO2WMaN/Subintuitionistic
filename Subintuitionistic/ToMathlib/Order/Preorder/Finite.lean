@@ -6,9 +6,6 @@ public import Mathlib.Order.Preorder.Finite
 
 /-!
 # Maximal pairs of finite sets
-
-For a predicate `P` on pairs of finite subsets of `Λ`, a pair `(Γ, Δ)` with `¬P Γ Δ` extends to a
-pair with `¬P` that no other such pair properly extends.
 -/
 
 @[expose] public section

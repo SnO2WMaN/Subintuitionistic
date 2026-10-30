@@ -1,14 +1,11 @@
 module
 
 public import Subintuitionistic.Propositional.FPL.Basic
-public import Subintuitionistic.Propositional.Kripke
+public import Subintuitionistic.Propositional.Kripke.Basic
 public import Mathlib.Basic.Finite.Prod
 
 /-!
-# Kripke soundness and completeness of `FPL`
-
-`⊢ᴳ[𝐅𝐏𝐋] S ↔ ∀ M, [M.IsFPL] → M ⊧ S` (`logicFPL.Derivable.iff_valid`). The countermodel of an
-unprovable sequent is `countermodel`, whose points are `SaturatedSequent`s.
+# Kripke soundness and completeness of `𝐅𝐏𝐋`
 -/
 
 @[expose] public section
@@ -16,6 +13,7 @@ unprovable sequent is `countermodel`, whose points are `SaturatedSequent`s.
 namespace Propositional.logicFPL.Derivable
 
 open Model Model.World
+open FormulaFinset (imps)
 
 variable {κ α : Type*} [DecidableEq α]
 
@@ -23,7 +21,7 @@ section
 
 variable {M : Model κ α}
 
-/-- The rule `impR` preserves validity in an FPL model. -/
+/-- The rule `impR` preserves validity in an `𝐅𝐏𝐋` model. -/
 lemma forces_imp_of_forces_premises [M.IsFPL] {Θ : FormulaFinset α}
     {P : Finset (Formula α × Formula α)} {A B : Formula α}
     (ih : ∀ I ⊆ P, M ⊧ (insert (A 🡒 B) (insert A (Θ ∪ I.image Prod.snd)) ⟹
@@ -92,6 +90,7 @@ end Propositional.logicFPL.Derivable
 namespace Propositional.logicFPL
 
 open Model Model.World
+open FormulaFinset (imps)
 
 variable {α : Type*} [DecidableEq α] {Λ : FormulaFinset α} {S : Sequent α} {A : Formula α}
 
@@ -115,73 +114,35 @@ instance : Finite (SaturatedSequent Λ) :=
       ⟨x.suc, Finset.mem_powerset.mpr x.subset.2⟩))
     fun _ _ h ↦ ext (congrArg (·.1.val) h) (congrArg (·.2.val) h)
 
-section Maximal
-
-variable {T U : Sequent α}
-
-lemma derivable_of_not_subset
-    (hmax : ∀ U, T ⊆ U → U ⊆ (Λ ⟹ Λ) → ⊬ᴳ[𝐅𝐏𝐋] U → U = T)
-    (hTU : T ⊆ U) (hUΛ : U ⊆ (Λ ⟹ Λ)) (hne : ¬U ⊆ T) : ⊢ᴳ[𝐅𝐏𝐋] U := by
-  by_contra h
-  obtain rfl := hmax U hTU hUΛ h
-  exact hne ⟨subset_rfl, subset_rfl⟩
-
-variable {C : Formula α}
-
-lemma derivable_insert_ant
-    (hmax : ∀ U, T ⊆ U → U ⊆ (Λ ⟹ Λ) → ⊬ᴳ[𝐅𝐏𝐋] U → U = T)
-    (hTΛ : T ⊆ (Λ ⟹ Λ)) (hC : C ∈ Λ) (hCT : C ∉ T.ant) : ⊢ᴳ[𝐅𝐏𝐋] insert C T.ant ⟹ T.suc :=
-  derivable_of_not_subset hmax ⟨by grind, subset_rfl⟩ ⟨by grind, hTΛ.2⟩ (by grind)
-
-lemma derivable_insert_suc
-    (hmax : ∀ U, T ⊆ U → U ⊆ (Λ ⟹ Λ) → ⊬ᴳ[𝐅𝐏𝐋] U → U = T)
-    (hTΛ : T ⊆ (Λ ⟹ Λ)) (hC : C ∈ Λ) (hCT : C ∉ T.suc) : ⊢ᴳ[𝐅𝐏𝐋] T.ant ⟹ insert C T.suc :=
-  derivable_of_not_subset hmax ⟨subset_rfl, by grind⟩ ⟨hTΛ.1, by grind⟩ (by grind)
-
-variable (hΛ : Λ.SubformulaClosed) (hTΛ : T ⊆ (Λ ⟹ Λ)) (hT : ⊬ᴳ[𝐅𝐏𝐋] T)
-  (hmax : ∀ U, T ⊆ U → U ⊆ (Λ ⟹ Λ) → ⊬ᴳ[𝐅𝐏𝐋] U → U = T)
-include hΛ hTΛ hT hmax
-
-lemma andL_of_maximal {A B : Formula α} (h : A ⋏ B ∈ T.ant) : A ∈ T.ant ∧ B ∈ T.ant := by
-  obtain ⟨hA, hB⟩ := hΛ.and (hTΛ.1 h)
-  by_contra hn
-  apply hT
-  have hd := derivable_of_not_subset hmax (U := insert A (insert B T.ant) ⟹ T.suc)
-    ⟨by grind, subset_rfl⟩ ⟨by grind, hTΛ.2⟩ (by grind)
-  exact (Derivable.andL hd).wk (by grind) subset_rfl
-
-lemma andR_of_maximal {A B : Formula α} (h : A ⋏ B ∈ T.suc) : A ∈ T.suc ∨ B ∈ T.suc := by
-  obtain ⟨hA, hB⟩ := hΛ.and (hTΛ.2 h)
-  by_contra hn
-  apply hT
-  have h₁ := derivable_insert_suc hmax hTΛ hA (by grind)
-  have h₂ := derivable_insert_suc hmax hTΛ hB (by grind)
-  exact (Derivable.andR h₁ h₂).wk subset_rfl (by grind)
-
-lemma orL_of_maximal {A B : Formula α} (h : A ⋎ B ∈ T.ant) : A ∈ T.ant ∨ B ∈ T.ant := by
-  obtain ⟨hA, hB⟩ := hΛ.or (hTΛ.1 h)
-  by_contra hn
-  apply hT
-  have h₁ := derivable_insert_ant hmax hTΛ hA (by grind)
-  have h₂ := derivable_insert_ant hmax hTΛ hB (by grind)
-  exact (Derivable.orL h₁ h₂).wk (by grind) subset_rfl
-
-lemma orR_of_maximal {A B : Formula α} (h : A ⋎ B ∈ T.suc) : A ∈ T.suc ∧ B ∈ T.suc := by
-  obtain ⟨hA, hB⟩ := hΛ.or (hTΛ.2 h)
-  by_contra hn
-  apply hT
-  have hd := derivable_of_not_subset hmax (U := T.ant ⟹ insert A (insert B T.suc))
-    ⟨subset_rfl, by grind⟩ ⟨hTΛ.1, by grind⟩ (by grind)
-  exact (Derivable.orR hd).wk subset_rfl (by grind)
-
-end Maximal
-
 /-- - [IKK01, Lemma 2.6] -/
 lemma lindenbaum (hΛ : Λ.SubformulaClosed) (hS : S ⊆ (Λ ⟹ Λ)) (h : ⊬ᴳ[𝐅𝐏𝐋] S) :
     ∃ x : SaturatedSequent Λ, S ⊆ x.toSequent := by
-  obtain ⟨T, hST, hTΛ, hT, hmax⟩ := Sequent.exists_maximal (fun S ↦ ⊢ᴳ[𝐅𝐏𝐋] S) hS h
-  exact ⟨⟨T, ⟨andL_of_maximal hΛ hTΛ hT hmax, andR_of_maximal hΛ hTΛ hT hmax,
-    orL_of_maximal hΛ hTΛ hT hmax, orR_of_maximal hΛ hTΛ hT hmax⟩, hTΛ, hT⟩, hST⟩
+  obtain ⟨T, h₁, h₂, h₃, hmax⟩ := Sequent.exists_maximal Derivable hS h
+  have hsat := Sequent.saturated_of_maximal Derivable hΛ h₂ h₃ hmax
+    (fun hAB d ↦ d.andL.wk (Finset.insert_subset hAB subset_rfl) subset_rfl)
+    (fun hAB d₁ d₂ ↦ (Derivable.andR d₁ d₂).wk subset_rfl (Finset.insert_subset hAB subset_rfl))
+    (fun hAB d₁ d₂ ↦ (Derivable.orL d₁ d₂).wk (Finset.insert_subset hAB subset_rfl) subset_rfl)
+    (fun hAB d ↦ d.orR.wk subset_rfl (Finset.insert_subset hAB subset_rfl))
+  exact ⟨⟨T, hsat, h₂, h₃⟩, h₁⟩
+
+variable {E F : Formula α}
+
+def impPairs (x : SaturatedSequent Λ) : Finset (Formula α × Formula α) :=
+  (Λ ×ˢ Λ).filter fun p ↦ p.1 🡒 p.2 ∈ x.ant
+
+lemma mem_impPairs (hΛ : Λ.SubformulaClosed) {x : SaturatedSequent Λ} {C D : Formula α} :
+    (C, D) ∈ x.impPairs ↔ C 🡒 D ∈ x.ant := by
+  have h : C 🡒 D ∈ x.ant → C ∈ Λ ∧ D ∈ Λ := fun h ↦ hΛ.imp (x.subset.1 h)
+  grind [impPairs]
+
+lemma exists_unprovable_premise {x : SaturatedSequent Λ} (h : E 🡒 F ∈ x.suc) :
+    ∃ I ⊆ x.impPairs, ⊬ᴳ[𝐅𝐏𝐋] (insert (E 🡒 F) (insert E (x.ant ∪ I.image Prod.snd))
+      ⟹ insert F ((x.impPairs \ I).image Prod.fst)) := by
+  by_contra hcon
+  push Not at hcon
+  have h₁ := Derivable.impR (Θ := x.ant) (P := x.impPairs) (A := E) (B := F) hcon
+  exact x.unprovable <| h₁.wk (Finset.union_subset subset_rfl (by grind [imps, impPairs]))
+    (Finset.singleton_subset_iff.mpr h)
 
 end SaturatedSequent
 
@@ -199,37 +160,15 @@ instance : (countermodel Λ).IsFPL where
   trans _ _ _ Rxy Ryz := ⟨Rxy.1.trans Ryz.1, fun C D h ↦ Ryz.2 C D (Rxy.1.subset h)⟩
   irrefl _ Rxx := lt_irrefl _ Rxx.1
 
-section Successor
-
 variable {E F : Formula α}
-
-def impPairs (x : SaturatedSequent Λ) : Finset (Formula α × Formula α) :=
-  (Λ ×ˢ Λ).filter fun p ↦ p.1 🡒 p.2 ∈ x.ant
-
-lemma mem_impPairs (hΛ : Λ.SubformulaClosed) {x : SaturatedSequent Λ} {C D : Formula α} :
-    (C, D) ∈ impPairs x ↔ C 🡒 D ∈ x.ant := by
-  have h : C 🡒 D ∈ x.ant → C ∈ Λ ∧ D ∈ Λ := fun h ↦ hΛ.imp (x.subset.1 h)
-  grind [impPairs]
-
-lemma imps_impPairs_subset (x : SaturatedSequent Λ) : imps (impPairs x) ⊆ x.ant := by
-  grind [imps, impPairs]
-
-lemma exists_unprovable_premise {x : SaturatedSequent Λ} (h : E 🡒 F ∈ x.suc) :
-    ∃ I ⊆ impPairs x, ⊬ᴳ[𝐅𝐏𝐋] (insert (E 🡒 F) (insert E (x.ant ∪ I.image Prod.snd))
-      ⟹ insert F ((impPairs x \ I).image Prod.fst)) := by
-  by_contra hcon
-  push Not at hcon
-  have h₁ := Derivable.impR (Θ := x.ant) (P := impPairs x) (A := E) (B := F) hcon
-  exact x.unprovable <| h₁.wk (Finset.union_subset subset_rfl (imps_impPairs_subset x))
-    (Finset.singleton_subset_iff.mpr h)
 
 lemma exists_rel_of_imp_mem_suc (hΛ : Λ.SubformulaClosed) {x : (countermodel Λ).World}
     (h : E 🡒 F ∈ x.suc) : ∃ y : (countermodel Λ).World, x ≺ y ∧ E ∈ y.ant ∧ F ∈ y.suc := by
   obtain ⟨hE, hF⟩ := hΛ.imp (x.subset.2 h)
   obtain ⟨I, hIP, hI⟩ := exists_unprovable_premise h
-  have hP : ∀ p ∈ impPairs x, p.1 ∈ Λ ∧ p.2 ∈ Λ := fun p hp ↦ by grind [impPairs]
+  have hP : ∀ p ∈ x.impPairs, p.1 ∈ Λ ∧ p.2 ∈ Λ := fun p hp ↦ by grind [impPairs]
   have hΛ' : (insert (E 🡒 F) (insert E (x.ant ∪ I.image Prod.snd))
-      ⟹ insert F ((impPairs x \ I).image Prod.fst)) ⊆ (Λ ⟹ Λ) := by
+      ⟹ insert F ((x.impPairs \ I).image Prod.fst)) ⊆ (Λ ⟹ Λ) := by
     have h₁ := x.subset.1
     have h₂ := x.subset.2
     and_intros
@@ -240,7 +179,7 @@ lemma exists_rel_of_imp_mem_suc (hΛ : Λ.SubformulaClosed) {x : (countermodel �
     change x.ant ⊂ y.ant ∧ ∀ C D, C 🡒 D ∈ x.ant → C ∈ y.suc ∨ D ∈ y.ant
     constructor
     · exact (Finset.ssubset_iff_of_subset (by grind)).mpr
-        ⟨E 🡒 F, by grind, fun hmem ↦ x.unprovable (Derivable.union hmem h)⟩
+        ⟨E 🡒 F, by grind, fun hmem ↦ x.unprovable (Derivable.axm_mem hmem h)⟩
     · intro C D hCD
       have hCD' := (mem_impPairs hΛ).mpr hCD
       obtain ⟨hy₁, hy₂⟩ := hy
@@ -250,13 +189,11 @@ lemma exists_rel_of_imp_mem_suc (hΛ : Λ.SubformulaClosed) {x : (countermodel �
         Finset.mem_image.mpr ⟨(C, D), Finset.mem_sdiff.mpr ⟨hCD', hpI⟩, rfl⟩
   exact ⟨y, Rxy, hy.1 (by simp), hy.2 (by simp)⟩
 
-end Successor
-
 /-- - [IKK01, Theorem 3.3] -/
 lemma truthlemma (hΛ : Λ.SubformulaClosed) (x : (countermodel Λ).World) :
     (A ∈ x.ant → x ⊩ A) ∧ (A ∈ x.suc → x ⊮ A) := by
   induction A generalizing x with
-  | atom a => exact ⟨fun h ↦ h, fun h hx ↦ x.unprovable (Derivable.union hx h)⟩
+  | atom a => exact ⟨fun h ↦ h, fun h hx ↦ x.unprovable (Derivable.axm_mem hx h)⟩
   | falsum => exact ⟨fun h ↦ (x.unprovable (Derivable.botL_mem h)).elim, fun _ ↦ not_forces_bot⟩
   | and A B ihA ihB =>
     obtain ⟨h₁, h₂, -, -⟩ := x.saturated

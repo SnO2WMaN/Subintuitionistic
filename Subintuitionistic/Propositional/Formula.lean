@@ -1,14 +1,10 @@
 module
 
-public import Mathlib.Data.Finset.Insert
-public import Mathlib.Data.Finset.Union
+public import Mathlib.Data.Finset.Image
+public import Mathlib.Data.Finset.Preimage
 
 /-!
 # Propositional formulas
-
-Formulas built from variables and `⊥` with `⋏`, `⋎` and `🡒`, and their subformulas. The
-connectives share their notation with modal formulas (`Modal.Formula`); the notation is scoped to
-the namespace `Propositional`, and the expected type tells the two apart.
 -/
 
 @[expose] public section
@@ -44,7 +40,6 @@ scoped[Propositional] infixr:68 " ⋎ " => Formula.or
 
 @[grind =] lemma bot_eq_falsum : (⊥ : Formula α) = falsum := rfl
 
-/-- Recursion on formulas, with the cases written in notation. -/
 @[elab_as_elim, induction_eliminator]
 def rec' {motive : Formula α → Sort*} (atom : ∀ a, motive (#a)) (falsum : motive ⊥)
     (and : ∀ A B, motive A → motive B → motive (A ⋏ B))
@@ -56,7 +51,6 @@ def rec' {motive : Formula α → Sort*} (atom : ∀ a, motive (#a)) (falsum : m
   | .or A B  => or A B (rec' atom falsum and or imp A) (rec' atom falsum and or imp B)
   | .imp A B => imp A B (rec' atom falsum and or imp A) (rec' atom falsum and or imp B)
 
-/-- Case analysis on formulas, with the cases written in notation. -/
 @[elab_as_elim, cases_eliminator]
 def cases' {motive : Formula α → Sort*} (atom : ∀ a, motive (#a)) (falsum : motive ⊥)
     (and : ∀ A B, motive (A ⋏ B)) (or : ∀ A B, motive (A ⋎ B)) (imp : ∀ A B, motive (A 🡒 B)) :
@@ -71,7 +65,6 @@ def cases' {motive : Formula α → Sort*} (atom : ∀ a, motive (#a)) (falsum :
 
 variable [DecidableEq α] {A B : Formula α}
 
-/-- The formula itself is included. -/
 def subfmls : Formula α → FormulaFinset α
   | .atom a  => {.atom a}
   | .falsum  => {⊥}
@@ -92,7 +85,7 @@ end Formula
 
 namespace FormulaFinset
 
-variable {α : Type*}
+variable {α : Type*} {A B : Formula α}
 
 structure SubformulaClosed (Γ : FormulaFinset α) : Prop where
   and : ∀ {A B}, A ⋏ B ∈ Γ → A ∈ Γ ∧ B ∈ Γ
@@ -113,6 +106,20 @@ lemma subformulaClosed_subfmls : Γ.subfmls.SubformulaClosed := by
     exact Finset.mem_biUnion.mpr ⟨A, hA, Formula.subfmls_subset_of_mem hBA hC⟩
   constructor <;> exact fun h ↦ ⟨key h (by simp [Formula.subfmls]),
     key h (by simp [Formula.subfmls])⟩
+
+/-! ### Implications of pairs -/
+
+def imps (P : Finset (Formula α × Formula α)) : FormulaFinset α := P.image fun p ↦ p.1 🡒 p.2
+
+@[grind ←]
+lemma mem_imps_of_mem {P : Finset _} (h : (A, B) ∈ P) : A 🡒 B ∈ imps P :=
+  Finset.mem_image_of_mem _ h
+
+lemma exists_imps (Γ : FormulaFinset α) :
+    ∃ P : Finset _, imps P ⊆ Γ ∧ ∀ A B, A 🡒 B ∈ Γ → (A, B) ∈ P := by
+  have hf : Function.Injective fun p : Formula α × Formula α ↦ p.1 🡒 p.2 :=
+    fun p q hpq ↦ by grind
+  exact ⟨Γ.preimage _ hf.injOn, fun x ↦ by grind [imps, Finset.mem_preimage], by simp⟩
 
 end FormulaFinset
 

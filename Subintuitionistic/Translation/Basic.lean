@@ -1,15 +1,10 @@
 module
 
-public import Subintuitionistic.Propositional.FPL.Basic
-public import Subintuitionistic.Propositional.Kripke
-public import Subintuitionistic.Modal.Kripke
-public import Mathlib.Data.Finset.Image
+public import Subintuitionistic.Modal.Kripke.Basic
+public import Subintuitionistic.Propositional.Kripke.Basic
 
 /-!
 # The Gödel and Visser translations
-
-The translations `Aᵍ` and `Aᵛ` of propositional formulas into modal formulas, and their
-elementwise extension to finite sets of formulas.
 
 ## References
 
@@ -49,6 +44,29 @@ def visser : Formula α → Modal.Formula α
 
 @[simp, grind =] lemma visser_bot : (⊥ : Formula α)ᵛ = ⊥ := rfl
 
+variable {A : Formula α} {a : α} {B C : Modal.Formula α}
+
+@[simp, grind .] lemma visser_ne_atom : Aᵛ ≠ .atom a := by
+  cases A <;> simp [visser, Modal.Formula.and, Modal.Formula.or, Modal.Formula.neg]
+
+@[simp, grind =] lemma visser_eq_bot : Aᵛ = ⊥ ↔ A = ⊥ := by
+  cases A <;> simp [visser, Modal.Formula.and, Modal.Formula.or, Modal.Formula.neg]
+
+lemma visser_eq_box : Aᵛ = □B ↔ ∃ C D, A = .imp C D ∧ B = Cᵛ 🡒 Dᵛ := by
+  cases A <;> simp [visser, Modal.Formula.and, Modal.Formula.or, Modal.Formula.neg, eq_comm]
+
+lemma visser_eq_imp :
+    Aᵛ = B 🡒 C ↔ (∃ a, A = .atom a ∧ B = #a 🡒 ∼□#a ∧ C = ⊥) ∨
+      (∃ D E, A = .and D E ∧ B = Dᵛ 🡒 ∼Eᵛ ∧ C = ⊥) ∨ (∃ D E, A = .or D E ∧ B = ∼Dᵛ ∧ C = Eᵛ) := by
+  cases A <;> simp [visser, Modal.Formula.and, Modal.Formula.or, Modal.Formula.neg, eq_comm]
+
+lemma visser_injective : Function.Injective (visser (α := α)) := by
+  intro A B hAB
+  induction A generalizing B with
+  | atom a | falsum | and A₁ A₂ ih₁ ih₂ | or A₁ A₂ ih₁ ih₂ | imp A₁ A₂ ih₁ ih₂ =>
+    cases B <;>
+      simp [visser, Modal.Formula.and, Modal.Formula.or, Modal.Formula.neg] at hAB ⊢ <;> grind
+
 end Formula
 
 namespace FormulaFinset
@@ -84,8 +102,19 @@ def visser (Γ : FormulaFinset α) : Modal.FormulaFinset α := Γ.image Formula.
 
 open Modal in
 @[simp] lemma visser_imps (P : Finset (Formula α × Formula α)) :
-    (logicFPL.imps P)ᵛ = P.image fun p ↦ □(p.1ᵛ 🡒 p.2ᵛ) := by
-  simp [logicFPL.imps, Formula.visser]
+    (imps P)ᵛ = P.image fun p ↦ □(p.1ᵛ 🡒 p.2ᵛ) := by
+  simp [imps, Formula.visser]
+
+@[grind =] lemma visser_erase_bot : (Γ.erase ⊥)ᵛ = Γᵛ.erase ⊥ := by
+  ext x
+  grind
+
+open Modal in
+@[grind →] lemma exists_imp_of_box_mem_visser (h : □B ∈ Γᵛ) :
+    ∃ C D, .imp C D ∈ Γ ∧ B = Cᵛ 🡒 Dᵛ := by
+  obtain ⟨E, hE, hEB⟩ : ∃ E ∈ Γ, Eᵛ = □B := by simpa using h
+  obtain ⟨C, D, rfl, rfl⟩ := Formula.visser_eq_box.mp hEB
+  exact ⟨C, D, hE, rfl⟩
 
 end FormulaFinset
 

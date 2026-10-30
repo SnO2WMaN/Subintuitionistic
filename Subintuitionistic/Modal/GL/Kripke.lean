@@ -1,14 +1,11 @@
 module
 
 public import Subintuitionistic.Modal.GL.Basic
-public import Subintuitionistic.Modal.Kripke
+public import Subintuitionistic.Modal.Kripke.Basic
 public import Mathlib.Basic.Finite.Prod
 
 /-!
-# Kripke soundness and completeness of `GL`
-
-`⊢ᴳ[𝐆𝐋] S ↔ ∀ M, [M.IsFiniteGL] → M ⊧ S` (`logicGL.Derivable.iff_valid`). The countermodel of an
-unprovable sequent is `countermodel`, whose points are `SaturatedSequent`s.
+# Kripke soundness and completeness of `𝐆𝐋`
 -/
 
 @[expose] public section
@@ -21,7 +18,7 @@ variable {κ α : Type*} [DecidableEq α] {M : Model κ α} [M.IsGL] {S : Sequen
 
 /-- The modal rule is sound: Löb's principle on a transitive conversely well-founded frame. -/
 lemma forces_box_of_löb {x : M.World} {Θ : FormulaFinset α} {A : Formula α}
-    (hΘ : ∀ C ∈ Θ, x ⊩ □C) (ih : M ⊧ (insert (□A) (Θ ∪ Θ.box) ⟹ {A})) :
+    (hΘ : ∀ C ∈ Θ, x ⊩ □C) (ih : M ⊧ (insert (□A) (Θ.box ∪ Θ) ⟹ {A})) :
     x ⊩ □A := by
   by_contra hx
   obtain ⟨y₀, hy₀⟩ : ∃ y, x ≺ y ∧ y ⊮ A := by simpa using hx
@@ -30,7 +27,7 @@ lemma forces_box_of_löb {x : M.World} {Θ : FormulaFinset α} {A : Formula α}
   have hbox : y ⊩ □A := by
     by_contra hy
     grind
-  have hall : ∀ C ∈ insert (□A) (Θ ∪ Θ.box), y ⊩ C := by grind
+  have hall : ∀ C ∈ insert (□A) (Θ.box ∪ Θ), y ⊩ C := by grind
   have := ih y
   grind
 
@@ -38,11 +35,12 @@ variable (M) in
 /-- - [SV82] -/
 theorem sound (h : ⊢ᴳ[𝐆𝐋] S) : M ⊧ S := by
   induction h with
-  | axm hA hB => grind
-  | botL h => grind
-  | impL hAB _ _ ih₁ ih₂ => exact fun x ↦ by grind [ih₁ x, ih₂ x]
-  | impR hAB _ ih => exact fun x ↦ by grind [ih x]
-  | boxGL hΘ hA _ ih => exact fun x hx ↦ ⟨_, hA, forces_box_of_löb (by grind) ih⟩
+  | axm a => exact fun x hx ↦ ⟨#a, by simp, hx _ (by simp)⟩
+  | botL => exact fun x hx ↦ absurd (hx ⊥ (by simp)) not_forces_bot
+  | wk _ hΓ hΔ ih => exact fun x ↦ forcesSequent_wk (ih x) hΓ hΔ
+  | impL _ _ ih₁ ih₂ => exact fun x ↦ forcesSequent_impL (ih₁ x) (ih₂ x)
+  | impR _ ih => exact fun x ↦ forcesSequent_impR (ih x)
+  | boxGL _ ih => exact fun x hx ↦ ⟨_, by simp, forces_box_of_löb (by grind) ih⟩
 
 end Modal.logicGL.Derivable
 
@@ -76,8 +74,8 @@ instance : Finite (SaturatedSequent Λ) :=
 lemma lindenbaum (hΛ : Λ.SubformulaClosed) (hS : S ⊆ (Λ ⟹ Λ)) (h : ⊬ᴳ[𝐆𝐋] S) :
     ∃ x : SaturatedSequent Λ, S ⊆ x.toSequent := by
   obtain ⟨T, h₁, h₂, h₃, hmax⟩ := Sequent.exists_maximal Derivable hS h
-  exact ⟨⟨T, Sequent.saturated_of_maximal Derivable hΛ h₂ h₃ hmax (fun hAB d₁ d₂ ↦ .impL hAB d₁ d₂)
-    (fun hAB d ↦ .impR hAB d), h₂, h₃⟩, h₁⟩
+  exact ⟨⟨T, Sequent.saturated_of_maximal Derivable hΛ h₂ h₃ hmax Derivable.impL_of_mem
+    Derivable.impR_of_mem, h₂, h₃⟩, h₁⟩
 
 end SaturatedSequent
 
@@ -103,16 +101,16 @@ lemma exists_rel_of_box_mem_suc (hΛ : Λ.SubformulaClosed) {x : (countermodel �
   have hΘ : ∀ {C}, C ∈ Θ ↔ C ∈ Λ ∧ □C ∈ x.ant := by simp [Θ]
   have hboxΛ : □A ∈ Λ := x.subset.2 h
   have := x.subset
-  have hU : (insert (□A) (Θ ∪ Θ.box) ⟹ {A}) ⊆ (Λ ⟹ Λ) := by
+  have hU : (insert (□A) (Θ.box ∪ Θ) ⟹ {A}) ⊆ (Λ ⟹ Λ) := by
     have := hΛ.box hboxΛ
     constructor <;> grind
-  have hnd : ⊬ᴳ[𝐆𝐋] (insert (□A) (Θ ∪ Θ.box) ⟹ {A}) := by
+  have hnd : ⊬ᴳ[𝐆𝐋] (insert (□A) (Θ.box ∪ Θ) ⟹ {A}) := by
     intro hd
-    apply x.unprovable (.boxGL (Θ := Θ) _ h hd)
+    apply x.unprovable (.boxGL_of_mem (Θ := Θ) _ h hd)
     grind
   obtain ⟨y, hy⟩ := lindenbaum hΛ hU hnd
   have hΘy : ∀ C ∈ Θ, C ∈ y.ant ∧ □C ∈ y.ant := by grind
-  have hx : □A ∉ x.ant := fun hA ↦ x.unprovable (.axm hA h)
+  have hx : □A ∉ x.ant := fun hA ↦ x.unprovable (.axm_mem hA h)
   exact ⟨y, ⟨fun C hC ↦ hΘy C (hΘ.mpr ⟨hΛ.box (x.subset.1 hC), hC⟩), A, hy.1 (by simp), hx⟩,
     hy.2 (by simp)⟩
 
@@ -123,11 +121,11 @@ lemma truthlemma (hΛ : Λ.SubformulaClosed) (x : (countermodel Λ).World) :
     constructor
     · exact id
     · intro h hx
-      exact x.unprovable (.axm hx h)
+      exact x.unprovable (.axm_mem hx h)
   | falsum =>
     constructor
     · intro h
-      exact (x.unprovable (.botL h)).elim
+      exact (x.unprovable (.botL_mem h)).elim
     · exact fun _ ↦ not_forces_bot
   | imp A B ihA ihB =>
     have := x.saturated
@@ -165,13 +163,7 @@ theorem complete (h : ∀ {κ : Type u} (M : Model κ α), [M.IsFiniteGL] → M 
 theorem iff_valid : ⊢ᴳ[𝐆𝐋] S ↔ ∀ {κ : Type u} (M : Model κ α), [M.IsFiniteGL] → M ⊧ S :=
   ⟨fun h _ M _ ↦ sound M h, complete⟩
 
-variable {Γ Γ' Γ₁ Γ₂ Δ Δ' Δ₁ Δ₂ : FormulaFinset α} {A : Formula α}
-
-lemma wk (d : ⊢ᴳ[𝐆𝐋] Γ ⟹ Δ) (hΓ : Γ ⊆ Γ') (hΔ : Δ ⊆ Δ') : ⊢ᴳ[𝐆𝐋] Γ' ⟹ Δ' := by
-  apply complete
-  intro _ M _ x hx
-  obtain ⟨D, hD, hxD⟩ := sound M d x fun C hC ↦ hx C (hΓ hC)
-  exact ⟨D, hΔ hD, hxD⟩
+variable {Γ₁ Γ₂ Δ₁ Δ₂ : FormulaFinset α} {A : Formula α}
 
 /-- - [SV82] -/
 theorem cut (d₁ : ⊢ᴳ[𝐆𝐋] Γ₁ ⟹ insert A Δ₁) (d₂ : ⊢ᴳ[𝐆𝐋] insert A Γ₂ ⟹ Δ₂) :
