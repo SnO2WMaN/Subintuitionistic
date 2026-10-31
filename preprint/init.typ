@@ -82,7 +82,7 @@
   show math.equation.where(block: true): set block(above: 1em, below: 1em)
   show math.equation: set text(font: ("New Computer Modern Math", "Libertinus Serif"))
 
-  show link: set text(fill: color.hsl(234deg, 71.43%, 49.41%))
+  show link: set text(fill: color.hsl(336.97deg, 81.15%, 47.84%))
 
   // 中央寄せの証明図などは上下に余白を取る
   show align: set block(spacing: 1.2em)
@@ -255,6 +255,7 @@
 #let rulename(n, a, b) = $paren.l attach(#n, tr: #a, br: #b) paren.r$
 #let RAx(l) = $paren.l mrm("Ax")_#l paren.r$
 #let RBotL(l) = $paren.l bot mrm("L")_#l paren.r$
+#let RWk(a, b) = rulename(mrm("Wk"), a, b)
 #let RWL(a, b) = rulename(mrm("WL"), a, b)
 #let RWR(a, b) = rulename(mrm("WR"), a, b)
 #let RImpL(a, b) = rulename($class("normal", ->) mrm("L")$, a, b)
@@ -283,6 +284,9 @@
 #let ih(x) = noted([(I.H.)], x)
 // A leaf standing for a subtree, written above it without a line
 #let subtree(name, x) = stack(dir: ttb, spacing: 0.35em, align(center, name), x)
+
+// A proof-tree wider than the text, centered and overflowing both margins instead of wrapping its premises
+#let wide(x) = align(center, box(width: 0pt, align(center, box(width: 1000pt, align(center, x)))))
 
 // Rules or proof-trees side by side, aligned at the conclusions
 #let side-by-side(align: center + bottom, ..xs) = std.align(center, grid(
