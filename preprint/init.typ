@@ -82,7 +82,7 @@
   show math.equation.where(block: true): set block(above: 1em, below: 1em)
   show math.equation: set text(font: ("New Computer Modern Math", "Libertinus Serif"))
 
-  show link: set text(fill: color.hsl(336.97deg, 81.15%, 47.84%))
+  show link: set text(fill: color.hsl(347.19deg, 80.18%, 56.47%))
 
   // 中央寄せの証明図などは上下に余白を取る
   show align: set block(spacing: 1.2em)
@@ -207,6 +207,9 @@
 // Upright text set letter by letter: a quoted string in math is set as text and gets a space
 // before it (`tau "S"` would read "τ S").
 #let mrm(s) = math.upright(eval(s.clusters().join(" "), mode: "math"))
+
+// The height of a derivation `D`
+#let height(D) = $mrm("hgt")(#D)$
 
 #let proves = $class("relation", tack.r)$
 // Derivability by a proof-tree of height at most `h`; `proves^h` would put `h` above the turnstile

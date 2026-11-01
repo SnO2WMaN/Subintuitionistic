@@ -381,7 +381,7 @@ In what follows, we use $RCut(level, level)$ freely in derivations in $GentzenD$
   $
 ]
 
-= Syntactical Embedding
+= Embedding
 
 In this section, we define by a sequent calculus the propositional logics $LogicSPL$ and $LogicDPL$, which correspond via the translation $(dot)^Vis$ to $LogicS$ and $LogicD$, respectively.
 
@@ -429,7 +429,7 @@ In this section, we define by a sequent calculus the propositional logics $Logic
         #prooftree(rule(
           name: $RImpR(1, 1)$,
           $Gamma, \{C_i -> D_i : i < k \} seq(1) A -> B$,
-          $Delta_I, Gamma, A -> B, A seq(1) B, Gamma_I quad (I subset.eq {0, dots, k - 1})$,
+          $Delta_I, Gamma, A -> B, A seq(1) B, Gamma_I colon I subset.eq {0, dots, k - 1}$,
         ))
         where $k >= 0$, $C_0 -> D_0, ..., C_(k - 1) -> D_(k - 1)$ are arbitrary, and we set $Delta_I := {D_j : j in I}$ and $Gamma_I := {C_j : j in.not I}$.
         Note that the number of premises is $2^k$.
@@ -560,7 +560,7 @@ We now define the logics $LogicSPL$ and $LogicDPL$ as sets of formulas.
 ] <rem:level_one_fpl>
 */
 
-== Main results <subsect:main_results>
+== Proof-theoretical proof <subsect:main_results>
 
 Our embedding theorem is @thm:iff_visser.
 We give a detailed proof of the embedding of $GentzenDPL$ into $GentzenD$ based on the proofs in @YS17 @Pet23.
@@ -590,62 +590,61 @@ We give a detailed proof of the embedding of $GentzenDPL$ into $GentzenD$ based 
 
 #proof[
   By induction on $A$. The case $A equiv B or C$ is omitted.
-  A leaf marked (@lem:gentzen_d_refl, $RWk(1, 1)$) is obtained from an identity sequent of @lem:gentzen_d_refl by weakening.
 
   #struct[Case $A equiv p$][
-  Here $p^Vis equiv p and Box p$.
-  $
-    #prooftree(rule(name: $RAndL(level, level)$, $p and Box p seq(level) Box (p and Box p)$, rule(
-      name: $RWk(level, level)$,
-      $p, Box p seq(level) Box (p and Box p)$,
-      rule(name: $RBoxKFour(1, level)$, $Box p seq(level) Box (p and Box p)$, rule(
-        name: $RAndR(1, 1)$,
-        $Box p, p seq(1) p and Box p$,
-        noted([(@lem:gentzen_d_refl, $RWk(1, 1)$)], $Box p, p seq(1) p$),
-        noted([(@lem:gentzen_d_refl, $RWk(1, 1)$)], $Box p, p seq(1) Box p$),
-      )),
-    )))
-  $
+    Here $p^Vis equiv p and Box p$.
+    $
+      #prooftree(rule(name: $RAndL(level, level)$, $p and Box p seq(level) Box (p and Box p)$, rule(
+        name: $RWk(level, level)$,
+        $p, Box p seq(level) Box (p and Box p)$,
+        rule(name: $RBoxKFour(1, level)$, $Box p seq(level) Box (p and Box p)$, rule(
+          name: $RAndR(1, 1)$,
+          $Box p, p seq(1) p and Box p$,
+          noted([(@lem:gentzen_d_refl, $RWk(1, 1)$)], $Box p, p seq(1) p$),
+          noted([(@lem:gentzen_d_refl, $RWk(1, 1)$)], $Box p, p seq(1) Box p$),
+        )),
+      )))
+    $
   ]
 
   #struct[Case $A equiv bot$][
-  Since $bot^Vis equiv bot$, apply $RWk(level, level)$ to $RBotL(level)$.
+    Since $bot^Vis equiv bot$, apply $RWk(level, level)$ to $RBotL(level)$.
   ]
 
   #struct[Case $A equiv B and C$][
-  Here $(B and C)^Vis equiv B^Vis and C^Vis$.
-  $
-    #prooftree(rule(name: $RAndL(level, level)$, $B^Vis and C^Vis seq(level) Box (B^Vis and C^Vis)$, rule(
-      name: $RCut(level, level)$,
-      $B^Vis, C^Vis seq(level) Box (B^Vis and C^Vis)$,
-      rule(
-        name: $RAndR(level, level)$,
-        $B^Vis, C^Vis seq(level) Box B^Vis and Box C^Vis$,
-        rule(name: $RWk(level, level)$, $B^Vis, C^Vis seq(level) Box B^Vis$, ih($B^Vis seq(level) Box B^Vis$)),
-        rule(name: $RWk(level, level)$, $B^Vis, C^Vis seq(level) Box C^Vis$, ih($C^Vis seq(level) Box C^Vis$)),
-      ),
-      rule(name: $RAndL(level, level)$, $Box B^Vis and Box C^Vis seq(level) Box (B^Vis and C^Vis)$, rule(
-        name: $RBoxKFour(1, level)$,
-        $Box B^Vis, Box C^Vis seq(level) Box (B^Vis and C^Vis)$,
+    Here $(B and C)^Vis equiv B^Vis and C^Vis$.
+    $
+      #prooftree(rule(name: $RAndL(level, level)$, $B^Vis and C^Vis seq(level) Box (B^Vis and C^Vis)$, rule(
+        name: $RCut(level, level)$,
+        $B^Vis, C^Vis seq(level) Box (B^Vis and C^Vis)$,
         rule(
-          name: $RAndR(1, 1)$,
-          $B^Vis, C^Vis, Box B^Vis, Box C^Vis seq(1) B^Vis and C^Vis$,
-          noted([(@lem:gentzen_d_refl, $RWk(1, 1)$)], $B^Vis, C^Vis, Box B^Vis, Box C^Vis seq(1) B^Vis$),
-          noted([(@lem:gentzen_d_refl, $RWk(1, 1)$)], $B^Vis, C^Vis, Box B^Vis, Box C^Vis seq(1) C^Vis$),
+          name: $RAndR(level, level)$,
+          $B^Vis, C^Vis seq(level) Box B^Vis and Box C^Vis$,
+          rule(name: $RWk(level, level)$, $B^Vis, C^Vis seq(level) Box B^Vis$, ih($B^Vis seq(level) Box B^Vis$)),
+          rule(name: $RWk(level, level)$, $B^Vis, C^Vis seq(level) Box C^Vis$, ih($C^Vis seq(level) Box C^Vis$)),
         ),
-      )),
-    )))
-  $
+        rule(name: $RAndL(level, level)$, $Box B^Vis and Box C^Vis seq(level) Box (B^Vis and C^Vis)$, rule(
+          name: $RBoxKFour(1, level)$,
+          $Box B^Vis, Box C^Vis seq(level) Box (B^Vis and C^Vis)$,
+          rule(
+            name: $RAndR(1, 1)$,
+            $B^Vis, C^Vis, Box B^Vis, Box C^Vis seq(1) B^Vis and C^Vis$,
+            noted([(@lem:gentzen_d_refl, $RWk(1, 1)$)], $B^Vis, C^Vis, Box B^Vis, Box C^Vis seq(1) B^Vis$),
+            noted([(@lem:gentzen_d_refl, $RWk(1, 1)$)], $B^Vis, C^Vis, Box B^Vis, Box C^Vis seq(1) C^Vis$),
+          ),
+        )),
+      )))
+    $
   ]
 
   #struct[Case $A equiv B -> C$][
-  Here $(B -> C)^Vis equiv Box (B^Vis -> C^Vis)$.
-  $
-    #prooftree(rule(name: $RBoxKFour(1, level)$, $Box (B^Vis -> C^Vis) seq(level) Box Box (B^Vis -> C^Vis)$, noted(
-      [(@lem:gentzen_d_refl, $RWk(1, 1)$)],
-      $Box (B^Vis -> C^Vis), B^Vis -> C^Vis seq(1) Box (B^Vis -> C^Vis)$,
-    )))
-  $
+    Here $(B -> C)^Vis equiv Box (B^Vis -> C^Vis)$.
+    $
+      #prooftree(rule(name: $RBoxKFour(1, level)$, $Box (B^Vis -> C^Vis) seq(level) Box Box (B^Vis -> C^Vis)$, noted(
+        [(@lem:gentzen_d_refl, $RWk(1, 1)$)],
+        $Box (B^Vis -> C^Vis), B^Vis -> C^Vis seq(1) Box (B^Vis -> C^Vis)$,
+      )))
+    $
   ]
 
 ]
@@ -712,13 +711,12 @@ We are now ready to prove one direction of @thm:iff_visser.
   By induction on a derivation of $Gamma seq(level) Delta$ in $GentzenDPL$, distinguishing cases by the last rule.
 
   #struct[Case $RAx(level)$, $RBotL(level)$][
-  The initial sequent $p seq(level) p$ is mapped to $p^Vis seq(level) p^Vis$, which is derivable by @lem:gentzen_d_refl.
-  Since $bot^Vis equiv bot$, the initial sequent $bot seq(level)$ is mapped to itself.
+    The initial sequent $p seq(level) p$ is mapped to $p^Vis seq(level) p^Vis$, which is derivable by @lem:gentzen_d_refl.
+    Since $bot^Vis equiv bot$, the initial sequent $bot seq(level)$ is mapped to itself.
   ]
 
-  #struct[Case $RWk(level, level)$, $RLift(1, 2)$][
-  Apply the same rule of $GentzenD$ to the sequent given by the induction hypothesis.
-  - $RWk(level, level)$: here $Gamma subset.eq Gamma'$ and $Delta subset.eq Delta'$, so $Gamma^Vis subset.eq Gamma'^Vis$ and $Delta^Vis subset.eq Delta'^Vis$.
+  #struct[Case $RWk(level, level)$][
+    Here $Gamma subset.eq Gamma'$ and $Delta subset.eq Delta'$, so $Gamma^Vis subset.eq Gamma'^Vis$ and $Delta^Vis subset.eq Delta'^Vis$.
     #rewrite(
       prooftree(rule(name: $RWk(level, level)$, $Gamma' seq(level) Delta'$, $Gamma seq(level) Delta$)),
       prooftree(rule(
@@ -727,7 +725,10 @@ We are now ready to prove one direction of @thm:iff_visser.
         ih($Gamma^Vis seq(level) Delta^Vis$),
       )),
     )
-  - $RLift(1, 2)$:
+  ]
+
+  #struct[Case $RLift(1, 2)$][
+    Follows from:
     #rewrite(
       prooftree(rule(name: $RLift(1, 2)$, $Gamma seq(2) Delta$, $Gamma seq(1) Delta$)),
       prooftree(rule(name: $RLift(1, 2)$, $Gamma^Vis seq(2) Delta^Vis$, ih($Gamma^Vis seq(1) Delta^Vis$))),
@@ -735,111 +736,111 @@ We are now ready to prove one direction of @thm:iff_visser.
   ]
 
   #struct[Case $RAndL(level, level)$, $RAndR(level, level)$, $ROrL(level, level)$, $ROrR(level, level)$][
-  Since $(A and B)^Vis equiv A^Vis and B^Vis$ and $(A or B)^Vis equiv A^Vis or B^Vis$, apply the corresponding rule of @lem:gentzen_d_and_or to the sequents given by the induction hypothesis.
+    Since $(A and B)^Vis equiv A^Vis and B^Vis$ and $(A or B)^Vis equiv A^Vis or B^Vis$, apply the corresponding rule of @lem:gentzen_d_and_or to the sequents given by the induction hypothesis.
   ]
 
   #struct[Case $RImpR(1, 1)$][
-  Fix $k$, and suppose that the last rule has the following form, where $Delta_I$ and $Gamma_I$ are as in @def:gentzen_dpl.
-  $
-    #prooftree(rule(
-      name: $RImpR(1, 1)$,
-      $Sigma, {C_j -> D_j : j < k} seq(1) A -> B$,
-      $Delta_I, Sigma, A -> B, A seq(1) B, Gamma_I quad (I subset.eq {0, dots, k - 1})$,
-    ))
-  $
-  Since $(A -> B)^Vis equiv Box (A^Vis -> B^Vis)$, the induction hypothesis gives, for every $I subset.eq {0, dots, k - 1}$,
-  $
-    GentzenD proves Delta_I^Vis, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, Gamma_I^Vis.
-  $
-  Combining these $2^k$ sequents with $2^k - 1$ appropriate applications of $RImpL(1, 1)$, we obtain
-  $
-    GentzenD proves {C_j^Vis -> D_j^Vis : j < k}, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis.
-  $
-  Here we illustrate the case $k = 2$ below; the construction is easy to generalize to arbitrary $k$.
-  Let $cal(D)_1$ and $cal(D)_2$ be the following derivations.
-  $
-    #prooftree(rule(
-      name: $RImpL(1, 1)$,
-      $Sigma^Vis, C_0^Vis -> D_0^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, C_1^Vis$,
-      $Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, C_0^Vis, C_1^Vis$,
-      $D_0^Vis, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, C_1^Vis$,
-    ))
-  $
-  $
-    #prooftree(rule(
-      name: $RImpL(1, 1)$,
-      $D_1^Vis, Sigma^Vis, C_0^Vis -> D_0^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$,
-      $D_1^Vis, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, C_0^Vis$,
-      $D_0^Vis, D_1^Vis, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$,
-    ))
-  $
-  Then, applying $RImpL(1, 1)$ once more to the end sequents of $cal(D)_1$ and $cal(D)_2$, we obtain the desired sequent.
-  $
-    #prooftree(rule(
-      name: $RImpL(1, 1)$,
-      $Sigma^Vis, C_0^Vis -> D_0^Vis, C_1^Vis -> D_1^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$,
-      subtree($cal(D)_1$, $Sigma^Vis, C_0^Vis -> D_0^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, C_1^Vis$),
-      subtree($cal(D)_2$, $D_1^Vis, Sigma^Vis, C_0^Vis -> D_0^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$),
-    ))
-  $
-  The rest is carried out as follows, where @lem:box_gl_visser is applied with $Gamma := {C_j^Vis -> D_j^Vis : j < k}$.
-  $
-    #prooftree(rule(
-      name: [@lem:box_gl_visser],
-      $Sigma^Vis, {Box (C_j^Vis -> D_j^Vis) : j < k} seq(1) Box (A^Vis -> B^Vis)$,
-      rule(
+    Fix $k$, and suppose that the last rule has the following form, where $Delta_I$ and $Gamma_I$ are as in @def:gentzen_dpl.
+    $
+      #prooftree(rule(
         name: $RImpR(1, 1)$,
-        $Sigma^Vis, {C_j^Vis -> D_j^Vis : j < k}, Box (A^Vis -> B^Vis) seq(1) A^Vis -> B^Vis$,
-        $Sigma^Vis, {C_j^Vis -> D_j^Vis : j < k}, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$,
-      ),
-    ))
-  $
-  The conclusion is nothing but $Sigma^Vis, {C_j -> D_j : j < k}^Vis seq(1) (A -> B)^Vis$.
+        $Sigma, {C_j -> D_j : j < k} seq(1) A -> B$,
+        $Delta_I, Sigma, A -> B, A seq(1) B, Gamma_I colon I subset.eq {0, dots, k - 1}$,
+      ))
+    $
+    Since $(A -> B)^Vis equiv Box (A^Vis -> B^Vis)$, the induction hypothesis gives, for every $I subset.eq {0, dots, k - 1}$,
+    $
+      GentzenD proves Delta_I^Vis, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, Gamma_I^Vis.
+    $
+    Combining these $2^k$ sequents with $2^k - 1$ appropriate applications of $RImpL(1, 1)$, we obtain
+    $
+      GentzenD proves {C_j^Vis -> D_j^Vis : j < k}, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis.
+    $
+    Here we illustrate the case $k = 2$ below; this example is easy to generalize to arbitrary $k$.
+    Let $cal(D)_1$ and $cal(D)_2$ be the following derivations.
+    $
+      #prooftree(rule(
+        name: $RImpL(1, 1)$,
+        $Sigma^Vis, C_0^Vis -> D_0^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, C_1^Vis$,
+        $Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, C_0^Vis, C_1^Vis$,
+        $D_0^Vis, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, C_1^Vis$,
+      ))
+    $
+    $
+      #prooftree(rule(
+        name: $RImpL(1, 1)$,
+        $D_1^Vis, Sigma^Vis, C_0^Vis -> D_0^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$,
+        $D_1^Vis, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, C_0^Vis$,
+        $D_0^Vis, D_1^Vis, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$,
+      ))
+    $
+    Then, applying $RImpL(1, 1)$ once more to the end sequents of $cal(D)_1$ and $cal(D)_2$, we obtain the desired sequent.
+    $
+      #prooftree(rule(
+        name: $RImpL(1, 1)$,
+        $Sigma^Vis, C_0^Vis -> D_0^Vis, C_1^Vis -> D_1^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$,
+        subtree($cal(D)_1$, $Sigma^Vis, C_0^Vis -> D_0^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis, C_1^Vis$),
+        subtree($cal(D)_2$, $D_1^Vis, Sigma^Vis, C_0^Vis -> D_0^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$),
+      ))
+    $
+    The rest is carried out as follows, where @lem:box_gl_visser is applied with $Gamma := {C_j^Vis -> D_j^Vis : j < k}$.
+    $
+      #prooftree(rule(
+        name: [@lem:box_gl_visser],
+        $Sigma^Vis, {Box (C_j^Vis -> D_j^Vis) : j < k} seq(1) Box (A^Vis -> B^Vis)$,
+        rule(
+          name: $RImpR(1, 1)$,
+          $Sigma^Vis, {C_j^Vis -> D_j^Vis : j < k}, Box (A^Vis -> B^Vis) seq(1) A^Vis -> B^Vis$,
+          $Sigma^Vis, {C_j^Vis -> D_j^Vis : j < k}, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$,
+        ),
+      ))
+    $
+    The conclusion is nothing but $Sigma^Vis, {C_j -> D_j : j < k}^Vis seq(1) (A -> B)^Vis$.
   ]
 
   #struct[Case $RImpL(2, 2)$][
-  By the induction hypothesis, we have $GentzenD proves Gamma^Vis seq(2) Delta^Vis, A^Vis$ and $GentzenD proves B^Vis, Gamma^Vis seq(2) Delta^Vis$, and we proceed as follows.
-  #rewrite(
-    prooftree(rule(
-      name: $RImpL(2, 2)$,
-      $A -> B, Gamma seq(2) Delta$,
-      $Gamma seq(2) Delta, A$,
-      $B, Gamma seq(2) Delta$,
-    )),
-    prooftree(rule(name: $RBoxL(2, 2)$, $Box (A^Vis -> B^Vis), Gamma^Vis seq(2) Delta^Vis$, rule(
-      name: $RImpL(2, 2)$,
-      $A^Vis -> B^Vis, Gamma^Vis seq(2) Delta^Vis$,
-      ih($Gamma^Vis seq(2) Delta^Vis, A^Vis$),
-      ih($B^Vis, Gamma^Vis seq(2) Delta^Vis$),
-    ))),
-  )
-  The conclusion is nothing but $(A -> B)^Vis, Gamma^Vis seq(2) Delta^Vis$.
+    Follows from:
+    #rewrite(
+      prooftree(rule(
+        name: $RImpL(2, 2)$,
+        $A -> B, Gamma seq(2) Delta$,
+        $Gamma seq(2) Delta, A$,
+        $B, Gamma seq(2) Delta$,
+      )),
+      prooftree(rule(name: $RBoxL(2, 2)$, $Box (A^Vis -> B^Vis), Gamma^Vis seq(2) Delta^Vis$, rule(
+        name: $RImpL(2, 2)$,
+        $A^Vis -> B^Vis, Gamma^Vis seq(2) Delta^Vis$,
+        ih($Gamma^Vis seq(2) Delta^Vis, A^Vis$),
+        ih($B^Vis, Gamma^Vis seq(2) Delta^Vis$),
+      ))),
+    )
+    The conclusion is nothing but $(A -> B)^Vis, Gamma^Vis seq(2) Delta^Vis$.
   ]
 
   #struct[Case $RLift(2, 3)$][
-  Suppose that the last rule has the following form, where $Phi$ is a finite set of propositional variables.
-  $
-    #prooftree(rule(
-      name: $RLift(2, 3)$,
-      ${A_i -> B_i : i < n}, Phi seq(3) {C_j -> D_j : j < m}$,
-      ${A_i -> B_i : i < n}, Phi seq(2) {C_j -> D_j : j < m}$,
-    ))
-  $
-  By the induction hypothesis, we have $GentzenD proves {Box(A^Vis_i -> B^Vis_i) : i < n}, Phi^Vis seq(2) {Box(C^Vis_j -> D^Vis_j) : j < m}$.
-  Here every formula on both sides other than $Phi^Vis$ is boxed, but the formulas $p^Vis equiv p and Box p$ for $p in Phi$ are not, so the rule $RLift(2, 3)$ is not applicable yet.
-  First, using @lem:visser_atom_of_box and $RCut(2, 2)$ with the cut formula $p^Vis$, we successively replace each $p^Vis$ in the antecedent by $Box p$, and obtain
-  $
-    GentzenD proves {Box(A^Vis_i -> B^Vis_i) : i < n}, Box Phi seq(2) {Box(C^Vis_j -> D^Vis_j) : j < m}.
-  $
-  Since every formula in this sequent is boxed, the rule $RLift(2, 3)$ of $GentzenD$ applies and yields
-  $
-    GentzenD proves {Box(A^Vis_i -> B^Vis_i) : i < n}, Box Phi seq(3) {Box(C^Vis_j -> D^Vis_j) : j < m}.
-  $
-  Finally, using @lem:box_of_visser_atom and $RCut(3, 3)$ with the cut formula $Box p$, we successively replace each $Box p$ back by $p^Vis$, and obtain
-  $
-    GentzenD proves {Box(A^Vis_i -> B^Vis_i) : i < n}, Phi^Vis seq(3) {Box(C^Vis_j -> D^Vis_j) : j < m},
-  $
-  which is nothing but ${A_i -> B_i : i < n}^Vis, Phi^Vis seq(3) {C_j -> D_j : j < m}^Vis$.
+    Suppose that the last rule has the following form, where $Phi$ is a finite set of propositional variables.
+    $
+      #prooftree(rule(
+        name: $RLift(2, 3)$,
+        ${A_i -> B_i : i < n}, Phi seq(3) {C_j -> D_j : j < m}$,
+        ${A_i -> B_i : i < n}, Phi seq(2) {C_j -> D_j : j < m}$,
+      ))
+    $
+    By the induction hypothesis, we have $GentzenD proves {Box(A^Vis_i -> B^Vis_i) : i < n}, Phi^Vis seq(2) {Box(C^Vis_j -> D^Vis_j) : j < m}$.
+    Here every formula on both sides other than $Phi^Vis$ is boxed, but the formulas $p^Vis equiv p and Box p$ for $p in Phi$ are not, so the rule $RLift(2, 3)$ is not applicable yet.
+    First, using @lem:visser_atom_of_box and $RCut(2, 2)$ with the cut formula $p^Vis$, we successively replace each $p^Vis$ in the antecedent by $Box p$, and obtain
+    $
+      GentzenD proves {Box(A^Vis_i -> B^Vis_i) : i < n}, Box Phi seq(2) {Box(C^Vis_j -> D^Vis_j) : j < m}.
+    $
+    Since every formula in this sequent is boxed, the rule $RLift(2, 3)$ of $GentzenD$ applies and yields
+    $
+      GentzenD proves {Box(A^Vis_i -> B^Vis_i) : i < n}, Box Phi seq(3) {Box(C^Vis_j -> D^Vis_j) : j < m}.
+    $
+    Finally, using @lem:box_of_visser_atom and $RCut(3, 3)$ with the cut formula $Box p$, we successively replace each $Box p$ back by $p^Vis$, and obtain
+    $
+      GentzenD proves {Box(A^Vis_i -> B^Vis_i) : i < n}, Phi^Vis seq(3) {Box(C^Vis_j -> D^Vis_j) : j < m},
+    $
+    which is nothing but ${A_i -> B_i : i < n}^Vis, Phi^Vis seq(3) {C_j -> D_j : j < m}^Vis$.
   ]
 
 ]
@@ -848,10 +849,11 @@ Next, we prove the converse direction in a strengthened form, following the stra
 The proof proceeds by induction on the height of a derivation in $GentzenD$ of a sequent built from translations, propositional variables and boxed propositional variables, distinguishing cases by the last rule.
 By @rem:visser_unfolded, the principal formula of the last rule may be a translation $p^Vis$, $(B and C)^Vis$ or $(B or C)^Vis$, which is an implication;
 the premise then contains a formula such as $B^Vis -> (C^Vis -> bot)$ that is not a translation.
-We remove such formulas by height-preserving inversions so as to return to a sequent of the required form.
+We remove such formulas by the height-preserving rules $Inv(RImpL(level, level))$ and $Inv(RImpR(level, level))$ so as to return to a sequent of the required form.
 We first collect the syntactic properties of translations that this requires.
 
 #lemma[
+  Denote $FmlPL^Vis := {A^Vis : A in FmlPL}$.
   + No element of $FmlPL^Vis$ is a propositional variable or of the form $Box p$ with $p in PropVar$.
   + An element of $FmlPL^Vis$ that is an implication is of the form $p^Vis$, $(B and C)^Vis$ or $(B or C)^Vis$, and one that is of the form $Box E$ is of the form $(B -> C)^Vis$.
   + $A^Vis equiv bot$ iff $A equiv bot$.
@@ -859,12 +861,12 @@ We first collect the syntactic properties of translations that this requires.
 ] <lem:visser_shape>
 
 #proof[
-  All claims are read off from the following table of the form of $A^Vis$ according to the form of $A$ (cf. @rem:visser_unfolded).
-  - If $A equiv p$, then $A^Vis equiv (p -> (Box p -> bot)) -> bot$, an implication with the antecedent $p -> (Box p -> bot)$.
-  - If $A equiv bot$, then $A^Vis equiv bot$.
-  - If $A equiv B and C$, then $A^Vis equiv (B^Vis -> (C^Vis -> bot)) -> bot$, an implication with the antecedent $B^Vis -> (C^Vis -> bot)$.
-  - If $A equiv B or C$, then $A^Vis equiv (B^Vis -> bot) -> C^Vis$, an implication with the antecedent $B^Vis -> bot$.
-  - If $A equiv B -> C$, then $A^Vis equiv Box (B^Vis -> C^Vis)$.
+  All claims can be shown from the following table of the form of $A^Vis$ according to the form of $A$ (see @rem:visser_unfolded).
+  - If $A equiv p$, then $p^Vis equiv (p -> (Box p -> bot)) -> bot$, an implication with the antecedent $p -> (Box p -> bot)$.
+  - If $A equiv bot$, then $bot^Vis equiv bot$.
+  - If $A equiv B and C$, then $(B and C)^Vis equiv (B^Vis -> (C^Vis -> bot)) -> bot$, an implication with the antecedent $B^Vis -> (C^Vis -> bot)$.
+  - If $A equiv B or C$, then $(B or C)^Vis equiv (B^Vis -> bot) -> C^Vis$, an implication with the antecedent $B^Vis -> bot$.
+  - If $A equiv B -> C$, then $(B -> C)^Vis equiv Box (B^Vis -> C^Vis)$.
   In particular, the antecedents $p -> (Box p -> bot)$, $B^Vis -> (C^Vis -> bot)$ and $B^Vis -> bot$ of the implications among translations are themselves implications.
 ]
 
@@ -873,64 +875,42 @@ We first collect the syntactic properties of translations that this requires.
 ] <lem:visser_neg>
 
 #proof[
-  By induction on the size of $A$.
-  Suppose $A in FmlPL^Vis$ and $A -> bot in FmlPL^Vis$.
+  We show by induction of $A$.
+  By contrast, suppose $A in FmlPL^Vis$ and $A -> bot in FmlPL^Vis$.
   Since $A -> bot$ is an implication in $FmlPL^Vis$ whose consequent is $bot$, by the table in the proof of @lem:visser_shape it is $p^Vis$, $(B and C)^Vis$ or $(B or bot)^Vis$ for some $p$, $B$, $C$.
   - If $A -> bot equiv p^Vis$, then $A equiv p -> (Box p -> bot)$, whose antecedent $p$ is not an implication; so $A in.not FmlPL^Vis$ by @lem:visser_shape, a contradiction.
-  - If $A -> bot equiv (B and C)^Vis$, then $A equiv B^Vis -> (C^Vis -> bot)$. Since $A$ is an implication in $FmlPL^Vis$ whose consequent is not $bot$, the table gives $A equiv (D or E)^Vis equiv (D^Vis -> bot) -> E^Vis$ for some $D$, $E$, so $D^Vis -> bot equiv B^Vis$. Then $A' :equiv D^Vis$ is a proper subformula of $A$ with $A' in FmlPL^Vis$ and $A' -> bot in FmlPL^Vis$, contradicting the induction hypothesis.
+  - If $A -> bot equiv (B and C)^Vis$, then $A equiv B^Vis -> (C^Vis -> bot)$. Since $A$ is an implication in $FmlPL^Vis$ whose consequent is not $bot$, the table gives $A equiv (D or E)^Vis equiv (D^Vis -> bot) -> E^Vis$ for some $D$, $E$, so $D^Vis -> bot equiv B^Vis$.
+    Then $A' :equiv D^Vis$ is a proper subformula of $A$ with $A' in FmlPL^Vis$ and $A' -> bot in FmlPL^Vis$.
+    so it can violate by the induction hypothesis.
   - If $A -> bot equiv (B or bot)^Vis$, then $A equiv B^Vis -> bot$. Then $A' :equiv B^Vis$ is a proper subformula of $A$ with $A' in FmlPL^Vis$ and $A' -> bot equiv A in FmlPL^Vis$, contradicting the induction hypothesis.
 ]
 
-#lemma[
-  For every $p in PropVar$ and $B, C in FmlPL$, none of the formulas
-  $
-    p -> (Box p -> bot), quad Box p -> bot, quad B^Vis -> (C^Vis -> bot), quad B^Vis -> bot, quad B^Vis -> C^Vis
-  $
-  belongs to $FmlPL^Vis union PropVar union Box PropVar$.
-] <lem:visser_not_mem>
-
-#proof[
-  All of them are implications, hence neither propositional variables nor of the form $Box q$.
-  We show that none of them belongs to $FmlPL^Vis$.
-  - $p -> (Box p -> bot)$ and $Box p -> bot$: their antecedents are not implications, so they are not in $FmlPL^Vis$ by @lem:visser_shape.
-  - $B^Vis -> (C^Vis -> bot)$: its consequent is not $bot$, so if it were in $FmlPL^Vis$, by the table in the proof of @lem:visser_shape it would be $(A or D)^Vis equiv (A^Vis -> bot) -> D^Vis$ for some $A$, $D$, with $D^Vis equiv C^Vis -> bot$. Then $C^Vis in FmlPL^Vis$ and $C^Vis -> bot in FmlPL^Vis$, contradicting @lem:visser_neg.
-  - $B^Vis -> bot$: since $B^Vis in FmlPL^Vis$, this contradicts @lem:visser_neg.
-  - $B^Vis -> C^Vis$: if $C equiv bot$, this is the previous case. Otherwise its consequent is not $bot$, so if it were in $FmlPL^Vis$ it would be $(A or D)^Vis$ for some $A$, $D$, with $A^Vis -> bot equiv B^Vis$. Then $A^Vis in FmlPL^Vis$ and $A^Vis -> bot in FmlPL^Vis$, contradicting @lem:visser_neg.
-]
-
-Before the proof, we modify the definition of the height of a derivation.
+Before the proof, we introduce the definition of the height of a derivation with some modification.
 
 #definition[
-  The _height_ $h(cal(D))$ of a derivation $cal(D)$ in $GentzenD$ is the maximum, over all branches of $cal(D)$, of the number of applications of rules _other than_ $RWk(level, level)$.
+  The _height_ $height(cal(D))$ of a derivation $cal(D)$ in $GentzenD$ is the maximum, over all branches of $cal(D)$, of the number of applications of rules _other than_ $RWk(level, level)$.
   We write $GentzenD provesh(h) Gamma seq(level) Delta$ if $Gamma seq(level) Delta$ has a derivation in $GentzenD$ of height at most $h$ in this sense.
 ] <def:height>
 
 Under this definition, weakening does not increase the height:
 if $Gamma subset.eq Gamma'$, $Delta subset.eq Delta'$ and $GentzenD provesh(h) Gamma seq(level) Delta$, then $GentzenD provesh(h) Gamma' seq(level) Delta'$.
-
-#remark[
-  Since a derivation is a finite tree, the relation of being a proper subderivation is well-founded, and we use two kinds of induction on a derivation $cal(D)$.
-  - _Structural induction_: the claim is assumed for every proper subderivation of $cal(D)$, in particular for the derivations of the premises of the last rule.
-  - _Induction on the height_: induction along the lexicographic order on the pairs $(h(cal(D)), n(cal(D)))$, where $n(cal(D))$ is the number of applications of rules in $cal(D)$. The claim is then assumed for every derivation of height at most $h(cal(D)) - 1$, including derivations that are not subderivations of $cal(D)$ (such as those produced by the inversion lemmas below), and for the derivation of the premise of the last rule when that rule is $RWk(level, level)$.
-  The derivation of a premise of a rule other than $RWk(level, level)$ has height at most $h(cal(D)) - 1$, while that of the premise of $RWk(level, level)$ may have height $h(cal(D))$ but has fewer applications of rules; in both inductions the hypothesis applies to it.
-  In the derivations displayed below, a node $GentzenD provesh(h) S$ indicates that the subderivation ending there has height at most $h$.
-] <rem:induction>
+In the derivations displayed below, a node $GentzenD provesh(h) S$ indicates that the subderivation ending there has height at most $h$.
+この修正の意義は，高さを保った逆転補題などにおいてinduction hypothesisを利用した場合，principle formulaの一部分が欠ける場合があり，そのとき $RWk(level, level)$ によって補填する必要がある．その場合高さがincrementされると所望の高さ以下の結論が得られないためである．
 
 #lemma[
   If $GentzenD provesh(h) Gamma seq(level) Delta$, then $GentzenD provesh(h) Gamma seq(level) Delta without {bot}$.
 ] <lem:erase_bot>
 
 #proof[
-  By structural induction on a derivation $cal(D)$ of $Gamma seq(level) Delta$, we show that there is a derivation of $Gamma seq(level) Delta without {bot}$ whose height is at most $h := h(cal(D))$.
+  By structural induction on a derivation $cal(D)$ of $Gamma seq(level) Delta$, we show that there is a derivation of $Gamma seq(level) Delta without {bot}$ whose height is at most $h := height(cal(D))$.
   We distinguish cases by the last rule of $cal(D)$.
 
   #struct[Case $RAx(level)$, $RBotL(level)$, $RBoxGL(1, 1)$, $RLift(2, 3)$][
-  The succedent consists only of propositional variables and boxed formulas, so it does not contain $bot$ and there is nothing to do.
+    The succedent consists only of propositional variables and boxed formulas, so it does not contain $bot$ and there is nothing to do.
   ]
 
-  #struct[Case $RWk(level, level)$, $RBoxL(2, 2)$, $RLift(1, 2)$][
-  Apply the induction hypothesis to the premise and then the same rule.
-  - $RWk(level, level)$: here $Gamma_0 subset.eq Gamma$ and $Delta_0 subset.eq Delta$, and the premise also has height at most $h$; note that $Delta_0 without {bot} subset.eq Delta without {bot}$.
+  #struct[Case $RWk(level, level)$][
+    Here $Gamma_0 subset.eq Gamma$ and $Delta_0 subset.eq Delta$, and the premise also has height at most $h$; note that $Delta_0 without {bot} subset.eq Delta without {bot}$.
     #rewrite(
       prooftree(rule(
         name: $RWk(level, level)$,
@@ -943,7 +923,10 @@ if $Gamma subset.eq Gamma'$, $Delta subset.eq Delta'$ and $GentzenD provesh(h) G
         ih($GentzenD provesh(h) Gamma_0 seq(level) Delta_0 without {bot}$),
       )),
     )
-  - $RBoxL(2, 2)$: here $Gamma = Gamma' union {Box C}$.
+  ]
+
+  #struct[Case $RBoxL(2, 2)$][
+    Here $Gamma = Gamma' union {Box C}$.
     #rewrite(
       prooftree(rule(
         name: $RBoxL(2, 2)$,
@@ -956,7 +939,9 @@ if $Gamma subset.eq Gamma'$, $Delta subset.eq Delta'$ and $GentzenD provesh(h) G
         ih($GentzenD provesh(h-1) C, Gamma' seq(2) Delta without {bot}$),
       )),
     )
-  - $RLift(1, 2)$:
+  ]
+
+  #struct[Case $RLift(1, 2)$][
     #rewrite(
       prooftree(rule(
         name: $RLift(1, 2)$,
@@ -972,70 +957,71 @@ if $Gamma subset.eq Gamma'$, $Delta subset.eq Delta'$ and $GentzenD provesh(h) G
   ]
 
   #struct[Case $RImpL(level, level)$][
-  Here $Gamma = Gamma' union {C -> D}$.
-  - If $C equiv.not bot$, we apply the induction hypothesis to both premises and then $RImpL(level, level)$.
-    #rewrite(
-      prooftree(rule(
-        name: $RImpL(level, level)$,
-        $GentzenD provesh(h) C -> D, Gamma' seq(level) Delta$,
-        $GentzenD provesh(h-1) Gamma' seq(level) Delta, C$,
-        $GentzenD provesh(h-1) D, Gamma' seq(level) Delta$,
-      )),
-      prooftree(rule(
-        name: $RImpL(level, level)$,
-        $GentzenD provesh(h) C -> D, Gamma' seq(level) Delta without {bot}$,
-        ih($GentzenD provesh(h-1) Gamma' seq(level) Delta without {bot}, C$),
-        ih($GentzenD provesh(h-1) D, Gamma' seq(level) Delta without {bot}$),
-      )),
-    )
-  - If $C equiv bot$, the induction hypothesis applied to the left premise removes $C$ as well, and we add $C -> D$ by weakening, which does not increase the height.
-    #rewrite(
-      prooftree(rule(
-        name: $RImpL(level, level)$,
-        $GentzenD provesh(h) bot -> D, Gamma' seq(level) Delta$,
-        $GentzenD provesh(h-1) Gamma' seq(level) Delta, bot$,
-        $GentzenD provesh(h-1) D, Gamma' seq(level) Delta$,
-      )),
-      prooftree(rule(
-        name: $RWk(level, level)$,
-        $GentzenD provesh(h-1) bot -> D, Gamma' seq(level) Delta without {bot}$,
-        ih($GentzenD provesh(h-1) Gamma' seq(level) Delta without {bot}$),
-      )),
-    )
+    Here $Gamma = Gamma' union {C -> D}$.
+    - If $C equiv.not bot$, we apply the induction hypothesis to both premises and then $RImpL(level, level)$.
+      #rewrite(
+        prooftree(rule(
+          name: $RImpL(level, level)$,
+          $GentzenD provesh(h) C -> D, Gamma' seq(level) Delta$,
+          $GentzenD provesh(h-1) Gamma' seq(level) Delta, C$,
+          $GentzenD provesh(h-1) D, Gamma' seq(level) Delta$,
+        )),
+        prooftree(rule(
+          name: $RImpL(level, level)$,
+          $GentzenD provesh(h) C -> D, Gamma' seq(level) Delta without {bot}$,
+          ih($GentzenD provesh(h-1) Gamma' seq(level) Delta without {bot}, C$),
+          ih($GentzenD provesh(h-1) D, Gamma' seq(level) Delta without {bot}$),
+        )),
+      )
+    - If $C equiv bot$, the induction hypothesis applied to the left premise removes $C$, and we add $C -> D$ by weakening, which does not increase the height.
+      #rewrite(
+        prooftree(rule(
+          name: $RImpL(level, level)$,
+          $GentzenD provesh(h) bot -> D, Gamma' seq(level) Delta$,
+          $GentzenD provesh(h-1) Gamma' seq(level) Delta, bot$,
+          $GentzenD provesh(h-1) D, Gamma' seq(level) Delta$,
+        )),
+        prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h-1) bot -> D, Gamma' seq(level) Delta without {bot}$,
+          ih($GentzenD provesh(h-1) Gamma' seq(level) Delta without {bot}$),
+        )),
+      )
   ]
 
   #struct[Case $RImpR(level, level)$][
-  Here $Delta = Delta' union {C -> D}$.
-  - If $D equiv.not bot$, we apply the induction hypothesis to the premise and then $RImpR(level, level)$.
-    #rewrite(
-      prooftree(rule(
-        name: $RImpR(level, level)$,
-        $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
-        $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
-      )),
-      prooftree(rule(
-        name: $RImpR(level, level)$,
-        $GentzenD provesh(h) Gamma seq(level) Delta' without {bot}, C -> D$,
-        ih($GentzenD provesh(h-1) C, Gamma seq(level) Delta' without {bot}, D$),
-      )),
-    )
-  - If $D equiv bot$, the induction hypothesis removes $D$ as well, so we add it back by weakening before applying $RImpR(level, level)$.
-    #rewrite(
-      prooftree(rule(
-        name: $RImpR(level, level)$,
-        $GentzenD provesh(h) Gamma seq(level) Delta', C -> bot$,
-        $GentzenD provesh(h-1) C, Gamma seq(level) Delta', bot$,
-      )),
-      prooftree(rule(
-        name: $RImpR(level, level)$,
-        $GentzenD provesh(h) Gamma seq(level) Delta' without {bot}, C -> bot$,
-        rule(
-          name: $RWk(level, level)$,
-          $GentzenD provesh(h-1) C, Gamma seq(level) Delta' without {bot}, bot$,
-          ih($GentzenD provesh(h-1) C, Gamma seq(level) Delta' without {bot}$),
-        ),
-      )),
-    )
+    Here $Delta = Delta' union {C -> D}$.
+    - If $D equiv.not bot$, we apply the induction hypothesis to the premise and then $RImpR(level, level)$.
+      #rewrite(
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
+          $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
+        )),
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta' without {bot}, C -> D$,
+          ih($GentzenD provesh(h-1) C, Gamma seq(level) Delta' without {bot}, D$),
+        )),
+      )
+    - If $D equiv bot$, the induction hypothesis removes $D$, so we add it back by weakening before applying $RImpR(level, level)$.
+      #rewrite(
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta', C -> bot$,
+          $GentzenD provesh(h-1) C, Gamma seq(level) Delta', bot$,
+        )),
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta' without {bot}, C -> bot$,
+          rule(
+            name: $RWk(level, level)$,
+            $GentzenD provesh(h-1) C, Gamma seq(level) Delta' without {bot}, bot$,
+            ih($GentzenD provesh(h-1) C, Gamma seq(level) Delta' without {bot}$),
+          ),
+        )),
+      )
+      先ほど説明したように，ここで $RWk(level, level)$ の適用で高さが増えてしまう定義にすると $h$ 以下の結論導出が得られない，ということを注意しておこう．
   ]
 
 ]
@@ -1067,127 +1053,154 @@ We now show that the inversion rules for implication are height-preservingly adm
   We display only the derivations for the left conclusion.
 
   #struct[Case $RAx(level)$, $RBotL(level)$, $RBoxGL(1, 1)$, $RLift(2, 3)$][
-  The antecedent of the conclusion consists only of propositional variables, $bot$ and formulas of the form $Box C$, so it does not contain $A -> B$.
-  Thus this case does not occur.
+    The antecedent of the conclusion consists only of propositional variables, $bot$ and formulas of the form $Box C$, so it does not contain $A -> B$.
+    Thus this case does not occur.
   ]
 
   #struct[Case $RWk(level, level)$][
-  Here $Gamma_0 subset.eq Gamma$ and $Delta_0 subset.eq Delta$, and the premise also has height at most $h$.
-  - If $A -> B in Gamma_0$, we apply the induction hypothesis to the premise and then $RWk(level, level)$.
-    #rewrite(
-      prooftree(rule(name: $RWk(level, level)$, $GentzenD provesh(h) Gamma seq(level) Delta$, $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$)),
-      prooftree(rule(
-        name: $RWk(level, level)$,
-        $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta, A$,
-        ih($GentzenD provesh(h) Gamma_0 without {A -> B} seq(level) Delta_0, A$),
-      )),
-    )
-  - If $A -> B in.not Gamma_0$, then $Gamma_0 subset.eq Gamma without {A -> B}$, and $RWk(level, level)$ applied to the premise itself gives the required sequent.
-    #rewrite(
-      prooftree(rule(name: $RWk(level, level)$, $GentzenD provesh(h) Gamma seq(level) Delta$, $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$)),
-      prooftree(rule(
-        name: $RWk(level, level)$,
-        $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta, A$,
-        $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
-      )),
-    )
+    Here $Gamma_0 subset.eq Gamma$ and $Delta_0 subset.eq Delta$, and the premise also has height at most $h$.
+    - If $A -> B in Gamma_0$, we apply the induction hypothesis to the premise and then $RWk(level, level)$.
+      #rewrite(
+        prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta$,
+          $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
+        )),
+        prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta, A$,
+          ih($GentzenD provesh(h) Gamma_0 without {A -> B} seq(level) Delta_0, A$),
+        )),
+      )
+    - If $A -> B in.not Gamma_0$, then $Gamma_0 subset.eq Gamma without {A -> B}$, and $RWk(level, level)$ applied to the premise itself gives the required sequent.
+      #rewrite(
+        prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta$,
+          $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
+        )),
+        prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta, A$,
+          $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
+        )),
+      )
   ]
 
   #struct[Case $RImpL(level, level)$][
-  The last rule is of the form below, where $Gamma = Gamma' union {C -> D}$.
-  $
-    #prooftree(rule(
-      name: $RImpL(level, level)$,
-      $GentzenD provesh(h) C -> D, Gamma' seq(level) Delta$,
-      $GentzenD provesh(h-1) Gamma' seq(level) Delta, C$,
-      $GentzenD provesh(h-1) D, Gamma' seq(level) Delta$,
-    ))
-  $
-  - Suppose $C -> D equiv A -> B$.
-    - If $A -> B in.not Gamma'$, then $Gamma' = Gamma without {A -> B}$, and the two premises $GentzenD provesh(h-1) Gamma without {A -> B} seq(level) Delta, A$ and $GentzenD provesh(h-1) B, Gamma without {A -> B} seq(level) Delta$ are the desired sequents.
-    - If $A -> B in Gamma'$, then $Gamma' without {A -> B} = Gamma without {A -> B}$, and we apply the induction hypothesis for the left conclusion to the left premise, and that for the right conclusion to the right premise.
-      $
-        #ih($GentzenD provesh(h-1) Gamma without {A -> B} seq(level) Delta, A$) quad quad #ih($GentzenD provesh(h-1) B, Gamma without {A -> B} seq(level) Delta$)
-      $
-  - Suppose $C -> D equiv.not A -> B$ and $D equiv.not A -> B$.
-    Then $A -> B in Gamma'$ and $Gamma without {A -> B} = (Gamma' without {A -> B}) union {C -> D}$.
+    The last rule is of the form below, where $Gamma = Gamma' union {C -> D}$.
     $
       #prooftree(rule(
         name: $RImpL(level, level)$,
-        $GentzenD provesh(h) C -> D, Gamma' without {A -> B} seq(level) Delta, A$,
-        ih($GentzenD provesh(h-1) Gamma' without {A -> B} seq(level) Delta, C, A$),
-        ih($GentzenD provesh(h-1) D, Gamma' without {A -> B} seq(level) Delta, A$),
+        $GentzenD provesh(h) C -> D, Gamma' seq(level) Delta$,
+        $GentzenD provesh(h-1) Gamma' seq(level) Delta, C$,
+        $GentzenD provesh(h-1) D, Gamma' seq(level) Delta$,
       ))
     $
-  - Suppose $C -> D equiv.not A -> B$ and $D equiv A -> B$.
-    Then $A -> B in Gamma'$, and the induction hypothesis applied to the right premise removes $D$ as well, so we add $C -> D$ by weakening.
-    $
-      #prooftree(rule(
-        name: $RWk(level, level)$,
-        $GentzenD provesh(h-1) C -> D, Gamma' without {A -> B} seq(level) Delta, A$,
-        ih($GentzenD provesh(h-1) Gamma' without {A -> B} seq(level) Delta, A$),
-      ))
-    $
+    - Suppose $C -> D equiv A -> B$.
+      - If $A -> B in.not Gamma'$, then $Gamma' = Gamma without {A -> B}$, and the two premises $GentzenD provesh(h-1) Gamma without {A -> B} seq(level) Delta, A$ and $GentzenD provesh(h-1) B, Gamma without {A -> B} seq(level) Delta$ are the desired sequents.
+      - If $A -> B in Gamma'$, then $Gamma' without {A -> B} = Gamma without {A -> B}$, and we apply the induction hypothesis for the left conclusion to the left premise, and that for the right conclusion to the right premise.
+        $
+          #ih($GentzenD provesh(h-1) Gamma without {A -> B} seq(level) Delta, A$) quad quad #ih($GentzenD provesh(h-1) B, Gamma without {A -> B} seq(level) Delta$)
+        $
+    - Suppose $C -> D equiv.not A -> B$ and $D equiv.not A -> B$.
+      Then $A -> B in Gamma'$ and $Gamma without {A -> B} = (Gamma' without {A -> B}) union {C -> D}$.
+      $
+        #prooftree(rule(
+          name: $RImpL(level, level)$,
+          $GentzenD provesh(h) C -> D, Gamma' without {A -> B} seq(level) Delta, A$,
+          ih($GentzenD provesh(h-1) Gamma' without {A -> B} seq(level) Delta, C, A$),
+          ih($GentzenD provesh(h-1) D, Gamma' without {A -> B} seq(level) Delta, A$),
+        ))
+      $
+    - Suppose $C -> D equiv.not A -> B$ and $D equiv A -> B$.
+      Then $A -> B in Gamma'$, and the induction hypothesis applied to the right premise removes $D$, so we add $C -> D$ by weakening.
+      $
+        #prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h-1) C -> D, Gamma' without {A -> B} seq(level) Delta, A$,
+          ih($GentzenD provesh(h-1) Gamma' without {A -> B} seq(level) Delta, A$),
+        ))
+      $
   ]
 
   #struct[Case $RImpR(level, level)$][
-  Here $Delta = Delta' union {C -> D}$.
-  - If $C equiv.not A -> B$, we apply the induction hypothesis to the premise and then $RImpR(level, level)$.
-    #rewrite(
-      prooftree(rule(name: $RImpR(level, level)$, $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$, $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$)),
-      prooftree(rule(
-        name: $RImpR(level, level)$,
-        $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta', C -> D, A$,
-        ih($GentzenD provesh(h-1) C, Gamma without {A -> B} seq(level) Delta', D, A$),
-      )),
-    )
-  - If $C equiv A -> B$, the induction hypothesis removes $C$ as well, so we add it back by weakening before applying $RImpR(level, level)$.
-    #rewrite(
-      prooftree(rule(name: $RImpR(level, level)$, $GentzenD provesh(h) Gamma seq(level) Delta', (A -> B) -> D$, $GentzenD provesh(h-1) A -> B, Gamma seq(level) Delta', D$)),
-      prooftree(rule(
-        name: $RImpR(level, level)$,
-        $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta', (A -> B) -> D, A$,
-        rule(
-          name: $RWk(level, level)$,
-          $GentzenD provesh(h-1) A -> B, Gamma without {A -> B} seq(level) Delta', D, A$,
-          ih($GentzenD provesh(h-1) Gamma without {A -> B} seq(level) Delta', D, A$),
-        ),
-      )),
-    )
+    Here $Delta = Delta' union {C -> D}$.
+    - If $C equiv.not A -> B$, we apply the induction hypothesis to the premise and then $RImpR(level, level)$.
+      #rewrite(
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
+          $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
+        )),
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta', C -> D, A$,
+          ih($GentzenD provesh(h-1) C, Gamma without {A -> B} seq(level) Delta', D, A$),
+        )),
+      )
+    - If $C equiv A -> B$, the induction hypothesis removes $C$, so we add it back by weakening before applying $RImpR(level, level)$.
+      #rewrite(
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta', (A -> B) -> D$,
+          $GentzenD provesh(h-1) A -> B, Gamma seq(level) Delta', D$,
+        )),
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta', (A -> B) -> D, A$,
+          rule(
+            name: $RWk(level, level)$,
+            $GentzenD provesh(h-1) A -> B, Gamma without {A -> B} seq(level) Delta', D, A$,
+            ih($GentzenD provesh(h-1) Gamma without {A -> B} seq(level) Delta', D, A$),
+          ),
+        )),
+      )
   ]
 
   #struct[Case $RBoxL(2, 2)$][
-  Here $Gamma = Gamma' union {Box C}$; since $Box C equiv.not A -> B$, we have $A -> B in Gamma'$.
-  - If $C equiv.not A -> B$, we apply the induction hypothesis to the premise and then $RBoxL(2, 2)$.
-    #rewrite(
-      prooftree(rule(name: $RBoxL(2, 2)$, $GentzenD provesh(h) Box C, Gamma' seq(2) Delta$, $GentzenD provesh(h-1) C, Gamma' seq(2) Delta$)),
-      prooftree(rule(
-        name: $RBoxL(2, 2)$,
-        $GentzenD provesh(h) Box C, Gamma' without {A -> B} seq(2) Delta, A$,
-        ih($GentzenD provesh(h-1) C, Gamma' without {A -> B} seq(2) Delta, A$),
-      )),
-    )
-  - If $C equiv A -> B$, the induction hypothesis removes $C$ as well, so we add $Box C$ by weakening.
-    #rewrite(
-      prooftree(rule(name: $RBoxL(2, 2)$, $GentzenD provesh(h) Box C, Gamma' seq(2) Delta$, $GentzenD provesh(h-1) C, Gamma' seq(2) Delta$)),
-      prooftree(rule(
-        name: $RWk(2, 2)$,
-        $GentzenD provesh(h-1) Box C, Gamma' without {A -> B} seq(2) Delta, A$,
-        ih($GentzenD provesh(h-1) Gamma' without {A -> B} seq(2) Delta, A$),
-      )),
-    )
+    Here $Gamma = Gamma' union {Box C}$; since $Box C equiv.not A -> B$, we have $A -> B in Gamma'$.
+    - If $C equiv.not A -> B$, we apply the induction hypothesis to the premise and then $RBoxL(2, 2)$.
+      #rewrite(
+        prooftree(rule(
+          name: $RBoxL(2, 2)$,
+          $GentzenD provesh(h) Box C, Gamma' seq(2) Delta$,
+          $GentzenD provesh(h-1) C, Gamma' seq(2) Delta$,
+        )),
+        prooftree(rule(
+          name: $RBoxL(2, 2)$,
+          $GentzenD provesh(h) Box C, Gamma' without {A -> B} seq(2) Delta, A$,
+          ih($GentzenD provesh(h-1) C, Gamma' without {A -> B} seq(2) Delta, A$),
+        )),
+      )
+    - If $C equiv A -> B$, the induction hypothesis removes $C$, so we add $Box C$ by weakening.
+      #rewrite(
+        prooftree(rule(
+          name: $RBoxL(2, 2)$,
+          $GentzenD provesh(h) Box C, Gamma' seq(2) Delta$,
+          $GentzenD provesh(h-1) C, Gamma' seq(2) Delta$,
+        )),
+        prooftree(rule(
+          name: $RWk(2, 2)$,
+          $GentzenD provesh(h-1) Box C, Gamma' without {A -> B} seq(2) Delta, A$,
+          ih($GentzenD provesh(h-1) Gamma' without {A -> B} seq(2) Delta, A$),
+        )),
+      )
   ]
 
   #struct[Case $RLift(1, 2)$][
-  We apply the induction hypothesis to the premise and then $RLift(1, 2)$.
-  #rewrite(
-    prooftree(rule(name: $RLift(1, 2)$, $GentzenD provesh(h) Gamma seq(2) Delta$, $GentzenD provesh(h-1) Gamma seq(1) Delta$)),
-    prooftree(rule(
-      name: $RLift(1, 2)$,
-      $GentzenD provesh(h) Gamma without {A -> B} seq(2) Delta, A$,
-      ih($GentzenD provesh(h-1) Gamma without {A -> B} seq(1) Delta, A$),
-    )),
-  )
+    #rewrite(
+      prooftree(rule(
+        name: $RLift(1, 2)$,
+        $GentzenD provesh(h) Gamma seq(2) Delta$,
+        $GentzenD provesh(h-1) Gamma seq(1) Delta$,
+      )),
+      prooftree(rule(
+        name: $RLift(1, 2)$,
+        $GentzenD provesh(h) Gamma without {A -> B} seq(2) Delta, A$,
+        ih($GentzenD provesh(h-1) Gamma without {A -> B} seq(1) Delta, A$),
+      )),
+    )
   ]
 
   The construction for the right conclusion is similar.
@@ -1208,117 +1221,150 @@ We now show that the inversion rules for implication are height-preservingly adm
 
 #proof[
   We show the following by induction on a derivation $cal(D)$ of $Gamma seq(level) Delta$ with $A -> B in Delta$:
-  there is a derivation of $A, Gamma seq(level) Delta without {A -> B}, B$ whose height is at most $h(cal(D))$.
+  there is a derivation of $A, Gamma seq(level) Delta without {A -> B}, B$ whose height is at most $height(cal(D))$.
   Since $A -> B in.not Delta$ in the statement, the lemma follows.
-  Let $h := h(cal(D))$; we distinguish cases by the last rule of $cal(D)$, with the same conventions as in the proof of @lem:inv_imp_l.
+  Let $h := height(cal(D))$; we distinguish cases by the last rule of $cal(D)$, with the same conventions as in the proof of @lem:inv_imp_l.
 
   #struct[Case $RAx(level)$, $RBotL(level)$, $RBoxGL(1, 1)$, $RLift(2, 3)$][
-  The succedent of the conclusion consists only of propositional variables and formulas of the form $Box C$, so it does not contain $A -> B$.
-  Thus this case does not occur.
+    The succedent of the conclusion consists only of propositional variables and formulas of the form $Box C$, so it does not contain $A -> B$.
+    Thus this case does not occur.
   ]
 
   #struct[Case $RWk(level, level)$][
-  Here $Gamma_0 subset.eq Gamma$ and $Delta_0 subset.eq Delta$, and the premise also has height at most $h$.
-  - If $A -> B in Delta_0$, we apply the induction hypothesis to the premise and then $RWk(level, level)$.
-    #rewrite(
-      prooftree(rule(name: $RWk(level, level)$, $GentzenD provesh(h) Gamma seq(level) Delta$, $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$)),
-      prooftree(rule(
-        name: $RWk(level, level)$,
-        $GentzenD provesh(h) A, Gamma seq(level) Delta without {A -> B}, B$,
-        ih($GentzenD provesh(h) A, Gamma_0 seq(level) Delta_0 without {A -> B}, B$),
-      )),
-    )
-  - If $A -> B in.not Delta_0$, then $Delta_0 subset.eq Delta without {A -> B}$, and $RWk(level, level)$ applied to the premise itself gives the required sequent.
-    #rewrite(
-      prooftree(rule(name: $RWk(level, level)$, $GentzenD provesh(h) Gamma seq(level) Delta$, $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$)),
-      prooftree(rule(
-        name: $RWk(level, level)$,
-        $GentzenD provesh(h) A, Gamma seq(level) Delta without {A -> B}, B$,
-        $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
-      )),
-    )
+    Here $Gamma_0 subset.eq Gamma$ and $Delta_0 subset.eq Delta$, and the premise also has height at most $h$.
+    - If $A -> B in Delta_0$, we apply the induction hypothesis to the premise and then $RWk(level, level)$.
+      #rewrite(
+        prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta$,
+          $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
+        )),
+        prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h) A, Gamma seq(level) Delta without {A -> B}, B$,
+          ih($GentzenD provesh(h) A, Gamma_0 seq(level) Delta_0 without {A -> B}, B$),
+        )),
+      )
+    - If $A -> B in.not Delta_0$, then $Delta_0 subset.eq Delta without {A -> B}$, and $RWk(level, level)$ applied to the premise itself gives the required sequent.
+      #rewrite(
+        prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta$,
+          $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
+        )),
+        prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h) A, Gamma seq(level) Delta without {A -> B}, B$,
+          $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
+        )),
+      )
   ]
 
   #struct[Case $RImpL(level, level)$][
-  The last rule is of the form below, where $Gamma = Gamma' union {C -> D}$.
-  $
-    #prooftree(rule(
-      name: $RImpL(level, level)$,
-      $GentzenD provesh(h) C -> D, Gamma' seq(level) Delta$,
-      $GentzenD provesh(h-1) Gamma' seq(level) Delta, C$,
-      $GentzenD provesh(h-1) D, Gamma' seq(level) Delta$,
-    ))
-  $
-  - If $C equiv.not A -> B$, we apply the induction hypothesis to both premises and then $RImpL(level, level)$.
-    #wide(prooftree(rule(
-      name: $RImpL(level, level)$,
-      $GentzenD provesh(h) A, C -> D, Gamma' seq(level) Delta without {A -> B}, B$,
-      ih($GentzenD provesh(h-1) A, Gamma' seq(level) Delta without {A -> B}, C, B$),
-      ih($GentzenD provesh(h-1) A, D, Gamma' seq(level) Delta without {A -> B}, B$),
-    )))
-  - If $C equiv A -> B$, the induction hypothesis applied to the left premise removes $C$ as well, so we add $C -> D$ by weakening.
+    The last rule is of the form below, where $Gamma = Gamma' union {C -> D}$.
     $
       #prooftree(rule(
-        name: $RWk(level, level)$,
-        $GentzenD provesh(h-1) A, C -> D, Gamma' seq(level) Delta without {A -> B}, B$,
-        ih($GentzenD provesh(h-1) A, Gamma' seq(level) Delta without {A -> B}, B$),
+        name: $RImpL(level, level)$,
+        $GentzenD provesh(h) C -> D, Gamma' seq(level) Delta$,
+        $GentzenD provesh(h-1) Gamma' seq(level) Delta, C$,
+        $GentzenD provesh(h-1) D, Gamma' seq(level) Delta$,
       ))
     $
+    - If $C equiv.not A -> B$, we apply the induction hypothesis to both premises and then $RImpL(level, level)$.
+      #wide(prooftree(rule(
+        name: $RImpL(level, level)$,
+        $GentzenD provesh(h) A, C -> D, Gamma' seq(level) Delta without {A -> B}, B$,
+        ih($GentzenD provesh(h-1) A, Gamma' seq(level) Delta without {A -> B}, C, B$),
+        ih($GentzenD provesh(h-1) A, D, Gamma' seq(level) Delta without {A -> B}, B$),
+      )))
+    - If $C equiv A -> B$, the induction hypothesis applied to the left premise removes $C$, so we add $C -> D$ by weakening.
+      $
+        #prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h-1) A, C -> D, Gamma' seq(level) Delta without {A -> B}, B$,
+          ih($GentzenD provesh(h-1) A, Gamma' seq(level) Delta without {A -> B}, B$),
+        ))
+      $
   ]
 
   #struct[Case $RImpR(level, level)$][
-  Here $Delta = Delta' union {C -> D}$.
-  - Suppose $C -> D equiv A -> B$.
-    - If $A -> B in.not Delta'$, then $Delta' = Delta without {A -> B}$, and the premise is the desired derivation.
+    Here $Delta = Delta' union {C -> D}$.
+    - Suppose $C -> D equiv A -> B$.
+      - If $A -> B in.not Delta'$, then $Delta' = Delta without {A -> B}$, and the premise is the desired derivation.
+        #rewrite(
+          prooftree(rule(
+            name: $RImpR(level, level)$,
+            $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
+            $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
+          )),
+          $GentzenD provesh(h-1) A, Gamma seq(level) Delta without {A -> B}, B$,
+        )
+      - If $A -> B in Delta'$, then $Delta' without {A -> B} = Delta without {A -> B}$, and we apply the induction hypothesis to the premise; note that $B equiv.not A -> B$.
+        #rewrite(
+          prooftree(rule(
+            name: $RImpR(level, level)$,
+            $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
+            $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
+          )),
+          ih($GentzenD provesh(h-1) A, Gamma seq(level) Delta without {A -> B}, B$),
+        )
+    - Suppose $C -> D equiv.not A -> B$ and $D equiv.not A -> B$.
+      Then $A -> B in Delta'$ and $Delta without {A -> B} = (Delta' without {A -> B}) union {C -> D}$, and we apply the induction hypothesis to the premise and then $RImpR(level, level)$.
       #rewrite(
-        prooftree(rule(name: $RImpR(level, level)$, $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$, $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$)),
-        $GentzenD provesh(h-1) A, Gamma seq(level) Delta without {A -> B}, B$,
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
+          $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
+        )),
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) A, Gamma seq(level) Delta' without {A -> B}, C -> D, B$,
+          ih($GentzenD provesh(h-1) A, C, Gamma seq(level) Delta' without {A -> B}, D, B$),
+        )),
       )
-    - If $A -> B in Delta'$, then $Delta' without {A -> B} = Delta without {A -> B}$, and we apply the induction hypothesis to the premise; note that $B equiv.not A -> B$.
+    - Suppose $C -> D equiv.not A -> B$ and $D equiv A -> B$.
+      Then $A -> B in Delta'$, and the induction hypothesis removes $D$, so we add it back by weakening before applying $RImpR(level, level)$.
       #rewrite(
-        prooftree(rule(name: $RImpR(level, level)$, $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$, $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$)),
-        ih($GentzenD provesh(h-1) A, Gamma seq(level) Delta without {A -> B}, B$),
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
+          $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
+        )),
+        prooftree(rule(
+          name: $RImpR(level, level)$,
+          $GentzenD provesh(h) A, Gamma seq(level) Delta' without {A -> B}, C -> (A -> B), B$,
+          rule(
+            name: $RWk(level, level)$,
+            $GentzenD provesh(h-1) A, C, Gamma seq(level) Delta' without {A -> B}, A -> B, B$,
+            ih($GentzenD provesh(h-1) A, C, Gamma seq(level) Delta' without {A -> B}, B$),
+          ),
+        )),
       )
-  - Suppose $C -> D equiv.not A -> B$ and $D equiv.not A -> B$.
-    Then $A -> B in Delta'$ and $Delta without {A -> B} = (Delta' without {A -> B}) union {C -> D}$, and we apply the induction hypothesis to the premise and then $RImpR(level, level)$.
-    #rewrite(
-      prooftree(rule(name: $RImpR(level, level)$, $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$, $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$)),
-      prooftree(rule(
-        name: $RImpR(level, level)$,
-        $GentzenD provesh(h) A, Gamma seq(level) Delta' without {A -> B}, C -> D, B$,
-        ih($GentzenD provesh(h-1) A, C, Gamma seq(level) Delta' without {A -> B}, D, B$),
-      )),
-    )
-  - Suppose $C -> D equiv.not A -> B$ and $D equiv A -> B$.
-    Then $A -> B in Delta'$, and the induction hypothesis removes $D$ as well, so we add it back by weakening before applying $RImpR(level, level)$.
-    #rewrite(
-      prooftree(rule(name: $RImpR(level, level)$, $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$, $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$)),
-      prooftree(rule(
-        name: $RImpR(level, level)$,
-        $GentzenD provesh(h) A, Gamma seq(level) Delta' without {A -> B}, C -> (A -> B), B$,
-        rule(
-          name: $RWk(level, level)$,
-          $GentzenD provesh(h-1) A, C, Gamma seq(level) Delta' without {A -> B}, A -> B, B$,
-          ih($GentzenD provesh(h-1) A, C, Gamma seq(level) Delta' without {A -> B}, B$),
-        ),
-      )),
-    )
   ]
 
-  #struct[Case $RBoxL(2, 2)$, $RLift(1, 2)$][
-  We apply the induction hypothesis to the premise and then the same rule.
-  - $RBoxL(2, 2)$: here $Gamma = Gamma' union {Box C}$.
+  #struct[Case $RBoxL(2, 2)$][
+    Here $Gamma = Gamma' union {Box C}$.
     #rewrite(
-      prooftree(rule(name: $RBoxL(2, 2)$, $GentzenD provesh(h) Box C, Gamma' seq(2) Delta$, $GentzenD provesh(h-1) C, Gamma' seq(2) Delta$)),
+      prooftree(rule(
+        name: $RBoxL(2, 2)$,
+        $GentzenD provesh(h) Box C, Gamma' seq(2) Delta$,
+        $GentzenD provesh(h-1) C, Gamma' seq(2) Delta$,
+      )),
       prooftree(rule(
         name: $RBoxL(2, 2)$,
         $GentzenD provesh(h) A, Box C, Gamma' seq(2) Delta without {A -> B}, B$,
         ih($GentzenD provesh(h-1) A, C, Gamma' seq(2) Delta without {A -> B}, B$),
       )),
     )
-  - $RLift(1, 2)$:
+  ]
+
+  #struct[Case $RLift(1, 2)$][
     #rewrite(
-      prooftree(rule(name: $RLift(1, 2)$, $GentzenD provesh(h) Gamma seq(2) Delta$, $GentzenD provesh(h-1) Gamma seq(1) Delta$)),
+      prooftree(rule(
+        name: $RLift(1, 2)$,
+        $GentzenD provesh(h) Gamma seq(2) Delta$,
+        $GentzenD provesh(h-1) Gamma seq(1) Delta$,
+      )),
       prooftree(rule(
         name: $RLift(1, 2)$,
         $GentzenD provesh(h) A, Gamma seq(2) Delta without {A -> B}, B$,
@@ -1338,33 +1384,35 @@ The converse direction is proved for sequents in which propositional variables a
 ] <lem:of_visser>
 
 #proof[
-  Let $cal(D)$ be a derivation in $GentzenD$ of the assumed sequent and $h := h(cal(D))$.
-  We prove the claim by induction on the height of $cal(D)$ (@rem:induction), distinguishing cases by the last rule of $cal(D)$.
+  Let $cal(D)$ be a derivation of the $GentzenD proves Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis$ and $h := height(cal(D))$.
+  We prove the claim by induction along the lexicographic order on the pairs $(height(cal(D)), mrm("rules")(cal(D)))$, where $mrm("rules")(cal(D))$ is the number of applications of rules in $cal(D)$, distinguishing cases by the last rule of $cal(D)$.
+  The induction hypothesis applies to every derivation of height at most $height(cal(D)) - 1$, including those that are not subderivations of $cal(D)$, such as the ones produced by $Inv(RImpL(level, level))$ and $Inv(RImpR(level, level))$.
+  It also applies to the premise of the last rule if that rule is $RWk(level, level)$, since the premise may have the same height as $cal(D)$ but has fewer applications of rules.
+
   The statement is generalized over $Gamma, Delta, Phi_1, Phi_2$ and $Psi$:
   in each case below, a sequent obtained from the premises of the last rule is re-decomposed into the form $Gamma'^Vis, Phi'_1, Box Phi'_2 seq(level) Psi', Delta'^Vis$, with components different from those of the conclusion, and the induction hypothesis is applied to this decomposition.
-  In each case we display the last rule, the derivations in $GentzenD$ obtained from its premises by inversions, and the derivation in $GentzenDPL$ built from the sequents given by the induction hypothesis (I.H.).
+  In each case we display the last rule, the derivations in $GentzenD$ obtained from its premises by $Inv(RImpL(level, level))$ and $Inv(RImpR(level, level))$, and the derivation in $GentzenDPL$ built from the sequents given by the induction hypothesis (I.H.).
 
   We first note the following.
   By @lem:visser_shape, the three sets $Gamma^Vis$, $Phi_1$ and $Box Phi_2$ are pairwise disjoint, as are $Psi$ and $Delta^Vis$;
   an element of $Gamma^Vis$ or $Delta^Vis$ that is an implication is $A^Vis$ for a propositional variable, a conjunction or a disjunction $A$, and one that is boxed is $(A -> B)^Vis$ for an implication $A -> B$.
   Since $GentzenDPL$ has $RWk(level, level)$, it suffices to derive in $GentzenDPL$ a sequent whose antecedent is a subset of $Gamma, Phi_1, Phi_2$ and whose succedent is a subset of $Psi, Delta$.
-  Since $RWk(level, level)$ does not increase the height, a sequent of height at most $h - 1$ may be weakened before the induction hypothesis is applied to it; we use this tacitly.
+  Since $RWk(level, level)$ of $GentzenD$ does not increase the height, a sequent of height at most $h - 1$ may be weakened before the induction hypothesis is applied to it; we use this tacitly.
 
   #struct[Case $RAx(level)$][
-  The sequent is $p seq(level) p$.
-  By @lem:visser_shape, $p in Phi_1$ and $p in Psi$, and $RAx(level)$ of $GentzenDPL$ gives $p seq(level) p$.
+    The sequent is $p seq(level) p$.
+    By @lem:visser_shape, $p in Phi_1$ and $p in Psi$, and $RAx(level)$ of $GentzenDPL$ gives $p seq(level) p$.
   ]
 
   #struct[Case $RBotL(level)$][
-  The sequent is $bot seq(level)$.
-  By @lem:visser_shape, $bot in Gamma$, and $RBotL(level)$ of $GentzenDPL$ gives $bot seq(level)$.
+    The sequent is $bot seq(level)$.
+    By @lem:visser_shape, $bot in Gamma$, and $RBotL(level)$ of $GentzenDPL$ gives $bot seq(level)$.
   ]
 
-  #struct[Case $RWk(level, level)$, $RLift(1, 2)$][
-  We apply the induction hypothesis to the premise and then the same rule of $GentzenDPL$.
-  - $RWk(level, level)$: the antecedent of the premise is a subset of $Gamma^Vis, Phi_1, Box Phi_2$, hence of the form $Gamma'^Vis, Phi'_1, Box Phi'_2$ with $Gamma' subset.eq Gamma$, $Phi'_1 subset.eq Phi_1$ and $Phi'_2 subset.eq Phi_2$;
+  #struct[Case $RWk(level, level)$][
+    The antecedent of the premise is a subset of $Gamma^Vis, Phi_1, Box Phi_2$, hence of the form $Gamma'^Vis, Phi'_1, Box Phi'_2$ with $Gamma' subset.eq Gamma$, $Phi'_1 subset.eq Phi_1$ and $Phi'_2 subset.eq Phi_2$;
     similarly its succedent is of the form $Psi', Delta'^Vis$ with $Psi' subset.eq Psi$ and $Delta' subset.eq Delta$.
-    We apply the induction hypothesis to the premise (@rem:induction).
+    We apply the induction hypothesis to the premise.
     #rewrite(
       prooftree(rule(
         name: $RWk(level, level)$,
@@ -1377,7 +1425,10 @@ The converse direction is proved for sequents in which propositional variables a
         ih($GentzenDPL proves Gamma', Phi'_1, Phi'_2 seq(level) Psi', Delta'$),
       )),
     )
-  - $RLift(1, 2)$: we apply the induction hypothesis to the premise.
+  ]
+
+  #struct[Case $RLift(1, 2)$][
+    Follows from:
     #rewrite(
       prooftree(rule(
         name: $RLift(1, 2)$,
@@ -1393,184 +1444,171 @@ The converse direction is proved for sequents in which propositional variables a
   ]
 
   #struct[Case $RImpL(level, level)$][
-  The principal formula is an implication in the antecedent, hence it is $A^Vis$ for some $A in Gamma$ that is a propositional variable, a conjunction or a disjunction.
-  Write the last rule as an instance of $RImpL(level, level)$ with the principal formula $A^Vis$ and the context $Gamma_0$ in the antecedent, so that $Gamma_0 union {A^Vis} = Gamma^Vis, Phi_1, Box Phi_2$;
-  putting $Gamma' := {E in Gamma : E^Vis in Gamma_0}$, we have $Gamma_0 = Gamma'^Vis, Phi_1, Box Phi_2$ and $Gamma = Gamma' union {A}$ by @lem:visser_shape.
-  By @lem:visser_not_mem, none of the formulas inverted below belongs to $Psi, Delta^Vis$, so the inversion lemmas (@lem:inv_imp_r, @lem:inv_imp_l) apply.
-  - $A equiv p$: here $p^Vis equiv (p -> (Box p -> bot)) -> bot$, and the last rule is the following.
+    The principal formula is an implication in the antecedent, hence it is $A^Vis$ for some $A in Gamma$ that is $A equiv p, B and C, B or C$.
+    The last rule is an instance of $RImpL(level, level)$ with the principal formula $A^Vis$.
+    By @lem:visser_shape, there is $Gamma' subset.eq Gamma$ with $Gamma = Gamma' union {A}$ such that the rest of the antecedent is $Gamma'^Vis, Phi_1, Box Phi_2$ (possibly $A in Gamma'$).
+    By @rem:visser_unfolded, $A^Vis equiv D -> E$ with
+    - $A equiv p$: $D equiv p -> (Box p -> bot)$ and $E equiv bot$;
+    - $A equiv B and C$: $D equiv B^Vis -> (C^Vis -> bot)$ and $E equiv bot$;
+    - $A equiv B or C$: $D equiv B^Vis -> bot$ and $E equiv C^Vis$.
+    Hence, the last rule is of the following form.
     #wide(prooftree(rule(
       name: $RImpL(level, level)$,
-      $GentzenD provesh(h) p^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis$,
-      $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, p -> (Box p -> bot)$,
-      $GentzenD provesh(h-1) bot, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis$,
+      $GentzenD provesh(h) A^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis$,
+      $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, D$,
+      $GentzenD provesh(h-1) E, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis$,
     )))
-    From the left premise we obtain the following, where @lem:visser_shape gives $(Psi union Delta^Vis union {bot}) without {bot} = Psi, (Delta without {bot})^Vis$.
-    #wide(prooftree(rule(
-      name: [@lem:erase_bot],
-      $GentzenD provesh(h-1) p, Box p, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta without {bot})^Vis$,
-      rule(
-        name: $Inv(RImpR(level, level))$,
-        $GentzenD provesh(h-1) p, Box p, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, bot$,
+    In each case below we invert the left premise to remove the formulas that are not translations, apply the induction hypothesis to the resulting sequents, and obtain the desired sequent by the rule of $GentzenDPL$ that corresponds to $A$.
+    - $A equiv p$:
+      The antecedents of $p -> (Box p -> bot)$ and $Box p -> bot$ are not implications, so these formulas are not in $FmlPL^Vis$ by @lem:visser_shape, hence not in $Psi, Delta^Vis$, and $Inv(RImpR(level, level))$ applies to them.
+      From the left premise we obtain the following, where @lem:visser_shape gives $(Psi union Delta^Vis union {bot}) without {bot} = Psi, (Delta without {bot})^Vis$.
+      #wide(prooftree(rule(
+        name: [@lem:erase_bot],
+        $GentzenD provesh(h-1) p, Box p, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta without {bot})^Vis$,
         rule(
           name: $Inv(RImpR(level, level))$,
-          $GentzenD provesh(h-1) p, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, Box p -> bot$,
-          $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, p -> (Box p -> bot)$,
+          $GentzenD provesh(h-1) p, Box p, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, bot$,
+          rule(
+            name: $Inv(RImpR(level, level))$,
+            $GentzenD provesh(h-1) p, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, Box p -> bot$,
+            $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, p -> (Box p -> bot)$,
+          ),
         ),
-      ),
-    )))
-    Regarding the antecedent of the conclusion as $Gamma'^Vis, (Phi_1 union {p}), Box (Phi_2 union {p})$, we apply the induction hypothesis.
-    Since $Gamma' union {p} = Gamma$, we obtain the desired sequent as follows.
-    $
-      #prooftree(rule(
-        name: $RWk(level, level)$,
-        $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$,
-        ih($GentzenDPL proves Gamma', p, Phi_1, Phi_2 seq(level) Psi, Delta without {bot}$),
-      ))
-    $
-  - $A equiv B and C$: here $(B and C)^Vis equiv (B^Vis -> (C^Vis -> bot)) -> bot$, and the last rule is the following.
-    #wide(prooftree(rule(
-      name: $RImpL(level, level)$,
-      $GentzenD provesh(h) (B and C)^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis$,
-      $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, B^Vis -> (C^Vis -> bot)$,
-      $GentzenD provesh(h-1) bot, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis$,
-    )))
-    From the left premise we obtain the following.
-    #wide(prooftree(rule(
-      name: [@lem:erase_bot],
-      $GentzenD provesh(h-1) B^Vis, C^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta without {bot})^Vis$,
-      rule(
-        name: $Inv(RImpR(level, level))$,
-        $GentzenD provesh(h-1) B^Vis, C^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, bot$,
-        rule(
-          name: $Inv(RImpR(level, level))$,
-          $GentzenD provesh(h-1) B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, C^Vis -> bot$,
-          $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, B^Vis -> (C^Vis -> bot)$,
-        ),
-      ),
-    )))
-    Regarding the antecedent of the conclusion as $(Gamma' union {B, C})^Vis, Phi_1, Box Phi_2$, we apply the induction hypothesis and obtain the desired sequent as follows.
-    $
-      #prooftree(rule(name: $RWk(level, level)$, $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$, rule(
-        name: $RAndL(level, level)$,
-        $GentzenDPL proves B and C, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta without {bot}$,
-        ih($GentzenDPL proves B, C, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta without {bot}$),
       )))
-    $
-  - $A equiv B or C$: here $(B or C)^Vis equiv (B^Vis -> bot) -> C^Vis$, and the last rule is the following.
-    #wide(prooftree(rule(
-      name: $RImpL(level, level)$,
-      $GentzenD provesh(h) (B or C)^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis$,
-      $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, B^Vis -> bot$,
-      $GentzenD provesh(h-1) C^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis$,
-    )))
-    From the left premise we obtain the following.
-    #wide(prooftree(rule(
-      name: [@lem:erase_bot],
-      $GentzenD provesh(h-1) B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta without {bot})^Vis$,
-      rule(
-        name: $Inv(RImpR(level, level))$,
-        $GentzenD provesh(h-1) B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, bot$,
-        $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, B^Vis -> bot$,
-      ),
-    )))
-    We apply the induction hypothesis to this conclusion and to the right premise, regarding their antecedents as $(Gamma' union {B})^Vis, Phi_1, Box Phi_2$ and $(Gamma' union {C})^Vis, Phi_1, Box Phi_2$, and obtain the desired sequent as follows.
-    $
-      #prooftree(rule(name: $RWk(level, level)$, $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$, rule(
-        name: $ROrL(level, level)$,
-        $GentzenDPL proves B or C, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta$,
-        rule(
+      Regarding the antecedent of the conclusion as $Gamma'^Vis, (Phi_1 union {p}), Box (Phi_2 union {p})$, we apply the induction hypothesis.
+      Since $Gamma' union {p} = Gamma$, we obtain the desired sequent as follows.
+      $
+        #prooftree(rule(
           name: $RWk(level, level)$,
-          $GentzenDPL proves B, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta$,
-          ih($GentzenDPL proves B, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta without {bot}$),
+          $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$,
+          ih($GentzenDPL proves Gamma', p, Phi_1, Phi_2 seq(level) Psi, Delta without {bot}$),
+        ))
+      $
+    - $A equiv B and C$:
+      The formula $B^Vis -> (C^Vis -> bot)$ is not in $FmlPL^Vis$: its consequent is not $bot$, so if it were, by the table in the proof of @lem:visser_shape it would be $(B' or C')^Vis equiv (B'^Vis -> bot) -> C'^Vis$ with $C'^Vis equiv C^Vis -> bot$, and $C^Vis$ and $C^Vis -> bot$ would both be in $FmlPL^Vis$, contradicting @lem:visser_neg.
+      Also $C^Vis -> bot$ is not in $FmlPL^Vis$ by @lem:visser_neg, since $C^Vis in FmlPL^Vis$.
+      Hence neither of them belongs to $Psi, Delta^Vis$, and $Inv(RImpR(level, level))$ applies to them.
+      From the left premise we obtain the following.
+      #wide(prooftree(rule(
+        name: [@lem:erase_bot],
+        $GentzenD provesh(h-1) B^Vis, C^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta without {bot})^Vis$,
+        rule(
+          name: $Inv(RImpR(level, level))$,
+          $GentzenD provesh(h-1) B^Vis, C^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, bot$,
+          rule(
+            name: $Inv(RImpR(level, level))$,
+            $GentzenD provesh(h-1) B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, C^Vis -> bot$,
+            $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, B^Vis -> (C^Vis -> bot)$,
+          ),
         ),
-        ih($GentzenDPL proves C, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta$),
       )))
-    $
+      Regarding the antecedent of the conclusion as $(Gamma' union {B, C})^Vis, Phi_1, Box Phi_2$, we apply the induction hypothesis and obtain the desired sequent as follows.
+      $
+        #prooftree(rule(name: $RWk(level, level)$, $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$, rule(
+          name: $RAndL(level, level)$,
+          $GentzenDPL proves B and C, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta without {bot}$,
+          ih($GentzenDPL proves B, C, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta without {bot}$),
+        )))
+      $
+    - $A equiv B or C$:
+      The formula $B^Vis -> bot$ is not in $FmlPL^Vis$ by @lem:visser_neg, since $B^Vis in FmlPL^Vis$.
+      So, it does not belong to $Psi, Delta^Vis$ and $Inv(RImpR(level, level))$ can be applied to it from the left premise, we obtain the following.
+      #wide(prooftree(rule(
+        name: [@lem:erase_bot],
+        $GentzenD provesh(h-1) B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta without {bot})^Vis$,
+        rule(
+          name: $Inv(RImpR(level, level))$,
+          $GentzenD provesh(h-1) B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, bot$,
+          $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis, B^Vis -> bot$,
+        ),
+      )))
+      We apply the induction hypothesis to this conclusion and to the right premise, regarding their antecedents as $(Gamma' union {B})^Vis, Phi_1, Box Phi_2$ and $(Gamma' union {C})^Vis, Phi_1, Box Phi_2$, and obtain the desired sequent as follows.
+      $
+        #prooftree(rule(name: $RWk(level, level)$, $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$, rule(
+          name: $ROrL(level, level)$,
+          $GentzenDPL proves B or C, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta$,
+          rule(
+            name: $RWk(level, level)$,
+            $GentzenDPL proves B, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta$,
+            ih($GentzenDPL proves B, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta without {bot}$),
+          ),
+          ih($GentzenDPL proves C, Gamma', Phi_1, Phi_2 seq(level) Psi, Delta$),
+        )))
+      $
   ]
 
   #struct[Case $RImpR(level, level)$][
-  The principal formula is an implication in the succedent, hence it is $A^Vis$ for some $A in Delta$ that is a propositional variable, a conjunction or a disjunction.
-  Write the last rule as an instance of $RImpR(level, level)$ with the principal formula $A^Vis$ and the context $Delta_0$ in the succedent, so that $Delta_0 union {A^Vis} = Psi, Delta^Vis$;
-  as in the previous case, $Delta_0 = Psi, Delta'^Vis$ for $Delta' := {E in Delta : E^Vis in Delta_0}$, and $Delta = Delta' union {A}$.
-  By @lem:visser_not_mem, none of the formulas inverted below belongs to $Gamma^Vis, Phi_1, Box Phi_2$, so the inversion lemmas (@lem:inv_imp_l, @lem:inv_imp_r) apply; we use only the left conclusion of $Inv(RImpL(level, level))$ except where stated.
-  - $A equiv p$: the last rule is the following.
+    The principal formula is an implication in the succedent, hence it is $A^Vis$ for some $A in Delta$ that is a $A equiv p, B and C, B or C$.
+    // 主論理式は後件にある含意なので，Δ のある元 A（命題変数，連言，選言のいずれか）によって A^V と書ける．
+    The last rule is an instance of $RImpR(level, level)$ with the principal formula $A^Vis$.
+    // 最後の規則は主論理式 A^V をもつ (→R) の適用である．
+    By @lem:visser_shape, there is $Delta' subset.eq Delta$ with $Delta = Delta' union {A}$ such that the rest of the succedent is $Psi, Delta'^Vis$ (possibly $A in Delta'$).
+    // 補題より，Δ' ⊆ Δ かつ Δ = Δ' ∪ {A} を満たす Δ' で，後件の残りが Ψ, Δ'^V となるものがある（A ∈ Δ' でもよい）．
+    The formulas inverted below are the same as in the case $RImpL(level, level)$, which are implications not in $FmlPL^Vis$ (see there), hence they do not belong to $Gamma^Vis, Phi_1, Box Phi_2$, so $Inv(RImpL(level, level))$ and $Inv(RImpR(level, level))$ apply; we use only the left conclusion of $Inv(RImpL(level, level))$ except where stated.
+    // 以下で反転する論理式は (→L) の場合と同じで，いずれも FmlPL^V に属さない含意である（そちらを参照）．
+    // よって Γ^V, Φ₁, □Φ₂ に属さず，Inv(→L) と Inv(→R) が適用できる．特に断らない限り，Inv(→L) では左の結論のみを使う．
+    By @rem:visser_unfolded, $A^Vis equiv D -> E$ with
+    - $A equiv p$: $D equiv p -> (Box p -> bot)$ and $E equiv bot$;
+    - $A equiv B and C$: $D equiv B^Vis -> (C^Vis -> bot)$ and $E equiv bot$;
+    - $A equiv B or C$: $D equiv B^Vis -> bot$ and $E equiv C^Vis$.
+    Hence the last rule is of the following form.
     #wide(prooftree(rule(
       name: $RImpR(level, level)$,
-      $GentzenD provesh(h) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, p^Vis$,
-      $GentzenD provesh(h-1) p -> (Box p -> bot), Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
+      $GentzenD provesh(h) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, A^Vis$,
+      $GentzenD provesh(h-1) D, Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, E$,
     )))
-    From the premise we obtain the following.
-    #wide(prooftree(rule(
-      name: [@lem:erase_bot],
-      $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, p, (Delta' without {bot})^Vis$,
-      rule(
-        name: $Inv(RImpL(level, level))$,
-        $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot, p$,
-        $GentzenD provesh(h-1) p -> (Box p -> bot), Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
-      ),
-    )))
-    Regarding the succedent of the conclusion as $(Psi union {p}), (Delta' without {bot})^Vis$, we apply the induction hypothesis.
-    Since $Delta' union {p} = Delta$, we obtain the desired sequent as follows.
-    $
-      #prooftree(rule(
-        name: $RWk(level, level)$,
-        $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$,
-        ih($GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, p, Delta' without {bot}$),
-      ))
-    $
-  - $A equiv B and C$: the last rule is the following.
-    #wide(prooftree(rule(
-      name: $RImpR(level, level)$,
-      $GentzenD provesh(h) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, (B and C)^Vis$,
-      $GentzenD provesh(h-1) B^Vis -> (C^Vis -> bot), Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
-    )))
-    We first obtain $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, B^Vis$ from the premise.
-    - If $B equiv.not bot$:
+    In each case below we invert the premise so as to remove the formulas that are not translations, apply the induction hypothesis to the resulting sequents, and obtain the desired sequent by the rule of $GentzenDPL$ that corresponds to $A$.
+    - $A equiv p$:
+      From the premise we obtain the following.
       #wide(prooftree(rule(
         name: [@lem:erase_bot],
-        $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, B^Vis$,
+        $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, p, (Delta' without {bot})^Vis$,
         rule(
           name: $Inv(RImpL(level, level))$,
-          $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot, B^Vis$,
-          $GentzenD provesh(h-1) B^Vis -> (C^Vis -> bot), Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
+          $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot, p$,
+          $GentzenD provesh(h-1) p -> (Box p -> bot), Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
         ),
       )))
-    - If $B equiv bot$, then $B^Vis equiv bot$, so @lem:erase_bot removes $B^Vis$ as well, and we add it back by $RWk(level, level)$.
-      #wide(prooftree(rule(
-        name: $RWk(level, level)$,
-        $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, B^Vis$,
-        rule(
+      Regarding the succedent of the conclusion as $(Psi union {p}), (Delta' without {bot})^Vis$, we apply the induction hypothesis.
+      Since $Delta' union {p} = Delta$, we obtain the desired sequent as follows.
+      $
+        #prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$,
+          ih($GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, p, Delta' without {bot}$),
+        ))
+      $
+    - $A equiv B and C$:
+      We first obtain $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, B^Vis$ from the premise.
+      - If $B equiv.not bot$:
+        #wide(prooftree(rule(
           name: [@lem:erase_bot],
-          $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis$,
+          $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, B^Vis$,
           rule(
             name: $Inv(RImpL(level, level))$,
             $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot, B^Vis$,
             $GentzenD provesh(h-1) B^Vis -> (C^Vis -> bot), Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
           ),
-        ),
-      )))
-    Next we obtain $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, C^Vis$ from the premise, using the right conclusion of $Inv(RImpL(level, level))$ first.
-    - If $C equiv.not bot$:
-      #wide(prooftree(rule(
-        name: [@lem:erase_bot],
-        $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, C^Vis$,
-        rule(
-          name: $Inv(RImpL(level, level))$,
-          $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot, C^Vis$,
+        )))
+      - If $B equiv bot$, then $B^Vis equiv bot$, so @lem:erase_bot removes $B^Vis$, and we add it back by $RWk(level, level)$.
+        #wide(prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, B^Vis$,
           rule(
-            name: $Inv(RImpL(level, level))$,
-            $GentzenD provesh(h-1) C^Vis -> bot, Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
-            $GentzenD provesh(h-1) B^Vis -> (C^Vis -> bot), Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
+            name: [@lem:erase_bot],
+            $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis$,
+            rule(
+              name: $Inv(RImpL(level, level))$,
+              $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot, B^Vis$,
+              $GentzenD provesh(h-1) B^Vis -> (C^Vis -> bot), Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
+            ),
           ),
-        ),
-      )))
-    - If $C equiv bot$, then $C^Vis equiv bot$, so @lem:erase_bot removes $C^Vis$ as well, and we add it back by $RWk(level, level)$.
-      #wide(prooftree(rule(
-        name: $RWk(level, level)$,
-        $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, C^Vis$,
-        rule(
+        )))
+      Next we obtain $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, C^Vis$ from the premise, using the right conclusion of $Inv(RImpL(level, level))$ first.
+      - If $C equiv.not bot$:
+        #wide(prooftree(rule(
           name: [@lem:erase_bot],
-          $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis$,
+          $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, C^Vis$,
           rule(
             name: $Inv(RImpL(level, level))$,
             $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot, C^Vis$,
@@ -1580,138 +1618,149 @@ The converse direction is proved for sequents in which propositional variables a
               $GentzenD provesh(h-1) B^Vis -> (C^Vis -> bot), Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
             ),
           ),
-        ),
+        )))
+      - If $C equiv bot$, then $C^Vis equiv bot$, so @lem:erase_bot removes $C^Vis$, and we add it back by $RWk(level, level)$.
+        #wide(prooftree(rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis, C^Vis$,
+          rule(
+            name: [@lem:erase_bot],
+            $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, (Delta' without {bot})^Vis$,
+            rule(
+              name: $Inv(RImpL(level, level))$,
+              $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot, C^Vis$,
+              rule(
+                name: $Inv(RImpL(level, level))$,
+                $GentzenD provesh(h-1) C^Vis -> bot, Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
+                $GentzenD provesh(h-1) B^Vis -> (C^Vis -> bot), Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, bot$,
+              ),
+            ),
+          ),
+        )))
+      Regarding the succedents of the two sequents obtained as $Psi, ((Delta' without {bot}) union {B})^Vis$ and $Psi, ((Delta' without {bot}) union {C})^Vis$, we apply the induction hypothesis and obtain the desired sequent as follows.
+      $
+        #prooftree(rule(name: $RWk(level, level)$, $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$, rule(
+          name: $RAndR(level, level)$,
+          $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta' without {bot}, B and C$,
+          ih($GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta' without {bot}, B$),
+          ih($GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta' without {bot}, C$),
+        )))
+      $
+    - $A equiv B or C$:
+      From the premise we obtain the following.
+      #wide(prooftree(rule(
+        name: $Inv(RImpL(level, level))$,
+        $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, C^Vis, B^Vis$,
+        $GentzenD provesh(h-1) B^Vis -> bot, Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, C^Vis$,
       )))
-    Regarding the succedents of the two sequents obtained as $Psi, ((Delta' without {bot}) union {B})^Vis$ and $Psi, ((Delta' without {bot}) union {C})^Vis$, we apply the induction hypothesis and obtain the desired sequent as follows.
-    $
-      #prooftree(rule(name: $RWk(level, level)$, $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$, rule(
-        name: $RAndR(level, level)$,
-        $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta' without {bot}, B and C$,
-        ih($GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta' without {bot}, B$),
-        ih($GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta' without {bot}, C$),
-      )))
-    $
-  - $A equiv B or C$: the last rule is the following.
-    #wide(prooftree(rule(
-      name: $RImpR(level, level)$,
-      $GentzenD provesh(h) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, (B or C)^Vis$,
-      $GentzenD provesh(h-1) B^Vis -> bot, Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, C^Vis$,
-    )))
-    From the premise we obtain the following.
-    #wide(prooftree(rule(
-      name: $Inv(RImpL(level, level))$,
-      $GentzenD provesh(h-1) Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, C^Vis, B^Vis$,
-      $GentzenD provesh(h-1) B^Vis -> bot, Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta'^Vis, C^Vis$,
-    )))
-    Regarding the succedent of the conclusion as $Psi, (Delta' union {B, C})^Vis$, we apply the induction hypothesis and obtain the desired sequent as follows.
-    $
-      #prooftree(rule(name: $RWk(level, level)$, $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$, rule(
-        name: $ROrR(level, level)$,
-        $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta', B or C$,
-        ih($GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta', B, C$),
-      )))
-    $
+      Regarding the succedent of the conclusion as $Psi, (Delta' union {B, C})^Vis$, we apply the induction hypothesis and obtain the desired sequent as follows.
+      $
+        #prooftree(rule(name: $RWk(level, level)$, $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$, rule(
+          name: $ROrR(level, level)$,
+          $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta', B or C$,
+          ih($GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta', B, C$),
+        )))
+      $
   ]
 
   #struct[Case $RBoxGL(1, 1)$][
-  Here $level = 1$, the antecedent consists of boxed formulas, and the succedent is a single boxed formula.
-  Hence $Phi_1 = Psi = emptyset$, every element of $Gamma$ and $Delta$ is an implication by @lem:visser_shape, and $Delta$ is a singleton since $(dot)^Vis$ is injective.
-  Write $Gamma = {C_j -> D_j : j < k}$ with the $C_j -> D_j$ pairwise distinct ($k >= 0$) and $Delta = {A -> B}$.
-  Since $(A -> B)^Vis equiv Box (A^Vis -> B^Vis)$, the last rule is the following, where the set of unboxed formulas in the premise is ${C_j^Vis -> D_j^Vis : j < k}, Phi_2$.
-  #wide(prooftree(rule(
-    name: $RBoxGL(1, 1)$,
-    $GentzenD provesh(h) Gamma^Vis, Box Phi_2 seq(1) (A -> B)^Vis$,
-    $GentzenD provesh(h-1) Gamma^Vis, Box Phi_2, {C_j^Vis -> D_j^Vis : j < k}, Phi_2, (A -> B)^Vis seq(1) A^Vis -> B^Vis$,
-  )))
-  Fix $I subset.eq {0, dots, k - 1}$, and let $Delta_I := {D_j : j in I}$ and $Gamma_I := {C_j : j in.not I}$ as in @def:gentzen_dpl.
-  We first invert $A^Vis -> B^Vis$ by $Inv(RImpR(1, 1))$, and then invert $C_j^Vis -> D_j^Vis$ for $j = 0, dots, k - 1$ in turn by $Inv(RImpL(1, 1))$, using the right conclusion if $j in I$ and the left conclusion if $j in.not I$.
-  #wide(prooftree(rule(
-    name: [$Inv(RImpL(1, 1))$, $k$ times],
-    $GentzenD provesh(h-1) Delta_I^Vis, A^Vis, Gamma^Vis, Phi_2, Box Phi_2, (A -> B)^Vis seq(1) B^Vis, Gamma_I^Vis$,
-    rule(
-      name: $Inv(RImpR(1, 1))$,
-      $GentzenD provesh(h-1) A^Vis, Gamma^Vis, Box Phi_2, {C_j^Vis -> D_j^Vis : j < k}, Phi_2, (A -> B)^Vis seq(1) B^Vis$,
+    Here $level = 1$, the antecedent consists of boxed formulas, and the succedent is a single boxed formula.
+    Hence $Phi_1 = Psi = emptyset$, every element of $Gamma$ and $Delta$ is an implication by @lem:visser_shape, and $Delta$ is a singleton since $(dot)^Vis$ is injective.
+    Write $Gamma = {C_j -> D_j : j < k}$ with the $C_j -> D_j$ pairwise distinct ($k >= 0$) and $Delta = {A -> B}$.
+    Since $(A -> B)^Vis equiv Box (A^Vis -> B^Vis)$, the last rule is the following, where the set of unboxed formulas in the premise is ${C_j^Vis -> D_j^Vis : j < k}, Phi_2$.
+    #wide(prooftree(rule(
+      name: $RBoxGL(1, 1)$,
+      $GentzenD provesh(h) Gamma^Vis, Box Phi_2 seq(1) (A -> B)^Vis$,
       $GentzenD provesh(h-1) Gamma^Vis, Box Phi_2, {C_j^Vis -> D_j^Vis : j < k}, Phi_2, (A -> B)^Vis seq(1) A^Vis -> B^Vis$,
-    ),
-  )))
-  These inversions are legitimate, since each inverted formula is distinct from the other formulas on its side:
-  $A^Vis$ and the $D_j^Vis$ belong to $FmlPL^Vis$, whereas $C_j^Vis -> D_j^Vis$ does not by @lem:visser_not_mem;
-  $Phi_2$ consists of propositional variables, and $Gamma^Vis$, $Box Phi_2$ and $(A -> B)^Vis$ consist of boxed formulas;
-  and $C_i^Vis -> D_i^Vis equiv.not C_j^Vis -> D_j^Vis$ for $i eq.not j$, since otherwise $C_i equiv C_j$ and $D_i equiv D_j$ by the injectivity of $(dot)^Vis$.
-  Regarding the antecedent of the resulting sequent as $(Delta_I union {A} union Gamma union {A -> B})^Vis, Phi_2, Box Phi_2$ and its succedent as $(Gamma_I union {B})^Vis$, we apply the induction hypothesis and obtain, for every $I subset.eq {0, dots, k - 1}$,
-  $
-    GentzenDPL proves Delta_I, Gamma, Phi_2, A -> B, A seq(1) B, Gamma_I.
-  $
-  These $2^k$ sequents are the premises of $RImpR(1, 1)$ of $GentzenDPL$ with the context $Gamma union Phi_2$ and the implications $C_0 -> D_0, dots, C_(k - 1) -> D_(k - 1)$, whose conclusion is $Gamma union Phi_2, {C_j -> D_j : j < k} seq(1) A -> B$, that is, $Gamma, Phi_2 seq(1) Delta$; this is the desired sequent since $Phi_1 = Psi = emptyset$.
-  $
-    #prooftree(rule(
-      name: $RImpR(1, 1)$,
-      $GentzenDPL proves Gamma, Phi_2 seq(1) A -> B$,
-      ih($GentzenDPL proves Delta_I, Gamma, Phi_2, A -> B, A seq(1) B, Gamma_I quad (I subset.eq {0, dots, k - 1})$),
-    ))
-  $
+    )))
+    Fix $I subset.eq {0, dots, k - 1}$, and let $Delta_I := {D_j : j in I}$ and $Gamma_I := {C_j : j in.not I}$ as in @def:gentzen_dpl.
+    We first invert $A^Vis -> B^Vis$ by $Inv(RImpR(1, 1))$, and then invert $C_j^Vis -> D_j^Vis$ for $j = 0, dots, k - 1$ in turn by $Inv(RImpL(1, 1))$, using the right conclusion if $j in I$ and the left conclusion if $j in.not I$.
+    #wide(prooftree(rule(
+      name: [$Inv(RImpL(1, 1))$, $k$ times],
+      $GentzenD provesh(h-1) Delta_I^Vis, A^Vis, Gamma^Vis, Phi_2, Box Phi_2, (A -> B)^Vis seq(1) B^Vis, Gamma_I^Vis$,
+      rule(
+        name: $Inv(RImpR(1, 1))$,
+        $GentzenD provesh(h-1) A^Vis, Gamma^Vis, Box Phi_2, {C_j^Vis -> D_j^Vis : j < k}, Phi_2, (A -> B)^Vis seq(1) B^Vis$,
+        $GentzenD provesh(h-1) Gamma^Vis, Box Phi_2, {C_j^Vis -> D_j^Vis : j < k}, Phi_2, (A -> B)^Vis seq(1) A^Vis -> B^Vis$,
+      ),
+    )))
+    These applications of $Inv(RImpR(1, 1))$ and $Inv(RImpL(1, 1))$ are legitimate, since each inverted formula is distinct from the other formulas on its side:
+    $A^Vis$ and the $D_j^Vis$ belong to $FmlPL^Vis$, whereas $C_j^Vis -> D_j^Vis$ does not: if $D_j equiv bot$, it is $C_j^Vis -> bot$ with $C_j^Vis in FmlPL^Vis$, which is not in $FmlPL^Vis$ by @lem:visser_neg; otherwise its consequent is not $bot$, so if it were in $FmlPL^Vis$, by the table in the proof of @lem:visser_shape it would be $(E or F)^Vis equiv (E^Vis -> bot) -> F^Vis$ with $E^Vis -> bot equiv C_j^Vis$, and $E^Vis$ and $E^Vis -> bot$ would both be in $FmlPL^Vis$, contradicting @lem:visser_neg;
+    $Phi_2$ consists of propositional variables, and $Gamma^Vis$, $Box Phi_2$ and $(A -> B)^Vis$ consist of boxed formulas;
+    and $C_i^Vis -> D_i^Vis equiv.not C_j^Vis -> D_j^Vis$ for $i eq.not j$, since otherwise $C_i equiv C_j$ and $D_i equiv D_j$ by the injectivity of $(dot)^Vis$.
+    Regarding the antecedent of the resulting sequent as $(Delta_I union {A} union Gamma union {A -> B})^Vis, Phi_2, Box Phi_2$ and its succedent as $(Gamma_I union {B})^Vis$, we apply the induction hypothesis and obtain, for every $I subset.eq {0, dots, k - 1}$,
+    $
+      GentzenDPL proves Delta_I, Gamma, Phi_2, A -> B, A seq(1) B, Gamma_I.
+    $
+    These $2^k$ sequents are the premises of $RImpR(1, 1)$ of $GentzenDPL$ with the context $Gamma union Phi_2$ and the implications $C_0 -> D_0, dots, C_(k - 1) -> D_(k - 1)$, whose conclusion is $Gamma union Phi_2, {C_j -> D_j : j < k} seq(1) A -> B$, that is, $Gamma, Phi_2 seq(1) Delta$; this is the desired sequent since $Phi_1 = Psi = emptyset$.
+    $
+      #prooftree(rule(
+        name: $RImpR(1, 1)$,
+        $GentzenDPL proves Gamma, Phi_2 seq(1) A -> B$,
+        ih($GentzenDPL proves Delta_I, Gamma, Phi_2, A -> B, A seq(1) B, Gamma_I colon I subset.eq {0, dots, k - 1}$),
+      ))
+    $
   ]
 
   #struct[Case $RBoxL(2, 2)$][
-  Here $level = 2$, and by @lem:visser_shape the principal formula is either $Box q$ for some $q in Phi_2$, or $(A -> B)^Vis equiv Box (A^Vis -> B^Vis)$ for some $A -> B in Gamma$.
-  - If the principal formula is $Box q$ for some $q in Phi_2$: let $Phi'_2$ be the set of variables $r$ with $Box r$ in the antecedent of the premise, so that $Phi'_2 union {q} = Phi_2$.
-    Regarding the antecedent of the premise as $Gamma^Vis, (Phi_1 union {q}), Box Phi'_2$, we apply the induction hypothesis.
-    Since $Phi'_2 union {q} = Phi_2$, we obtain the desired sequent.
-    #rewrite(
-      prooftree(rule(
+    Here $level = 2$, and by @lem:visser_shape the principal formula is either $Box q$ for some $q in Phi_2$, or $(A -> B)^Vis equiv Box (A^Vis -> B^Vis)$ for some $A -> B in Gamma$.
+    - If the principal formula is $Box q$ for some $q in Phi_2$: let $Phi'_2$ be as $Phi'_2 union {q} = Phi_2$.
+      Regarding the antecedent of the premise as $Gamma^Vis, (Phi_1 union {q}), Box Phi'_2$, we apply the induction hypothesis and obtain the desired sequent.
+      #rewrite(
+        prooftree(rule(
+          name: $RBoxL(2, 2)$,
+          $GentzenD provesh(h) Box q, Gamma^Vis, Phi_1, Box Phi'_2 seq(2) Psi, Delta^Vis$,
+          $GentzenD provesh(h-1) q, Gamma^Vis, Phi_1, Box Phi'_2 seq(2) Psi, Delta^Vis$,
+        )),
+        prooftree(rule(
+          name: $RWk(2, 2)$,
+          $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(2) Psi, Delta$,
+          ih($GentzenDPL proves Gamma, q, Phi_1, Phi'_2 seq(2) Psi, Delta$),
+        )),
+      )
+    - If the principal formula is $(A -> B)^Vis$ for some $A -> B in Gamma$: let $Gamma'$ be as in the case $RImpL(level, level)$, so that $Gamma' union {A -> B} = Gamma$ and the last rule is the following.
+      #wide(prooftree(rule(
         name: $RBoxL(2, 2)$,
-        $GentzenD provesh(h) Box q, Gamma^Vis, Phi_1, Box Phi'_2 seq(2) Psi, Delta^Vis$,
-        $GentzenD provesh(h-1) q, Gamma^Vis, Phi_1, Box Phi'_2 seq(2) Psi, Delta^Vis$,
-      )),
-      prooftree(rule(
-        name: $RWk(2, 2)$,
-        $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(2) Psi, Delta$,
-        ih($GentzenDPL proves Gamma, q, Phi_1, Phi'_2 seq(2) Psi, Delta$),
-      )),
-    )
-  - If the principal formula is $(A -> B)^Vis$ for some $A -> B in Gamma$: let $Gamma'$ be as in the case $RImpL(level, level)$, so that $Gamma' union {A -> B} = Gamma$ and the last rule is the following.
-    #wide(prooftree(rule(
-      name: $RBoxL(2, 2)$,
-      $GentzenD provesh(h) (A -> B)^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
-      $GentzenD provesh(h-1) A^Vis -> B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
-    )))
-    By @lem:visser_not_mem, $A^Vis -> B^Vis$ does not belong to $Gamma'^Vis, Phi_1, Box Phi_2$, so the left and the right conclusion of $Inv(RImpL(2, 2))$ applied to the premise give the following.
-    #wide(prooftree(rule(
-      name: $Inv(RImpL(2, 2))$,
-      $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis, A^Vis$,
-      $GentzenD provesh(h-1) A^Vis -> B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
-    )))
-    #wide(prooftree(rule(
-      name: $Inv(RImpL(2, 2))$,
-      $GentzenD provesh(h-1) B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
-      $GentzenD provesh(h-1) A^Vis -> B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
-    )))
-    We apply the induction hypothesis to these two sequents and obtain the desired sequent as follows.
-    $
-      #prooftree(rule(name: $RWk(2, 2)$, $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(2) Psi, Delta$, rule(
-        name: $RImpL(2, 2)$,
-        $GentzenDPL proves A -> B, Gamma', Phi_1, Phi_2 seq(2) Psi, Delta$,
-        ih($GentzenDPL proves Gamma', Phi_1, Phi_2 seq(2) Psi, Delta, A$),
-        ih($GentzenDPL proves B, Gamma', Phi_1, Phi_2 seq(2) Psi, Delta$),
+        $GentzenD provesh(h) (A -> B)^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
+        $GentzenD provesh(h-1) A^Vis -> B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
       )))
-    $
+      By the same argument as for $C_j^Vis -> D_j^Vis$ in the case $RBoxGL(1, 1)$, $A^Vis -> B^Vis$ does not belong to $FmlPL^Vis$, and hence not to $Gamma'^Vis, Phi_1, Box Phi_2$, so the left and the right conclusion of $Inv(RImpL(2, 2))$ applied to the premise give the following.
+      #wide(prooftree(rule(
+        name: $Inv(RImpL(2, 2))$,
+        $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis, A^Vis$,
+        $GentzenD provesh(h-1) A^Vis -> B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
+      )))
+      #wide(prooftree(rule(
+        name: $Inv(RImpL(2, 2))$,
+        $GentzenD provesh(h-1) B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
+        $GentzenD provesh(h-1) A^Vis -> B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
+      )))
+      We apply the induction hypothesis to these two sequents and obtain the desired sequent as follows.
+      $
+        #prooftree(rule(name: $RWk(2, 2)$, $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(2) Psi, Delta$, rule(
+          name: $RImpL(2, 2)$,
+          $GentzenDPL proves A -> B, Gamma', Phi_1, Phi_2 seq(2) Psi, Delta$,
+          ih($GentzenDPL proves Gamma', Phi_1, Phi_2 seq(2) Psi, Delta, A$),
+          ih($GentzenDPL proves B, Gamma', Phi_1, Phi_2 seq(2) Psi, Delta$),
+        )))
+      $
   ]
 
   #struct[Case $RLift(2, 3)$][
-  Both sides of the conclusion consist of boxed formulas, so $Phi_1 = Psi = emptyset$ and, by @lem:visser_shape, $Gamma$ and $Delta$ consist of implications: $Gamma = {A_i -> B_i : i < n}$ and $Delta = {C_j -> D_j : j < m}$ for some $n, m >= 0$.
-  We apply the induction hypothesis to the premise and then $RLift(2, 3)$ of $GentzenDPL$ with $Phi := Phi_2$.
-  #rewrite(
-    prooftree(rule(
-      name: $RLift(2, 3)$,
-      $GentzenD provesh(h) Gamma^Vis, Box Phi_2 seq(3) Delta^Vis$,
-      $GentzenD provesh(h-1) Gamma^Vis, Box Phi_2 seq(2) Delta^Vis$,
-    )),
-    prooftree(rule(
-      name: $RLift(2, 3)$,
-      $GentzenDPL proves Gamma, Phi_2 seq(3) Delta$,
-      ih($GentzenDPL proves Gamma, Phi_2 seq(2) Delta$),
-    )),
-  )
+    Both sides of the conclusion consist of boxed formulas, so $Phi_1 = Psi = emptyset$ and, by @lem:visser_shape, $Gamma$ and $Delta$ consist of implications: $Gamma = {A_i -> B_i : i < n}$ and $Delta = {C_j -> D_j : j < m}$ for some $n, m >= 0$.
+    We apply the induction hypothesis to the premise and then $RLift(2, 3)$ of $GentzenDPL$ with $Phi := Phi_2$.
+    #rewrite(
+      prooftree(rule(
+        name: $RLift(2, 3)$,
+        $GentzenD provesh(h) Gamma^Vis, Box Phi_2 seq(3) Delta^Vis$,
+        $GentzenD provesh(h-1) Gamma^Vis, Box Phi_2 seq(2) Delta^Vis$,
+      )),
+      prooftree(rule(
+        name: $RLift(2, 3)$,
+        $GentzenDPL proves Gamma, Phi_2 seq(3) Delta$,
+        ih($GentzenDPL proves Gamma, Phi_2 seq(2) Delta$),
+      )),
+    )
   ]
 
 ]
@@ -1795,7 +1844,7 @@ In that system, the weakening, contraction, and inversion rules are height-prese
 
 In this paper, these problems are avoided in @lem:of_visser as follows.
 Since our sequents are based on _sets_, contraction is built into the formulation and never needs to be applied explicitly, let alone height-preservingly.
-The case where the principal formula of $RBoxL(2, 2)$ is $Box(E^Vis -> F^Vis)$ is handled by the height-preserving inversion $Inv(RImpL(2, 2))$ (@lem:inv_imp_l), which returns the premise to the form required by the induction hypothesis; the same device handles the cases of $RImpL(level, level)$ and $RImpR(level, level)$ whose principal formulas are the translations of variables, conjunctions and disjunctions (@rem:visser_unfolded).
+The case where the principal formula of $RBoxL(2, 2)$ is $Box(E^Vis -> F^Vis)$ is handled by the height-preserving inversion $Inv(RImpL(2, 2))$, which returns the premise to the form required by the induction hypothesis; the same device handles the cases of $RImpL(level, level)$ and $RImpR(level, level)$ whose principal formulas are the translations of variables, conjunctions and disjunctions (@rem:visser_unfolded).
 Moreover, the problematic case where the principal formula of $RBoxL(2, 2)$ is $Box p$ is absorbed by allowing the two sets of variables $Phi_1$ and $Phi_2$ in the statement to differ:
 unboxing $Box p$ merely moves $p$ from $Phi_2$ to $Phi_1$, so the induction hypothesis applies directly, without any use of weakening.
 
