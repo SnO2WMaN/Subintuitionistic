@@ -295,3 +295,16 @@
   align: align,
   ..xs,
 ))
+
+// A derivation `before` rewritten into the derivation `after`, as an equation with a squiggly arrow,
+// always centered, overflowing both margins if it is wider than the text.
+// The columns are measured so that the trees keep their natural width rather than being squeezed.
+#let rewrite(before, after) = context wide(grid(
+  columns: (measure(before).width, auto, measure(after).width),
+  column-gutter: 2em,
+  align: horizon,
+  before, $arrow.squiggly$, after,
+))
+
+// `struct[title][body]`: a part of a proof, with a bold title at the start of the first line.
+#let struct(title, body) = block(width: 100%, breakable: true, above: 1.2em)[*#title*:#h(0.5em)#body]
