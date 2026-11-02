@@ -12,29 +12,28 @@
   ),
   date: datetime.today(),
   abstract: [
-    Just as Visser showed that the formal propositional logic $LogicFPL$ can be embedded into Gödel--Löb provability logic $LogicGL$,
-    Petrukhin proposed a propositional logic $LogicSPL$ that can be embedded into Solovay's non-normal provability logic $LogicS$.
-    In this paper, we fix Petrukhin's proof and
-    extend the result to Japaridze's provability logic $LogicD$,
-    and propose a propositional logic $LogicDPL$ that can be embedded into $LogicD$.
+    Visser showed that his Formal Propositional Logic $LogicFPL$ embeds into the Gödel--Löb provability logic $LogicGL$.
+    Analogously, Petrukhin introduced a propositional logic $LogicSPL$ and claimed that it embeds into Solovay's non-normal provability logic $LogicS$.
+    In this paper, we point out errors in Petrukhin's proof and give a complete proof of this embedding.
+    We then introduce a propositional logic $LogicDPL$ and show that it embeds in the same way into Japaridze's provability logic $LogicD$.
   ],
 )
 
 = Introduction
 
-In 1976, Solovay @Sol76 proved the arithmetical completeness theorem, which is a fundamental landmark result in provability logic.
+In 1976, Solovay @Sol76 proved the arithmetical completeness theorem, which is a fundamental result in provability logic.
 More precisely, he proved that a modal formula is provable in the logic $LogicGL$ if and only if
-every arithmetical sentence, obtained from the modal formula by interpreting the propositional variables as arithmetical sentences
-and the modal operator $Box$ as an appropriate provability predicate $mrm("Pr")_TheoryPA (x)$ of $TheoryPA$, is provable in $TheoryPA$.
+every arithmetical sentence obtained from it by interpreting the propositional variables as arithmetical sentences
+and the modal operator $Box$ as a standard provability predicate $mrm("Pr")_TheoryPA (x)$ of $TheoryPA$ is provable in $TheoryPA$.
 As an extension of this result, he also showed that a non-normal extension of $LogicGL$, known as $LogicS$, is arithmetically complete with respect to
 true arithmetic $TheoryTA$.
-Furthermore, Japaridze (also transliterated as Dzhaparidze) discovered a provability logic $LogicD$
-that is strictly intermediate between $LogicGL$ and $LogicS$ in his thesis @Jap86.
+Furthermore, in his thesis @Jap86, Japaridze (also transliterated as Dzhaparidze) discovered a provability logic $LogicD$
+that lies strictly between $LogicGL$ and $LogicS$.
 The logic $LogicD$ is the provability logic of $TheoryPA$ relative to $TheoryPA + mrm("Rfn")_TheoryPA (Sigma_1)$,
-that is, any modal formula is provable in $LogicD$ if and only if
-every arithmetical sentence obtained from the formula by the above interpretation is provable in $TheoryPA + mrm("Rfn")_TheoryPA (Sigma_1)$.
+that is, a modal formula is provable in $LogicD$ if and only if
+every arithmetical sentence obtained from it by the above interpretation is provable in $TheoryPA + mrm("Rfn")_TheoryPA (Sigma_1)$.
 Here, $mrm("Rfn")_TheoryPA (Sigma_1)$ denotes the reflection principle for $Sigma_1$-sentences.
-Subsequently, Beklemishev @Bek87 proved the classification theorem for provability logics,
+Subsequently, Beklemishev @Bek90 proved the classification theorem for provability logics,
 which states that every provability logic must belong to one of four families of logics,
 each being an appropriate extension of one of $LogicGL$, $LogicS$, or $LogicD$.
 For more results and detailed discussions about $LogicD$ and the classification theorem,
@@ -55,37 +54,32 @@ which has three levels of sequents $seq(1)$, $seq(2)$ and $seq(3)$.
 Sequents with $seq(1)$ and $seq(2)$ correspond to provability in $LogicGL$ and $LogicS$, respectively, and sequents with $seq(3)$ correspond to provability in $LogicD$.
 
 Another well-known result, due to Gödel, McKinsey and Tarski @God33 @MT48,
-is that provability in propositional intuitionistic logic $LogicInt$ can be interpreted as provability in the modal logic $LogicSFour$
-via a translation known as Gödel translation.
+is that provability in intuitionistic propositional logic $LogicInt$ can be interpreted as provability in the modal logic $LogicSFour$
+via a translation now known as the Gödel translation.
 When such a correspondence holds, the modal logic is called a _modal companion_ of the propositional logic
 (for instance, $LogicSFour$ is a modal companion of $LogicInt$).
-It is well known which modal logics are the modal companions of logics stronger than $LogicInt$, that is, of superintuitionistic logics
-(see @CZ97).
-On the other hand, it has also been investigated which propositional logics have modal companions weaker than or incomparable to $LogicSFour$.
+The modal companions of superintuitionistic logics, that is, of logics extending $LogicInt$, are well understood (see @CZ97).
+Propositional logics whose modal companions are weaker than or incomparable with $LogicSFour$ have also been studied.
 Visser @Vis81 found two propositional logics whose modal companions, via a modified Gödel translation, are $LogicKFour$ and $LogicGL$, respectively,
 and named them Basic Propositional Logic $LogicBPL$ and Formal Propositional Logic $LogicFPL$.
 Simple sequent calculi for $LogicBPL$ and $LogicFPL$ were proposed by Ishii et al. @IKK01.
-Yamasaki and Sano @YS17 modified their sequent calculus for $LogicBPL$ into a G3-style sequent calculus
+Yamasaki and Sano @YS17 modified the sequent calculus of Ishii et al. for $LogicBPL$ into a G3-style sequent calculus
 and investigated its proof-theoretic properties.
-Moreover, they gave a proof-theoretic embedding of $LogicBPL$ into $LogicKFour$ via the modified Gödel translation
-by means of analytic proofs.
-We also note that, in the direction opposite to ours, Chen @Che21 discussed such an embedding for the logic $Logic("F")$ introduced by Corsi @Cor87, which is weaker than $LogicBPL$ and corresponds to the modal logic $LogicK$.
+Moreover, they gave a proof-theoretic embedding of $LogicBPL$ into $LogicKFour$ via a modified Gödel translation.
+We also note that Chen @Che21 discussed such an embedding for the logic $Logic("F")$ introduced by Corsi @Cor87, which is weaker than $LogicBPL$ and corresponds to the modal logic $LogicK$.
 
-Petrukhin @Pet23 combined the idea of Kushida's two-level sequent calculus for $LogicS$ with a sequent calculus for $LogicFPL$,
-proposing a sequent calculus for a propositional logic with two levels of sequents,
-and he named the propositional logic obtained from this sequent calculus Solovay Propositional Logic $LogicSPL$.
-Furthermore, by employing the method of Yamasaki and Sano,
-he claims a proof-theoretic embedding of the sequent calculus for $LogicSPL$ into Kushida's sequent calculus for $LogicS$ via the modified Gödel translation,
-that is, $LogicS$ is a modal companion of $LogicSPL$.
-However, Petrukhin's proof appears to contain some errors,
-and it seems that straightforward corrections are insufficient to fix them.
+Petrukhin @Pet23 combined Kushida's idea of two levels of sequents with a sequent calculus for $LogicFPL$
+and named the propositional logic defined by the resulting calculus Solovay Propositional Logic $LogicSPL$.
+Furthermore, following the method of Yamasaki and Sano, he claimed that a modified Gödel translation embeds his calculus for $LogicSPL$ into Kushida's calculus for $LogicS$,
+that is, that $LogicS$ is a modal companion of $LogicSPL$.
+However, his proof contains errors that cannot be repaired by straightforward local corrections (see @sect:errors_in_petrukhin).
 
-This paper is devoted to two objectives.
+This paper has two aims.
 The first is to provide a complete and detailed proof from scratch that $LogicS$ is a modal companion of $LogicSPL$,
 and in the course of doing so, to identify the errors in Petrukhin's paper.
 For the sequent calculus of $LogicS$, we use not Kushida's original calculus
-but a further modification of the one corrected by Kashima et al. @KK23.
-The second objective is to define a sequent calculus for a propositional logic,
+but a further modification of the one corrected by Kashima and Kato @KK23.
+The second aim is to define a sequent calculus for a propositional logic,
 which we name Dzhaparidze Propositional Logic $LogicDPL$.
 The sequent calculus for $LogicDPL$ has three levels of sequents,
 and is obtained by adding to the sequent calculus for $LogicSPL$ one rule which arises naturally from the sequent calculus for $LogicD$.
@@ -109,7 +103,7 @@ Finally, we give some concluding remarks and open problems in @sect:conclusion.
 
 == Acknowledgements
 
-The author would like to thank Kohei Tominaga, Naoyuki Hatanaka, Haruka Kogure, and Taishi Kurahashi
+The author would like to thank Kohei Tominaga, Naoyuki Hatanaka, Haruka Kogure and Taishi Kurahashi
 for carefully reading the first draft of this paper
 and providing valuable discussions and corrections of minor errors.
 
@@ -133,9 +127,9 @@ In this section, we introduce some notations and definitions that are used throu
 For more details, see standard textbooks such as @Boo94 @CZ97.
 
 Propositional variables are denoted by lowercase letters $p, q, r, dots$, and the set of all propositional variables is denoted by $PropVar$.
-Formulas of propositional logic are constructed from propositional variables by the logical connectives $bot, and, or, ->$.
-Formulas of modal logic are constructed from propositional variables by $bot, ->$ and the modal operator $Box$.
-Other connectives are defined as usual:
+Formulas of propositional logic are built from propositional variables and $bot$ by $and$, $or$ and $->$;
+formulas of modal logic are built from propositional variables and $bot$ by $->$ and $Box$.
+In both languages, $not$ and $top$ are abbreviations; in modal formulas, $and$ and $or$ are also abbreviations, as follows:
 
 $
   not A :equiv A -> bot, quad top :equiv not bot, quad A and B :equiv not (A -> not B), quad A or B :equiv not A -> B.
@@ -143,13 +137,13 @@ $
 
 Formulas of both propositional logic and modal logic are denoted by uppercase letters $A, B, C, dots$.
 We write $FmlPL$ for the set of all formulas of propositional logic, and $FmlML$ for the set of all formulas of modal logic.
-For our purposes, uppercase Greek letters $Gamma, Delta, dots$ denote _sets_ of formulas.
+Uppercase Greek letters $Gamma, Delta, dots$ denote _sets_ of formulas.
 For a set $Gamma$ of modal formulas, we write $Box Gamma$ for the set ${Box A : A in Gamma}$.
 Moreover, for a finite set $Gamma$, we write $lconj Gamma$ and $ldisj Gamma$ for the conjunction and the disjunction of all elements of $Gamma$,
 respectively, where the empty conjunction $lconj emptyset$ and the empty disjunction $ldisj emptyset$ are understood as $top$ and $bot$.
 
 The modal logic $LogicGL$, named after Gödel and Löb, is the smallest normal modal logic containing the axiom $Box (Box A -> A) -> Box A$.
-Solovay's modal logic $LogicS$ is a non-normal extension of $LogicGL$ with the axiom $Box A -> A$;
+Solovay's modal logic $LogicS$ is the non-normal extension of $LogicGL$ with the axiom $Box A -> A$;
 that is, $LogicS$ is the smallest set of formulas that contains all theorems of $LogicGL$ and all instances of $Box A -> A$, and is closed under modus ponens only (but not under necessitation).
 Japaridze's modal logic $LogicD$ is the non-normal extension of $LogicGL$ with the axioms $Box (Box A or Box B) -> Box A or Box B$ and $not Box bot$, defined analogously.
 The following proposition can be shown by using the semantic tools for $LogicS$ and $LogicD$ developed in @Vis84 @Bek89.
@@ -173,7 +167,7 @@ The Gödel translation is a well-known embedding of intuitionistic propositional
   For a set $Gamma$ of propositional formulas, we write $Gamma^God$ for the set ${A^God : A in Gamma}$.
 ] <def:godel>
 
-However, for our purpose, we need another translation, introduced by Visser @Vis81, which we call Visser--Gödel translation.
+Instead of the Gödel translation, we use the following variant introduced by Visser @Vis81, which we call the Visser--Gödel translation.
 
 #definition[Visser--Gödel translation @Vis81][
   The Visser--Gödel translation $(dot)^Vis : FmlPL -> FmlML$ is defined as follows.
@@ -227,8 +221,8 @@ Note that $A, Gamma = Gamma$ when $A in Gamma$, so that contraction is built int
 
 == Sequent calculus for modal provability logics
 
-Although Kushida @Kus20 first introduced a sequent calculus for $LogicS$, his formulation is not suitable for our purpose.
-Instead, we adopt a slight modification of the sequent calculus for $LogicD$ due to Kashima et al. @KKIM25,
+Kushida @Kus20 first introduced a sequent calculus for $LogicS$, but his formulation is somewhat inconvenient for proving our embedding theorem; for example, it is based on multisets in order to give a constructive cut-elimination algorithm.
+Therefore, we adopt a slight modification of the sequent calculus for $LogicD$ due to Kashima et al. @KKIM25,
 whose restriction to sequents of levels $1$ and $2$ is a sequent calculus for $LogicS$.
 In this subsection, we introduce the calculus and state some of its proof-theoretic properties.
 
@@ -278,7 +272,7 @@ In this subsection, we introduce the calculus and state some of its proof-theore
 
 The level of each premise of a rule is at most the level of its conclusion.
 Hence a derivation of a sequent of level at most $2$ consists of sequents of level at most $2$ only and contains no application of $RLift(2, 3)$;
-the restriction of $GentzenD$ to the levels $1$ and $2$ is a sequent calculus for $LogicS$, and its restriction to the level $1$ is the usual sequent calculus for $LogicGL$ (cf. @SV82).
+the restriction of $GentzenD$ to levels $1$ and $2$ is a sequent calculus for $LogicS$, and its restriction to level $1$ is the usual sequent calculus for $LogicGL$ (cf. @SV82).
 
 Note that in @KKIM25 the initial sequents are $A seq(level) A$ for arbitrary formulas $A$, whereas we restrict $RAx(level)$ to propositional variables.
 The restriction of the initial sequents to propositional variables is merely a technical modification for the proof-theoretic embedding in the next section;
@@ -289,7 +283,7 @@ by the following lemma, $GentzenD$ may be regarded as having the same deductive 
 ] <lem:gentzen_d_refl>
 
 #proof[
-  We show by induction on $A$, uniformly in $level = 1, 2, 3$.
+  We show by induction on $A$, simultaneously for $level = 1, 2, 3$.
   If $A equiv p$, the claim is $RAx(level)$.
   If $A equiv bot$, apply $RWk(level, level)$ to $RBotL(level)$.
   The case $A equiv B -> C$ is proved by the following derivation:
@@ -324,7 +318,7 @@ By this lemma, the calculus $GentzenD$ and that of @KKIM25 are equivalent, and h
 ] <prop:gentzen_d_logic>
 
 #proposition[Cut-admissibility of $GentzenD$ @KKIM25[Theorems 4.1, 4.2, 5.4, 5.6, 5.8]][
-  The below rule $RCut(level, level)$ is admissible in $GentzenD$.
+  The following rule $RCut(level, level)$ is admissible in $GentzenD$.
   $
     #prooftree(rule(
       name: $RCut(level, level)$,
@@ -335,7 +329,7 @@ By this lemma, the calculus $GentzenD$ and that of @KKIM25 are equivalent, and h
   $
 ] <prop:gentzen_d_cut>
 
-Note that @KKIM25 proves the cut-elimination in two ways: by a reduction to the syntactic cut-elimination for Kushida's calculus @Kus20, and by a semantic argument.
+Note that @KKIM25 proves cut-elimination in two ways: by a reduction to Kushida's syntactic cut-elimination @Kus20 and by a semantic argument.
 In what follows, we use $RCut(level, level)$ freely in derivations in $GentzenD$, as an admissible rule.
 
 #lemma[
@@ -383,7 +377,7 @@ In what follows, we use $RCut(level, level)$ freely in derivations in $GentzenD$
 
 = Embedding
 
-In this section, we define by a sequent calculus the propositional logics $LogicSPL$ and $LogicDPL$, which correspond via the translation $(dot)^Vis$ to $LogicS$ and $LogicD$, respectively.
+In this section, we define the propositional logics $LogicSPL$ and $LogicDPL$ by means of a sequent calculus, show that $(dot)^Vis$ embeds them into $LogicS$ and $LogicD$, and additionally discuss the errors in Petrukhin's proof.
 
 #definition[Sequent calculus $GentzenDPL$][
   Let $Gamma, Delta$ be finite sets of formulas in $FmlPL$ and let $level = 1, 2, 3$; sequents $Gamma seq(level) Delta$ and the notation $A, Gamma$ are as in @def:gentzen_d.
@@ -431,7 +425,7 @@ In this section, we define by a sequent calculus the propositional logics $Logic
           $Gamma, \{C_i -> D_i : i < k \} seq(1) A -> B$,
           $Delta_I, Gamma, A -> B, A seq(1) B, Gamma_I colon I subset.eq {0, dots, k - 1}$,
         ))
-        where $k >= 0$, $C_0 -> D_0, ..., C_(k - 1) -> D_(k - 1)$ are arbitrary, and we set $Delta_I := {D_j : j in I}$ and $Gamma_I := {C_j : j in.not I}$.
+        where $k >= 0$, $C_0 -> D_0, ..., C_(k - 1) -> D_(k - 1)$ are arbitrary implications, and we set $Delta_I := {D_j : j in I}$ and $Gamma_I := {C_j : j in.not I}$.
         Note that the number of premises is $2^k$.
       ],
     ),
@@ -491,12 +485,15 @@ As in $GentzenD$, a derivation of a sequent of level at most $2$ in $GentzenDPL$
 ] <ex:gentzen_dpl_imp_r>
 
 We now define the logics $LogicSPL$ and $LogicDPL$ as sets of formulas.
+The name $LogicSPL$ follows @Pet23.
 
 #definition[
   We define _Solovay Propositional Logic_ $LogicSPL$ and  _Dzhaparidze Propositional Logic_ $LogicDPL$.
-  - $LogicSPL := {A in FmlPL : GentzenDPL proves seq(2) A}$.
-  - $LogicDPL := {A in FmlPL : GentzenDPL proves seq(3) A}$.
+  - $LogicSPL := {A in FmlPL : GentzenDPL proves emptyset seq(2) {A}}$.
+  - $LogicDPL := {A in FmlPL : GentzenDPL proves emptyset seq(3) {A}}$.
 ] <def:spl_dpl>
+
+As is seen by comparing with @IKK01[Section 3], the restriction of $GentzenDPL$ to level $1$ is the sequent calculus for $LogicFPL$ of @IKK01, where $RImpR(1, 1)$ is its implication rule, except that the initial sequents are restricted to propositional variables, which by @lem:gentzen_dpl_refl does not change the derivable sequents; hence $GentzenDPL proves emptyset seq(1) {A}$ iff $LogicFPL proves A$.
 
 #lemma[
   For every $A in FmlPL$ and $level = 1, 2, 3$, $GentzenDPL proves A seq(level) A$.
@@ -552,18 +549,10 @@ We now define the logics $LogicSPL$ and $LogicDPL$ as sets of formulas.
   When $level = 2, 3$, we further apply $RLift(1, 2)$, and when $level = 3$ we apply $RLift(2, 3)$ to $B -> C seq(2) B -> C$ with $n = m = 1$ and $Phi = emptyset$, which is applicable since both sides consist of implications.
 ]
 
-/*
-#remark[
-  The rule $RImpR(1, 1)$ is the rule $(->)$ of the sequent calculus $sans("LFP")$ for $LogicFPL$ of @IKK01[Section 3], whose sequents are also pairs of finite sets.
-  In fact, up to the formulation of weakening, the restriction of $GentzenDPL$ to the level $1$ is $sans("LFP")$ with its initial sequents $A seq(1) A$ restricted to propositional variables, which by @lem:gentzen_dpl_refl does not change the derivable sequents.
-  Hence, by the correspondence between $sans("LFP")$ and $LogicFPL$ in @IKK01[Section 4], $GentzenDPL proves seq(1) A$ iff $LogicFPL proves A$.
-] <rem:level_one_fpl>
-*/
-
 == Proof-theoretic embedding <subsect:main_results>
 
-Our embedding theorem is @thm:iff_visser.
-We give a detailed proof of the embedding of $GentzenDPL$ into $GentzenD$ based on the proofs in @YS17 @Pet23.
+The main result of this section is @thm:iff_visser: $GentzenDPL proves Gamma seq(level) Delta$ if and only if $GentzenD proves Gamma^Vis seq(level) Delta^Vis$.
+We give a detailed proof based on the proofs in @YS17 @Pet23.
 
 #lemma[
   For $level = 1, 2, 3$, the following rule $RBoxKFour(1, level)$ is derivable in $GentzenD$.
@@ -589,7 +578,7 @@ We give a detailed proof of the embedding of $GentzenDPL$ into $GentzenD$ based 
 ] <lem:persist_visser>
 
 #proof[
-  By induction on $A$. The case $A equiv B or C$ is omitted.
+  We proceed by induction on $A$. The case $A equiv B or C$ is similar to the case $A equiv B and C$ and is omitted.
 
   #struct[Case $A equiv p$][
     Here $p^Vis equiv p and Box p$.
@@ -704,6 +693,7 @@ We give a detailed proof of the embedding of $GentzenDPL$ into $GentzenD$ based 
 We are now ready to prove one direction of @thm:iff_visser.
 
 #lemma[cf. @Pet23[Lemma 4]][
+  Let $Gamma, Delta subset.eq FmlPL$ be finite and $level = 1, 2, 3$.
   If $GentzenDPL proves Gamma seq(level) Delta$, then $GentzenD proves Gamma^Vis seq(level) Delta^Vis$.
 ] <lem:visser>
 
@@ -740,7 +730,7 @@ We are now ready to prove one direction of @thm:iff_visser.
   ]
 
   #struct[Case $RImpR(1, 1)$][
-    Fix $k$, and suppose that the last rule has the following form, where $Delta_I$ and $Gamma_I$ are as in @def:gentzen_dpl.
+    Suppose that the last rule has the following form, where $Delta_I$ and $Gamma_I$ are as in @def:gentzen_dpl.
     $
       #prooftree(rule(
         name: $RImpR(1, 1)$,
@@ -756,7 +746,7 @@ We are now ready to prove one direction of @thm:iff_visser.
     $
       GentzenD proves {C_j^Vis -> D_j^Vis : j < k}, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis.
     $
-    Here we illustrate the case $k = 2$ below; this example is easy to generalize to arbitrary $k$.
+    We illustrate the case $k = 2$; this example is easy to generalize to arbitrary $k$.
     Let $cal(D)_1$ and $cal(D)_2$ be the following derivations.
     $
       #prooftree(rule(
@@ -774,7 +764,7 @@ We are now ready to prove one direction of @thm:iff_visser.
         $D_0^Vis, D_1^Vis, Sigma^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$,
       ))
     $
-    Then, applying $RImpL(1, 1)$ once more to the end sequents of $cal(D)_1$ and $cal(D)_2$, we obtain the desired sequent.
+    Then, applying $RImpL(1, 1)$ once more to the conclusions of $cal(D)_1$ and $cal(D)_2$, we obtain the desired sequent.
     $
       #prooftree(rule(
         name: $RImpL(1, 1)$,
@@ -783,7 +773,7 @@ We are now ready to prove one direction of @thm:iff_visser.
         subtree($cal(D)_2$, $D_1^Vis, Sigma^Vis, C_0^Vis -> D_0^Vis, Box (A^Vis -> B^Vis), A^Vis seq(1) B^Vis$),
       ))
     $
-    The rest is carried out as follows, where @lem:box_gl_visser is applied with $Gamma := {C_j^Vis -> D_j^Vis : j < k}$.
+    Finally, we apply $RImpR(1, 1)$ and @lem:box_gl_visser with $Gamma := {C_j^Vis -> D_j^Vis : j < k}$.
     $
       #prooftree(rule(
         name: [@lem:box_gl_visser],
@@ -849,11 +839,10 @@ Next, we prove the converse direction in a strengthened form, following the stra
 The proof proceeds by induction on the height of a derivation in $GentzenD$ of a sequent built from translations, propositional variables and boxed propositional variables, distinguishing cases by the last rule.
 By @rem:visser_unfolded, the principal formula of the last rule may be a translation $p^Vis$, $(B and C)^Vis$ or $(B or C)^Vis$, which is an implication;
 the premise then contains a formula such as $B^Vis -> (C^Vis -> bot)$ that is not a translation.
-We remove such formulas by the height-preserving rules $Inv(RImpL(level, level))$ and $Inv(RImpR(level, level))$ so as to return to a sequent of the required form.
+We remove such formulas by the height-preserving admissible rules $Inv(RImpL(level, level))$ and $Inv(RImpR(level, level))$ so as to return to a sequent of the required form.
 We first collect the syntactic properties of translations that this requires.
 
 #lemma[
-  Denote $FmlPL^Vis := {A^Vis : A in FmlPL}$.
   + No element of $FmlPL^Vis$ is a propositional variable or of the form $Box p$ with $p in PropVar$.
   + An element of $FmlPL^Vis$ that is an implication is of the form $p^Vis$, $(B and C)^Vis$ or $(B or C)^Vis$, and one that is of the form $Box E$ is of the form $(B -> C)^Vis$.
   + $A^Vis equiv bot$ iff $A equiv bot$.
@@ -861,7 +850,7 @@ We first collect the syntactic properties of translations that this requires.
 ] <lem:visser_shape>
 
 #proof[
-  All claims can be shown from the following table of the form of $A^Vis$ according to the form of $A$ (see @rem:visser_unfolded).
+  All claims can be shown from the following list of the form of $A^Vis$ according to the form of $A$ (see @rem:visser_unfolded).
   - If $A equiv p$, then $p^Vis equiv (p -> (Box p -> bot)) -> bot$, an implication with the antecedent $p -> (Box p -> bot)$.
   - If $A equiv bot$, then $bot^Vis equiv bot$.
   - If $A equiv B and C$, then $(B and C)^Vis equiv (B^Vis -> (C^Vis -> bot)) -> bot$, an implication with the antecedent $B^Vis -> (C^Vis -> bot)$.
@@ -875,13 +864,12 @@ We first collect the syntactic properties of translations that this requires.
 ] <lem:visser_neg>
 
 #proof[
-  We show by induction of $A$.
-  By contrast, suppose $A in FmlPL^Vis$ and $A -> bot in FmlPL^Vis$.
-  Since $A -> bot$ is an implication in $FmlPL^Vis$ whose consequent is $bot$, by the table in the proof of @lem:visser_shape it is $p^Vis$, $(B and C)^Vis$ or $(B or bot)^Vis$ for some $p$, $B$, $C$.
+  We prove the claim by induction on $A$.
+  Suppose, for a contradiction, that $A in FmlPL^Vis$ and $A -> bot in FmlPL^Vis$.
+  Since $A -> bot$ is an implication in $FmlPL^Vis$ whose consequent is $bot$, by the list in the proof of @lem:visser_shape together with item 3 of that lemma, it is $p^Vis$, $(B and C)^Vis$ or $(B or bot)^Vis$ for some $p$, $B$, $C$.
   - If $A -> bot equiv p^Vis$, then $A equiv p -> (Box p -> bot)$, whose antecedent $p$ is not an implication; so $A in.not FmlPL^Vis$ by @lem:visser_shape, a contradiction.
-  - If $A -> bot equiv (B and C)^Vis$, then $A equiv B^Vis -> (C^Vis -> bot)$. Since $A$ is an implication in $FmlPL^Vis$ whose consequent is not $bot$, the table gives $A equiv (D or E)^Vis equiv (D^Vis -> bot) -> E^Vis$ for some $D$, $E$, so $D^Vis -> bot equiv B^Vis$.
-    Then $A' :equiv D^Vis$ is a proper subformula of $A$ with $A' in FmlPL^Vis$ and $A' -> bot in FmlPL^Vis$.
-    so it can violate by the induction hypothesis.
+  - If $A -> bot equiv (B and C)^Vis$, then $A equiv B^Vis -> (C^Vis -> bot)$. Since $A$ is an implication in $FmlPL^Vis$ whose consequent is not $bot$, the list gives $A equiv (D or E)^Vis equiv (D^Vis -> bot) -> E^Vis$ for some $D$, $E$, so $D^Vis -> bot equiv B^Vis$.
+    Then $A' :equiv D^Vis$ is a proper subformula of $A$ such that $A' in FmlPL^Vis$ and $A' -> bot in FmlPL^Vis$, which contradicts the induction hypothesis.
   - If $A -> bot equiv (B or bot)^Vis$, then $A equiv B^Vis -> bot$. Then $A' :equiv B^Vis$ is a proper subformula of $A$ with $A' in FmlPL^Vis$ and $A' -> bot equiv A in FmlPL^Vis$, contradicting the induction hypothesis.
 ]
 
@@ -1026,11 +1014,9 @@ The point of this modification is the following. When the induction hypothesis i
 
 ]
 
-We now show that the inversion rules for implication are height-preservingly admissible with respect to this sense of height.
-
 #lemma[Inversion rules $Inv(RImpL(level, level))$ of $GentzenD$][
-  In $GentzenD$ the inversion rules $Inv(RImpL(level, level))$ are height-preservingly admissible.
-  That is, for every $h$, if $A -> B in.not Gamma$ then the following hold.
+  Let $level = 1, 2, 3$ and $h >= 0$, and let $A -> B in.not Gamma$.
+  Then the following rules are height-preserving admissible in $GentzenD$.
   #side-by-side(
     prooftree(rule(
       name: $Inv(RImpL(level, level))$,
@@ -1185,8 +1171,8 @@ We now show that the inversion rules for implication are height-preservingly adm
 ]
 
 #lemma[Inversion rule $Inv(RImpR(level, level))$ of $GentzenD$][
-  In $GentzenD$ the inversion rule $Inv(RImpR(level, level))$ is height-preservingly admissible.
-  That is, for every $h$, if $A -> B in.not Delta$ then the following holds.
+  Let $level = 1, 2, 3$ and $h >= 0$, and let $A -> B in.not Delta$.
+  Then the following rule is height-preserving admissible in $GentzenD$.
   $
     #prooftree(rule(
       name: $Inv(RImpR(level, level))$,
@@ -1325,7 +1311,7 @@ We now show that the inversion rules for implication are height-preservingly adm
 ]
 
 #lemma[cf. @Pet23[Lemma 5]][
-  Let $Gamma, Delta subset.eq FmlPL$ and $Phi_1, Phi_2, Psi subset.eq PropVar$ be finite sets.
+  Let $Gamma, Delta subset.eq FmlPL$ and $Phi_1, Phi_2, Psi subset.eq PropVar$ be finite sets and $level = 1, 2, 3$.
   If $GentzenD proves Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis$,
   then $GentzenDPL proves Gamma, Phi_1, Phi_2 seq(level) Psi, Delta$.
 ] <lem:of_visser>
@@ -1431,7 +1417,7 @@ We now show that the inversion rules for implication are height-preservingly adm
         ))
       $
     - $A equiv B and C$:
-      The formula $B^Vis -> (C^Vis -> bot)$ is not in $FmlPL^Vis$: its consequent is not $bot$, so if it were, by the table in the proof of @lem:visser_shape it would be $(B' or C')^Vis equiv (B'^Vis -> bot) -> C'^Vis$ with $C'^Vis equiv C^Vis -> bot$, and $C^Vis$ and $C^Vis -> bot$ would both be in $FmlPL^Vis$, contradicting @lem:visser_neg.
+      The formula $B^Vis -> (C^Vis -> bot)$ is not in $FmlPL^Vis$: its consequent is not $bot$, so if it were, by the list in the proof of @lem:visser_shape it would be $(B' or C')^Vis equiv (B'^Vis -> bot) -> C'^Vis$ with $C'^Vis equiv C^Vis -> bot$, and $C^Vis$ and $C^Vis -> bot$ would both be in $FmlPL^Vis$, contradicting @lem:visser_neg.
       Also $C^Vis -> bot$ is not in $FmlPL^Vis$ by @lem:visser_neg, since $C^Vis in FmlPL^Vis$.
       Hence neither of them belongs to $Psi, Delta^Vis$, and $Inv(RImpR(level, level))$ applies to them.
       From the left premise we obtain the following.
@@ -1485,14 +1471,9 @@ We now show that the inversion rules for implication are height-preservingly adm
 
   #struct[Case $RImpR(level, level)$][
     The principal formula is an implication in the succedent, hence it is $A^Vis$ for some $A in Delta$ that is a $A equiv p, B and C, B or C$.
-    // 主論理式は後件にある含意なので，Δ のある元 A（命題変数，連言，選言のいずれか）によって A^V と書ける．
     The last rule is an instance of $RImpR(level, level)$ with the principal formula $A^Vis$.
-    // 最後の規則は主論理式 A^V をもつ (→R) の適用である．
     By @lem:visser_shape, there is $Delta' subset.eq Delta$ with $Delta = Delta' union {A}$ such that the rest of the succedent is $Psi, Delta'^Vis$ (possibly $A in Delta'$).
-    // 補題より，Δ' ⊆ Δ かつ Δ = Δ' ∪ {A} を満たす Δ' で，後件の残りが Ψ, Δ'^V となるものがある（A ∈ Δ' でもよい）．
     The formulas inverted below are the same as in the case $RImpL(level, level)$, which are implications not in $FmlPL^Vis$ (see there), hence they do not belong to $Gamma^Vis, Phi_1, Box Phi_2$, so $Inv(RImpL(level, level))$ and $Inv(RImpR(level, level))$ apply; we use only the left conclusion of $Inv(RImpL(level, level))$ except where stated.
-    // 以下で反転する論理式は (→L) の場合と同じで，いずれも FmlPL^V に属さない含意である（そちらを参照）．
-    // よって Γ^V, Φ₁, □Φ₂ に属さず，Inv(→L) と Inv(→R) が適用できる．特に断らない限り，Inv(→L) では左の結論のみを使う．
     By @rem:visser_unfolded, $A^Vis equiv D -> E$ with
     - $A equiv p$: $D equiv p -> (Box p -> bot)$ and $E equiv bot$;
     - $A equiv B and C$: $D equiv B^Vis -> (C^Vis -> bot)$ and $E equiv bot$;
@@ -1631,7 +1612,7 @@ We now show that the inversion rules for implication are height-preservingly adm
       ),
     )))
     These applications of $Inv(RImpR(1, 1))$ and $Inv(RImpL(1, 1))$ are legitimate, since each inverted formula is distinct from the other formulas on its side:
-    $A^Vis$ and the $D_j^Vis$ belong to $FmlPL^Vis$, whereas $C_j^Vis -> D_j^Vis$ does not: if $D_j equiv bot$, it is $C_j^Vis -> bot$ with $C_j^Vis in FmlPL^Vis$, which is not in $FmlPL^Vis$ by @lem:visser_neg; otherwise its consequent is not $bot$, so if it were in $FmlPL^Vis$, by the table in the proof of @lem:visser_shape it would be $(E or F)^Vis equiv (E^Vis -> bot) -> F^Vis$ with $E^Vis -> bot equiv C_j^Vis$, and $E^Vis$ and $E^Vis -> bot$ would both be in $FmlPL^Vis$, contradicting @lem:visser_neg;
+    $A^Vis$ and the $D_j^Vis$ belong to $FmlPL^Vis$, whereas $C_j^Vis -> D_j^Vis$ does not: if $D_j equiv bot$, it is $C_j^Vis -> bot$ with $C_j^Vis in FmlPL^Vis$, which is not in $FmlPL^Vis$ by @lem:visser_neg; otherwise its consequent is not $bot$, so if it were in $FmlPL^Vis$, by the list in the proof of @lem:visser_shape it would be $(E or F)^Vis equiv (E^Vis -> bot) -> F^Vis$ with $E^Vis -> bot equiv C_j^Vis$, and $E^Vis$ and $E^Vis -> bot$ would both be in $FmlPL^Vis$, contradicting @lem:visser_neg;
     $Phi_2$ consists of propositional variables, and $Gamma^Vis$, $Box Phi_2$ and $(A -> B)^Vis$ consist of boxed formulas;
     and $C_i^Vis -> D_i^Vis equiv.not C_j^Vis -> D_j^Vis$ for $i eq.not j$, since otherwise $C_i equiv C_j$ and $D_i equiv D_j$ by the injectivity of $(dot)^Vis$.
     Regarding the antecedent of the resulting sequent as $(Delta_I union {A} union Gamma union {A -> B})^Vis, Phi_2, Box Phi_2$ and its succedent as $(Gamma_I union {B})^Vis$, we apply the induction hypothesis and obtain, for every $I subset.eq {0, dots, k - 1}$,
@@ -1650,7 +1631,7 @@ We now show that the inversion rules for implication are height-preservingly adm
 
   #struct[Case $RBoxL(2, 2)$][
     Here $level = 2$, and by @lem:visser_shape the principal formula is either $Box q$ for some $q in Phi_2$, or $(A -> B)^Vis equiv Box (A^Vis -> B^Vis)$ for some $A -> B in Gamma$.
-    - If the principal formula is $Box q$ for some $q in Phi_2$: let $Phi'_2$ be as $Phi'_2 union {q} = Phi_2$.
+    - If the principal formula is $Box q$ for some $q in Phi_2$: let $Phi'_2 subset.eq Phi_2$ be such that $Phi'_2 union {q} = Phi_2$ and the rest of the antecedent is $Gamma^Vis, Phi_1, Box Phi'_2$ (possibly $q in Phi'_2$).
       Regarding the antecedent of the premise as $Gamma^Vis, (Phi_1 union {q}), Box Phi'_2$, we apply the induction hypothesis and obtain the desired sequent.
       #rewrite(
         prooftree(rule(
@@ -1670,7 +1651,7 @@ We now show that the inversion rules for implication are height-preservingly adm
         $GentzenD provesh(h) (A -> B)^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
         $GentzenD provesh(h-1) A^Vis -> B^Vis, Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis$,
       )))
-      By the same argument as for $C_j^Vis -> D_j^Vis$ in the case $RBoxGL(1, 1)$, $A^Vis -> B^Vis$ does not belong to $FmlPL^Vis$, and hence not to $Gamma'^Vis, Phi_1, Box Phi_2$, so the left and the right conclusion of $Inv(RImpL(2, 2))$ applied to the premise give the following.
+      By the same argument as for $C_j^Vis -> D_j^Vis$ in the case $RBoxGL(1, 1)$, $A^Vis -> B^Vis$ does not belong to $FmlPL^Vis$, and hence not to $Gamma'^Vis, Phi_1, Box Phi_2$, so the left and right conclusions of $Inv(RImpL(2, 2))$, applied to the premise, give the following.
       #wide(prooftree(rule(
         name: $Inv(RImpL(2, 2))$,
         $GentzenD provesh(h-1) Gamma'^Vis, Phi_1, Box Phi_2 seq(2) Psi, Delta^Vis, A^Vis$,
@@ -1733,12 +1714,12 @@ We now show that the inversion rules for implication are height-preservingly adm
 #proof[
   In each item, the second equivalence holds as follows:
   $GentzenDPL proves emptyset seq(level) {A}$ iff $GentzenD proves emptyset seq(level) {A^Vis}$ by @thm:iff_visser, iff $top -> A^Vis$ is a theorem of $LogicGL$, $LogicS$ or $LogicD$ respectively by @prop:gentzen_d_logic, iff $A^Vis$ is.
-  // The first equivalences of items 2 and 3 are the definitions of $LogicSPL$ and $LogicDPL$, and that of item 1 is @rem:level_one_fpl.
+  // The first equivalences of items 2 and 3 are the definitions of $LogicSPL$ and $LogicDPL$, and that of item 1 is the remark after @def:spl_dpl.
 ]
 */
 
-We mention that the proof-theoretic embedding gives a proof of the equivalence of 1 and 2 in @prop:visser_fpl (item 1 of @cor:mem_logic_iff), which is not treated in @YS17.
-Moreover, combining with @prop:gentzen_d_cut, we obtain the cut elimination theorem of $GentzenDPL$.
+In particular, item 1 of @cor:mem_logic_iff gives a proof-theoretic proof of the equivalence of items 1 and 2 of @prop:visser_fpl; this case is not treated in @YS17.
+Moreover, combining @thm:iff_visser with @prop:gentzen_d_cut, we obtain the cut-admissibility of $GentzenDPL$.
 
 #corollary[Cut-admissibility of $GentzenDPL$][
   The rule $RCut(level, level)$ is admissible in $GentzenDPL$.
@@ -1756,11 +1737,11 @@ The issue concerns @Pet23[Lemma 5], which corresponds to @lem:of_visser in the p
   Here $Gamma, Delta$ are multisets of formulas and $Phi, Psi$ are multisets of propositional variables.
 ]
 
-The proof proceeds by induction on the height of the proof-tree of $GentzenS proves Gamma^Vis, Phi, Box Phi seq(level) Psi, Delta^Vis$.
+The proof proceeds by induction on the height of the derivation of $GentzenS proves Gamma^Vis, Phi, Box Phi seq(level) Psi, Delta^Vis$.
 Petrukhin claims that the proof proceeds as in @YS17[Lemma 7], but the problem occurs in the case of $RBoxL(2, 2)$.
 Petrukhin verifies only the case where the principal formula is $Box(E^Vis -> F^Vis)$.
 To begin with, this verification itself is erroneous.
-The proof-tree given there is the following (cf. @Pet23[p.~17]).
+The derivation given there is the following (cf. @Pet23[p.~17]).
 $
   #prooftree(rule(
     name: $RBoxL(2, 2)$,
@@ -1775,7 +1756,7 @@ This is because $E^Vis -> F^Vis$ never belongs to $Sigma^Vis$ for any $Sigma$, a
 Nevertheless, Petrukhin appears to apply the induction hypothesis to this premise and obtain $E -> F, Gamma, Phi seq(2) Psi, Delta$, which is not justified.
 
 Furthermore, one should in fact also consider the case where, for some $p in Phi$, the principal formula is $Box p$.
-In this case the proof-tree is as follows.
+In this case the derivation is as follows.
 $
   #prooftree(rule(
     name: $RBoxL(2, 2)$,
@@ -1785,8 +1766,8 @@ $
 $
 Now, in order to apply the induction hypothesis to this premise and carry the argument through, one would need to obtain, by _height-preserving_ weakening and contraction on the premise, $GentzenS provesh(h-1) p, Box p, Gamma^Vis, (Phi without {p}), Box(Phi without {p}) seq(2) Psi, Delta^Vis$.
 However, such height-preserving weakening and contraction cannot be carried out in $GentzenS$#footnote[The calculus adopted by @Pet23 is the sequent calculus of @Kus20, but this does not affect the details of the argument.] (cf. @NvP11).
-The reason this problem did not arise in the proof of @YS17 is that the sequent system for $LogicKFour$ adopted there is of G3-type (cf. @TS00).
-In that system, the weakening, contraction, and inversion rules are height-preservingly admissible#footnote[However, @YS17 does not make explicit how these properties are established for their extension to $LogicKFour$.].
+The reason this problem did not arise in the proof of @YS17 is that the sequent calculus for $LogicKFour$ adopted there is of G3-style (cf. @TS00).
+In that system, the weakening, contraction and inversion rules are height-preserving admissible#footnote[However, @YS17 does not make explicit how these properties are established for their extension to $LogicKFour$.].
 
 In this paper, these problems are avoided in @lem:of_visser as follows.
 Since our sequents are based on _sets_, contraction is built into the formulation and never needs to be applied explicitly, let alone height-preservingly.
@@ -1795,7 +1776,7 @@ Moreover, the problematic case where the principal formula of $RBoxL(2, 2)$ is $
 unboxing $Box p$ merely moves $p$ from $Phi_2$ to $Phi_1$, so the induction hypothesis applies directly, without any use of weakening.
 
 
-= Concluding Remarks and Open Problems <sect:conclusion>
+= Concluding remarks and open problems <sect:conclusion>
 
 In this paper, we examined the proof by Petrukhin @Pet23 of the embedding of the propositional logic $LogicSPL$ into Solovay's provability logic $LogicS$, and gave a correct proof.
 Furthermore, extending that proof, we proposed a new propositional logic $LogicDPL$ by means of the sequent calculus for Japaridze's provability logic $LogicD$ introduced by Kashima et al.~@KKIM25, and proved the corresponding embedding as well.
@@ -1811,7 +1792,7 @@ Moreover, Petrukhin @Pet23 also examines natural deduction and semantics for $Lo
 In particular, as for semantics, he introduces a suitable counterpart of Visser's tail models @Vis84
 on the propositional side and proves its completeness through the embedding.
 From the perspective of Kripke semantics for propositional logics,
-Visser's translation maps $p$ to $p and Box p$ precisely so that $Box p$ restores the persistency#footnote[For a Kripke model $chevron.l W, R, forces chevron.r$, if $x forces p$ and $x R y$ then $y forces p$.]
+The Visser--Gödel translation maps $p$ to $p and Box p$ precisely so that $Box p$ restores the persistence#footnote[For a Kripke model $chevron.l W, R, forces chevron.r$, if $x forces p$ and $x R y$ then $y forces p$.]
 of Kripke models.
 On the other hand, we believe that it should also be possible to define semantics for $LogicSPL$ directly
 and to prove its completeness without going through the embedding, but so far we have not succeeded.
@@ -1823,7 +1804,7 @@ Suppose that there is a propositional logic that corresponds (or _should_ corres
 Then, for practical purposes, we consider that the justification of the correspondence should be witnessed by
 some semantics, such as Kripke-style or arithmetical interpretations.
 In this paper, we defined the logics $LogicSPL$ and $LogicDPL$ by sequent calculi,
-and we cannot eliminate the possibility that they are, in a sense, ad hoc systems built solely in order to claim the embeddability.
+and we cannot eliminate the possibility that they are, in a sense, ad hoc logics built solely in order to claim the embeddability.
 In other words, it is conceivable that different logics $LogicSPL'$ and $LogicDPL'$,
 obtained by slightly modifying the definitions of $GentzenDPL$, can also be embedded into $LogicS$ and $LogicD$;
 in such a case, one may ask what the difference between them really is, or object that they are _merely_ syntactically different.
@@ -1844,7 +1825,7 @@ and what do such implications mean?
 
 == Syntactic cut-elimination
 
-The embeddability and the cut-admissibility of our systems for $LogicSPL$ and $LogicDPL$ rely
+The embeddability and the cut-admissibility of our sequent calculi for $LogicSPL$ and $LogicDPL$ rely
 on the cut-elimination for the sequent calculus for $LogicD$ of @KKIM25 (@prop:gentzen_d_cut); apart from this, the arguments in @subsect:main_results are explicit transformations of derivations.
 In @KKIM25 the cut-elimination is obtained by a reduction to the syntactic cut-elimination for Kushida's calculus @Kus20, and also by a semantic argument.
-It is still open to give a direct, constructive cut-elimination procedure for the sequent calculi $GentzenDPL$ themselves.
+It is still open to give a direct, constructive cut-elimination procedure for the sequent calculus $GentzenDPL$ itself.
