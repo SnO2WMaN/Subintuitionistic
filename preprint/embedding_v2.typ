@@ -12,7 +12,7 @@
   ),
   date: datetime.today(),
   abstract: [
-    Just as Visser showed that the formal propositional logic $LogicFPL$ can be embedded into Gödel-Löb provability logic $LogicGL$,
+    Just as Visser showed that the formal propositional logic $LogicFPL$ can be embedded into Gödel--Löb provability logic $LogicGL$,
     Petrukhin proposed a propositional logic $LogicSPL$ that can be embedded into Solovay's non-normal provability logic $LogicS$.
     In this paper, we fix Petrukhin's proof and
     extend the result to Japaridze's provability logic $LogicD$,
@@ -32,7 +32,7 @@ Furthermore, Japaridze (also transliterated as Dzhaparidze) discovered a provabi
 that is strictly intermediate between $LogicGL$ and $LogicS$ in his thesis @Jap86.
 The logic $LogicD$ is the provability logic of $TheoryPA$ relative to $TheoryPA + mrm("Rfn")_TheoryPA (Sigma_1)$,
 that is, any modal formula is provable in $LogicD$ if and only if
-every arithmetical sentence obtained from the formula by above interpretation is provable in $TheoryPA + mrm("Rfn")_TheoryPA (Sigma_1)$.
+every arithmetical sentence obtained from the formula by the above interpretation is provable in $TheoryPA + mrm("Rfn")_TheoryPA (Sigma_1)$.
 Here, $mrm("Rfn")_TheoryPA (Sigma_1)$ denotes the reflection principle for $Sigma_1$-sentences.
 Subsequently, Beklemishev @Bek87 proved the classification theorem for provability logics,
 which states that every provability logic must belong to one of four families of logics,
@@ -67,7 +67,7 @@ and named them Basic Propositional Logic $LogicBPL$ and Formal Propositional Log
 Simple sequent calculi for $LogicBPL$ and $LogicFPL$ were proposed by Ishii et al. @IKK01.
 Yamasaki and Sano @YS17 modified their sequent calculus for $LogicBPL$ into a G3-style sequent calculus
 and investigated its proof-theoretic properties.
-Moreover, they showed the embedding of $LogicBPL$ into $LogicKFour$ via the modified Gödel translation syntactically
+Moreover, they gave a proof-theoretic embedding of $LogicBPL$ into $LogicKFour$ via the modified Gödel translation
 by means of analytic proofs.
 We also note that, in the direction opposite to ours, Chen @Che21 discussed such an embedding for the logic $Logic("F")$ introduced by Corsi @Cor87, which is weaker than $LogicBPL$ and corresponds to the modal logic $LogicK$.
 
@@ -75,13 +75,13 @@ Petrukhin @Pet23 combined the idea of Kushida's two-level sequent calculus for $
 proposing a sequent calculus for a propositional logic with two levels of sequents,
 and he named the propositional logic obtained from this sequent calculus Solovay Propositional Logic $LogicSPL$.
 Furthermore, by employing the method of Yamasaki and Sano,
-he claims that the sequent calculus for $LogicSPL$ can be syntactically embedded into Kushida's sequent calculus for $LogicS$ via the modified Gödel translation,
+he claims a proof-theoretic embedding of the sequent calculus for $LogicSPL$ into Kushida's sequent calculus for $LogicS$ via the modified Gödel translation,
 that is, $LogicS$ is a modal companion of $LogicSPL$.
 However, Petrukhin's proof appears to contain some errors,
 and it seems that straightforward corrections are insufficient to fix them.
 
 This paper is devoted to two objectives.
-The first is to provide a complete and detailed proof from scratch that $LogicS$ is the modal companion of $LogicSPL$,
+The first is to provide a complete and detailed proof from scratch that $LogicS$ is a modal companion of $LogicSPL$,
 and in the course of doing so, to identify the errors in Petrukhin's paper.
 For the sequent calculus of $LogicS$, we use not Kushida's original calculus
 but a further modification of the one corrected by Kashima et al. @KK23.
@@ -130,7 +130,7 @@ Any remaining errors are the sole responsibility of the author.
 = Preliminaries <sect:preliminaries>
 
 In this section, we introduce some notations and definitions that are used throughout the paper and mention some basic facts.
-For more details, refer to the standard textbooks such as @Boo94 @CZ97.
+For more details, see standard textbooks such as @Boo94 @CZ97.
 
 Propositional variables are denoted by lowercase letters $p, q, r, dots$, and the set of all propositional variables is denoted by $PropVar$.
 Formulas of propositional logic are constructed from propositional variables by the logical connectives $bot, and, or, ->$.
@@ -143,12 +143,12 @@ $
 
 Formulas of both propositional logic and modal logic are denoted by uppercase letters $A, B, C, dots$.
 We write $FmlPL$ for the set of all formulas of propositional logic, and $FmlML$ for the set of all formulas of modal logic.
-For our purpose, uppercase Greek letters $Gamma, Delta, dots$ denote _sets_ of formulas.
+For our purposes, uppercase Greek letters $Gamma, Delta, dots$ denote _sets_ of formulas.
 For a set $Gamma$ of modal formulas, we write $Box Gamma$ for the set ${Box A : A in Gamma}$.
 Moreover, for a finite set $Gamma$, we write $lconj Gamma$ and $ldisj Gamma$ for the conjunction and the disjunction of all elements of $Gamma$,
 respectively, where the empty conjunction $lconj emptyset$ and the empty disjunction $ldisj emptyset$ are understood as $top$ and $bot$.
 
-Modal logic $LogicGL$ (stands for Gödel--Löb) is the smallest normal modal logic containing the axiom $Box (Box A -> A) -> Box A$.
+The modal logic $LogicGL$, named after Gödel and Löb, is the smallest normal modal logic containing the axiom $Box (Box A -> A) -> Box A$.
 Solovay's modal logic $LogicS$ is a non-normal extension of $LogicGL$ with the axiom $Box A -> A$;
 that is, $LogicS$ is the smallest set of formulas that contains all theorems of $LogicGL$ and all instances of $Box A -> A$, and is closed under modus ponens only (but not under necessitation).
 Japaridze's modal logic $LogicD$ is the non-normal extension of $LogicGL$ with the axioms $Box (Box A or Box B) -> Box A or Box B$ and $not Box bot$, defined analogously.
@@ -162,7 +162,7 @@ The following proposition can be shown by using the semantic tools for $LogicS$ 
 The Gödel translation is a well-known embedding of intuitionistic propositional logic into modal logic.
 
 #definition[Gödel translation][
-  Gödel translation $(dot)^God : FmlPL -> FmlML$ is defined as follows.
+  The Gödel translation $(dot)^God : FmlPL -> FmlML$ is defined as follows.
   $
             p^God & equiv Box p \
           bot^God & equiv Box bot \
@@ -176,7 +176,7 @@ The Gödel translation is a well-known embedding of intuitionistic propositional
 However, for our purpose, we need another translation, introduced by Visser @Vis81, which we call Visser--Gödel translation.
 
 #definition[Visser--Gödel translation @Vis81][
-  Visser--Gödel translation $(dot)^Vis : FmlPL -> FmlML$ is defined as follows.
+  The Visser--Gödel translation $(dot)^Vis : FmlPL -> FmlML$ is defined as follows.
   $
             p^Vis & equiv p and Box p \
           bot^Vis & equiv bot \
@@ -211,7 +211,7 @@ Visser @Vis81 proved the following by means of Kripke semantics.
   3. $LogicGL proves A^God$.
 ] <prop:visser_fpl>
 
-As explained in @subsect:main_results, the equivalence of 1 and 2 can also be proved proof-theoretically along the lines of @YS17.
+As explained in @subsect:main_results, the equivalence of 1 and 2 can also be proved by a proof-theoretic embedding along the lines of @YS17.
 
 /*
 Finally, we fix the proof-theoretic terminology used throughout this paper.
@@ -560,7 +560,7 @@ We now define the logics $LogicSPL$ and $LogicDPL$ as sets of formulas.
 ] <rem:level_one_fpl>
 */
 
-== Proof-theoretical proof <subsect:main_results>
+== Proof-theoretic embedding <subsect:main_results>
 
 Our embedding theorem is @thm:iff_visser.
 We give a detailed proof of the embedding of $GentzenDPL$ into $GentzenD$ based on the proofs in @YS17 @Pet23.
@@ -795,7 +795,7 @@ We are now ready to prove one direction of @thm:iff_visser.
         ),
       ))
     $
-    The conclusion is nothing but $Sigma^Vis, {C_j -> D_j : j < k}^Vis seq(1) (A -> B)^Vis$.
+    The conclusion is the desired sequent $Sigma^Vis, {C_j -> D_j : j < k}^Vis seq(1) (A -> B)^Vis$.
   ]
 
   #struct[Case $RImpL(2, 2)$][
@@ -810,11 +810,11 @@ We are now ready to prove one direction of @thm:iff_visser.
       prooftree(rule(name: $RBoxL(2, 2)$, $Box (A^Vis -> B^Vis), Gamma^Vis seq(2) Delta^Vis$, rule(
         name: $RImpL(2, 2)$,
         $A^Vis -> B^Vis, Gamma^Vis seq(2) Delta^Vis$,
-        ih($Gamma^Vis seq(2) Delta^Vis, A^Vis$),
-        ih($B^Vis, Gamma^Vis seq(2) Delta^Vis$),
+        ih($Gamma^Vis seq(2) Delta^Vis, A^Vis$, to: [left]),
+        ih($B^Vis, Gamma^Vis seq(2) Delta^Vis$, to: [right]),
       ))),
     )
-    The conclusion is nothing but $(A -> B)^Vis, Gamma^Vis seq(2) Delta^Vis$.
+    The conclusion is the desired sequent $(A -> B)^Vis, Gamma^Vis seq(2) Delta^Vis$.
   ]
 
   #struct[Case $RLift(2, 3)$][
@@ -840,7 +840,7 @@ We are now ready to prove one direction of @thm:iff_visser.
     $
       GentzenD proves {Box(A^Vis_i -> B^Vis_i) : i < n}, Phi^Vis seq(3) {Box(C^Vis_j -> D^Vis_j) : j < m},
     $
-    which is nothing but ${A_i -> B_i : i < n}^Vis, Phi^Vis seq(3) {C_j -> D_j : j < m}^Vis$.
+    which is the desired sequent ${A_i -> B_i : i < n}^Vis, Phi^Vis seq(3) {C_j -> D_j : j < m}^Vis$.
   ]
 
 ]
@@ -895,7 +895,7 @@ Before the proof, we introduce the definition of the height of a derivation with
 Under this definition, weakening does not increase the height:
 if $Gamma subset.eq Gamma'$, $Delta subset.eq Delta'$ and $GentzenD provesh(h) Gamma seq(level) Delta$, then $GentzenD provesh(h) Gamma' seq(level) Delta'$.
 In the derivations displayed below, a node $GentzenD provesh(h) S$ indicates that the subderivation ending there has height at most $h$.
-この修正の意義は，高さを保った逆転補題などにおいてinduction hypothesisを利用した場合，principle formulaの一部分が欠ける場合があり，そのとき $RWk(level, level)$ によって補填する必要がある．その場合高さがincrementされると所望の高さ以下の結論が得られないためである．
+The point of this modification is the following. When the induction hypothesis is used in the height-preserving inversion lemmas and the like, a part of the principal formula may be missing from the resulting sequent, and then it has to be supplied by $RWk(level, level)$. If this application increased the height, we could not obtain a conclusion of height at most the desired one.
 
 #lemma[
   If $GentzenD provesh(h) Gamma seq(level) Delta$, then $GentzenD provesh(h) Gamma seq(level) Delta without {bot}$.
@@ -958,7 +958,7 @@ In the derivations displayed below, a node $GentzenD provesh(h) S$ indicates tha
 
   #struct[Case $RImpL(level, level)$][
     Here $Gamma = Gamma' union {C -> D}$.
-    - If $C equiv.not bot$, we apply the induction hypothesis to both premises and then $RImpL(level, level)$.
+    - If $C equiv.not bot$:
       #rewrite(
         prooftree(rule(
           name: $RImpL(level, level)$,
@@ -969,11 +969,11 @@ In the derivations displayed below, a node $GentzenD provesh(h) S$ indicates tha
         prooftree(rule(
           name: $RImpL(level, level)$,
           $GentzenD provesh(h) C -> D, Gamma' seq(level) Delta without {bot}$,
-          ih($GentzenD provesh(h-1) Gamma' seq(level) Delta without {bot}, C$),
-          ih($GentzenD provesh(h-1) D, Gamma' seq(level) Delta without {bot}$),
+          ih($GentzenD provesh(h-1) Gamma' seq(level) Delta without {bot}, C$, to: [left]),
+          ih($GentzenD provesh(h-1) D, Gamma' seq(level) Delta without {bot}$, to: [right]),
         )),
       )
-    - If $C equiv bot$, the induction hypothesis applied to the left premise removes $C$, and we add $C -> D$ by weakening, which does not increase the height.
+    - If $C equiv bot$:
       #rewrite(
         prooftree(rule(
           name: $RImpL(level, level)$,
@@ -991,7 +991,7 @@ In the derivations displayed below, a node $GentzenD provesh(h) S$ indicates tha
 
   #struct[Case $RImpR(level, level)$][
     Here $Delta = Delta' union {C -> D}$.
-    - If $D equiv.not bot$, we apply the induction hypothesis to the premise and then $RImpR(level, level)$.
+    - If $D equiv.not bot$:
       #rewrite(
         prooftree(rule(
           name: $RImpR(level, level)$,
@@ -1004,7 +1004,8 @@ In the derivations displayed below, a node $GentzenD provesh(h) S$ indicates tha
           ih($GentzenD provesh(h-1) C, Gamma seq(level) Delta' without {bot}, D$),
         )),
       )
-    - If $D equiv bot$, the induction hypothesis removes $D$, so we add it back by weakening before applying $RImpR(level, level)$.
+    - If $D equiv bot$:
+      Note that if the application of $RWk(level, level)$ here increased the height, we could not obtain a derivation of height at most $h$.
       #rewrite(
         prooftree(rule(
           name: $RImpR(level, level)$,
@@ -1021,12 +1022,11 @@ In the derivations displayed below, a node $GentzenD provesh(h) S$ indicates tha
           ),
         )),
       )
-      先ほど説明したように，ここで $RWk(level, level)$ の適用で高さが増えてしまう定義にすると $h$ 以下の結論導出が得られない，ということを注意しておこう．
   ]
 
 ]
 
-We now show that the inversion rules for implication are height-preservingly admissible with respect to this height.
+We now show that the inversion rules for implication are height-preservingly admissible with respect to this sense of height.
 
 #lemma[Inversion rules $Inv(RImpL(level, level))$ of $GentzenD$][
   In $GentzenD$ the inversion rules $Inv(RImpL(level, level))$ are height-preservingly admissible.
@@ -1047,10 +1047,9 @@ We now show that the inversion rules for implication are height-preservingly adm
 ] <lem:inv_imp_l>
 
 #proof[
-  We show the following by induction on a derivation $cal(D)$ of $Gamma seq(level) Delta$ with $A -> B in Gamma$:
-  there are derivations of $Gamma without {A -> B} seq(level) Delta, A$ and of $B, Gamma without {A -> B} seq(level) Delta$ whose heights are at most the height of $cal(D)$.
-  We distinguish cases by the last rule of $cal(D)$.
-  We display only the derivations for the left conclusion.
+  Fix $A$ and $B$.
+  By structural induction on a derivation $cal(D)$ of $A -> B, Gamma seq(level) Delta$ with $A -> B in.not Gamma$.
+  We distinguish cases by the last rule of $cal(D)$, and display only the derivations for the left conclusion.
 
   #struct[Case $RAx(level)$, $RBotL(level)$, $RBoxGL(1, 1)$, $RLift(2, 3)$][
     The antecedent of the conclusion consists only of propositional variables, $bot$ and formulas of the form $Box C$, so it does not contain $A -> B$.
@@ -1058,153 +1057,131 @@ We now show that the inversion rules for implication are height-preservingly adm
   ]
 
   #struct[Case $RWk(level, level)$][
-    Here $Gamma_0 subset.eq Gamma$ and $Delta_0 subset.eq Delta$, and the premise also has height at most $h$.
-    - If $A -> B in Gamma_0$, we apply the induction hypothesis to the premise and then $RWk(level, level)$.
+    The premise is $Gamma_0 seq(level) Delta_0$ with $Gamma_0 subset.eq {A -> B} union Gamma$ and $Delta_0 subset.eq Delta$, and it has height at most $h$.
+    - If $A -> B in Gamma_0$, then $Gamma_0 = A -> B, Gamma_1$ for some $Gamma_1 subset.eq Gamma$ with $A -> B in.not Gamma_1$.
       #rewrite(
         prooftree(rule(
           name: $RWk(level, level)$,
-          $GentzenD provesh(h) Gamma seq(level) Delta$,
-          $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
+          $GentzenD provesh(h) A -> B, Gamma seq(level) Delta$,
+          $GentzenD provesh(h) A -> B, Gamma_1 seq(level) Delta_0$,
         )),
         prooftree(rule(
           name: $RWk(level, level)$,
-          $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta, A$,
-          ih($GentzenD provesh(h) Gamma_0 without {A -> B} seq(level) Delta_0, A$),
+          $GentzenD provesh(h) Gamma seq(level) Delta, A$,
+          ih($GentzenD provesh(h) Gamma_1 seq(level) Delta_0, A$),
         )),
       )
-    - If $A -> B in.not Gamma_0$, then $Gamma_0 subset.eq Gamma without {A -> B}$, and $RWk(level, level)$ applied to the premise itself gives the required sequent.
+    - If $A -> B in.not Gamma_0$, then $Gamma_0 subset.eq Gamma$.
       #rewrite(
         prooftree(rule(
           name: $RWk(level, level)$,
-          $GentzenD provesh(h) Gamma seq(level) Delta$,
+          $GentzenD provesh(h) A -> B, Gamma seq(level) Delta$,
           $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
         )),
         prooftree(rule(
           name: $RWk(level, level)$,
-          $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta, A$,
+          $GentzenD provesh(h) Gamma seq(level) Delta, A$,
           $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
         )),
       )
   ]
 
   #struct[Case $RImpL(level, level)$][
-    The last rule is of the form below, where $Gamma = Gamma' union {C -> D}$.
-    $
-      #prooftree(rule(
-        name: $RImpL(level, level)$,
-        $GentzenD provesh(h) C -> D, Gamma' seq(level) Delta$,
-        $GentzenD provesh(h-1) Gamma' seq(level) Delta, C$,
-        $GentzenD provesh(h-1) D, Gamma' seq(level) Delta$,
-      ))
-    $
-    - Suppose $C -> D equiv A -> B$.
-      - If $A -> B in.not Gamma'$, then $Gamma' = Gamma without {A -> B}$, and the two premises $GentzenD provesh(h-1) Gamma without {A -> B} seq(level) Delta, A$ and $GentzenD provesh(h-1) B, Gamma without {A -> B} seq(level) Delta$ are the desired sequents.
-      - If $A -> B in Gamma'$, then $Gamma' without {A -> B} = Gamma without {A -> B}$, and we apply the induction hypothesis for the left conclusion to the left premise, and that for the right conclusion to the right premise.
-        $
-          #ih($GentzenD provesh(h-1) Gamma without {A -> B} seq(level) Delta, A$) quad quad #ih($GentzenD provesh(h-1) B, Gamma without {A -> B} seq(level) Delta$)
-        $
-    - Suppose $C -> D equiv.not A -> B$ and $D equiv.not A -> B$.
-      Then $A -> B in Gamma'$ and $Gamma without {A -> B} = (Gamma' without {A -> B}) union {C -> D}$.
+    Let $C -> D$ be the principal formula of the last rule, and $Gamma_1$ the rest of the antecedent, so that $C -> D, Gamma_1 = A -> B, Gamma$.
+    #wide(prooftree(rule(
+      name: $RImpL(level, level)$,
+      $GentzenD provesh(h) C -> D, Gamma_1 seq(level) Delta$,
+      $GentzenD provesh(h-1) Gamma_1 seq(level) Delta, C$,
+      $GentzenD provesh(h-1) D, Gamma_1 seq(level) Delta$,
+    )))
+    - If $C -> D equiv A -> B$ and $A -> B in.not Gamma_1$, then $Gamma_1 = Gamma$, and the left premise is the left conclusion; the right premise is the right conclusion.
+    - If $C -> D equiv A -> B$ and $A -> B in Gamma_1$, then $Gamma_1 = A -> B, Gamma$.
+      The left premise is $A -> B, Gamma seq(level) Delta, A$, to which we apply the induction hypothesis for the left conclusion, and the right premise is $A -> B, B, Gamma seq(level) Delta$, to which we apply the induction hypothesis for the right conclusion; note that $A -> B in.not B, Gamma$.
       $
-        #prooftree(rule(
+        #ih($GentzenD provesh(h-1) Gamma seq(level) Delta, A$, to: [left]) quad quad #ih($GentzenD provesh(h-1) B, Gamma seq(level) Delta$, to: [right])
+      $
+    - If $C -> D equiv.not A -> B$, then $A -> B in Gamma_1$; write $Gamma_1 = A -> B, Gamma_2$ with $A -> B in.not Gamma_2$, so that $Gamma = C -> D, Gamma_2$.
+      The premises are $A -> B, Gamma_2 seq(level) Delta, C$ and $D, A -> B, Gamma_2 seq(level) Delta$.
+      - If $D equiv.not A -> B$:
+        #wide(prooftree(rule(
           name: $RImpL(level, level)$,
-          $GentzenD provesh(h) C -> D, Gamma' without {A -> B} seq(level) Delta, A$,
-          ih($GentzenD provesh(h-1) Gamma' without {A -> B} seq(level) Delta, C, A$),
-          ih($GentzenD provesh(h-1) D, Gamma' without {A -> B} seq(level) Delta, A$),
-        ))
-      $
-    - Suppose $C -> D equiv.not A -> B$ and $D equiv A -> B$.
-      Then $A -> B in Gamma'$, and the induction hypothesis applied to the right premise removes $D$, so we add $C -> D$ by weakening.
-      $
-        #prooftree(rule(
+          $GentzenD provesh(h) C -> D, Gamma_2 seq(level) Delta, A$,
+          ih($GentzenD provesh(h-1) Gamma_2 seq(level) Delta, C, A$, to: [left]),
+          ih($GentzenD provesh(h-1) D, Gamma_2 seq(level) Delta, A$, to: [right]),
+        )))
+      - If $D equiv A -> B$, the right premise is $A -> B, Gamma_2 seq(level) Delta$:
+        #wide(prooftree(rule(
           name: $RWk(level, level)$,
-          $GentzenD provesh(h-1) C -> D, Gamma' without {A -> B} seq(level) Delta, A$,
-          ih($GentzenD provesh(h-1) Gamma' without {A -> B} seq(level) Delta, A$),
-        ))
-      $
+          $GentzenD provesh(h-1) C -> D, Gamma_2 seq(level) Delta, A$,
+          ih($GentzenD provesh(h-1) Gamma_2 seq(level) Delta, A$),
+        )))
   ]
 
   #struct[Case $RImpR(level, level)$][
-    Here $Delta = Delta' union {C -> D}$.
-    - If $C equiv.not A -> B$, we apply the induction hypothesis to the premise and then $RImpR(level, level)$.
-      #rewrite(
-        prooftree(rule(
-          name: $RImpR(level, level)$,
-          $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
-          $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
-        )),
-        prooftree(rule(
-          name: $RImpR(level, level)$,
-          $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta', C -> D, A$,
-          ih($GentzenD provesh(h-1) C, Gamma without {A -> B} seq(level) Delta', D, A$),
-        )),
-      )
-    - If $C equiv A -> B$, the induction hypothesis removes $C$, so we add it back by weakening before applying $RImpR(level, level)$.
-      #rewrite(
-        prooftree(rule(
-          name: $RImpR(level, level)$,
-          $GentzenD provesh(h) Gamma seq(level) Delta', (A -> B) -> D$,
-          $GentzenD provesh(h-1) A -> B, Gamma seq(level) Delta', D$,
-        )),
-        prooftree(rule(
-          name: $RImpR(level, level)$,
-          $GentzenD provesh(h) Gamma without {A -> B} seq(level) Delta', (A -> B) -> D, A$,
-          rule(
-            name: $RWk(level, level)$,
-            $GentzenD provesh(h-1) A -> B, Gamma without {A -> B} seq(level) Delta', D, A$,
-            ih($GentzenD provesh(h-1) Gamma without {A -> B} seq(level) Delta', D, A$),
-          ),
-        )),
-      )
+    The last rule is of the form below, where $Delta = Delta' union {C -> D}$.
+    $
+      #prooftree(rule(
+        name: $RImpR(level, level)$,
+        $GentzenD provesh(h) A -> B, Gamma seq(level) Delta', C -> D$,
+        $GentzenD provesh(h-1) C, A -> B, Gamma seq(level) Delta', D$,
+      ))
+    $
+    - If $C equiv.not A -> B$, then $A -> B in.not C, Gamma$:
+      #wide(prooftree(rule(
+        name: $RImpR(level, level)$,
+        $GentzenD provesh(h) Gamma seq(level) Delta', C -> D, A$,
+        ih($GentzenD provesh(h-1) C, Gamma seq(level) Delta', D, A$),
+      )))
+    - If $C equiv A -> B$, the premise is $A -> B, Gamma seq(level) Delta', D$:
+      #wide(prooftree(rule(
+        name: $RImpR(level, level)$,
+        $GentzenD provesh(h) Gamma seq(level) Delta', (A -> B) -> D, A$,
+        rule(
+          name: $RWk(level, level)$,
+          $GentzenD provesh(h-1) A -> B, Gamma seq(level) Delta', D, A$,
+          ih($GentzenD provesh(h-1) Gamma seq(level) Delta', D, A$),
+        ),
+      )))
   ]
 
   #struct[Case $RBoxL(2, 2)$][
-    Here $Gamma = Gamma' union {Box C}$; since $Box C equiv.not A -> B$, we have $A -> B in Gamma'$.
-    - If $C equiv.not A -> B$, we apply the induction hypothesis to the premise and then $RBoxL(2, 2)$.
-      #rewrite(
-        prooftree(rule(
-          name: $RBoxL(2, 2)$,
-          $GentzenD provesh(h) Box C, Gamma' seq(2) Delta$,
-          $GentzenD provesh(h-1) C, Gamma' seq(2) Delta$,
-        )),
-        prooftree(rule(
-          name: $RBoxL(2, 2)$,
-          $GentzenD provesh(h) Box C, Gamma' without {A -> B} seq(2) Delta, A$,
-          ih($GentzenD provesh(h-1) C, Gamma' without {A -> B} seq(2) Delta, A$),
-        )),
-      )
-    - If $C equiv A -> B$, the induction hypothesis removes $C$, so we add $Box C$ by weakening.
-      #rewrite(
-        prooftree(rule(
-          name: $RBoxL(2, 2)$,
-          $GentzenD provesh(h) Box C, Gamma' seq(2) Delta$,
-          $GentzenD provesh(h-1) C, Gamma' seq(2) Delta$,
-        )),
-        prooftree(rule(
-          name: $RWk(2, 2)$,
-          $GentzenD provesh(h-1) Box C, Gamma' without {A -> B} seq(2) Delta, A$,
-          ih($GentzenD provesh(h-1) Gamma' without {A -> B} seq(2) Delta, A$),
-        )),
-      )
+    Here $A -> B, Gamma = Box C, Gamma_1$; since $Box C equiv.not A -> B$, we have $A -> B in Gamma_1$.
+    Write $Gamma_1 = A -> B, Gamma_2$ with $A -> B in.not Gamma_2$, so that $Gamma = Box C, Gamma_2$.
+    #wide(prooftree(rule(
+      name: $RBoxL(2, 2)$,
+      $GentzenD provesh(h) Box C, A -> B, Gamma_2 seq(2) Delta$,
+      $GentzenD provesh(h-1) C, A -> B, Gamma_2 seq(2) Delta$,
+    )))
+    - If $C equiv.not A -> B$:
+      #wide(prooftree(rule(
+        name: $RBoxL(2, 2)$,
+        $GentzenD provesh(h) Box C, Gamma_2 seq(2) Delta, A$,
+        ih($GentzenD provesh(h-1) C, Gamma_2 seq(2) Delta, A$),
+      )))
+    - If $C equiv A -> B$, the premise is $A -> B, Gamma_2 seq(2) Delta$:
+      #wide(prooftree(rule(
+        name: $RWk(2, 2)$,
+        $GentzenD provesh(h-1) Box C, Gamma_2 seq(2) Delta, A$,
+        ih($GentzenD provesh(h-1) Gamma_2 seq(2) Delta, A$),
+      )))
   ]
 
   #struct[Case $RLift(1, 2)$][
     #rewrite(
       prooftree(rule(
         name: $RLift(1, 2)$,
-        $GentzenD provesh(h) Gamma seq(2) Delta$,
-        $GentzenD provesh(h-1) Gamma seq(1) Delta$,
+        $GentzenD provesh(h) A -> B, Gamma seq(2) Delta$,
+        $GentzenD provesh(h-1) A -> B, Gamma seq(1) Delta$,
       )),
       prooftree(rule(
         name: $RLift(1, 2)$,
-        $GentzenD provesh(h) Gamma without {A -> B} seq(2) Delta, A$,
-        ih($GentzenD provesh(h-1) Gamma without {A -> B} seq(1) Delta, A$),
+        $GentzenD provesh(h) Gamma seq(2) Delta, A$,
+        ih($GentzenD provesh(h-1) Gamma seq(1) Delta, A$),
       )),
     )
   ]
 
   The construction for the right conclusion is similar.
-
 ]
 
 #lemma[Inversion rule $Inv(RImpR(level, level))$ of $GentzenD$][
@@ -1220,10 +1197,9 @@ We now show that the inversion rules for implication are height-preservingly adm
 ] <lem:inv_imp_r>
 
 #proof[
-  We show the following by induction on a derivation $cal(D)$ of $Gamma seq(level) Delta$ with $A -> B in Delta$:
-  there is a derivation of $A, Gamma seq(level) Delta without {A -> B}, B$ whose height is at most $height(cal(D))$.
-  Since $A -> B in.not Delta$ in the statement, the lemma follows.
-  Let $h := height(cal(D))$; we distinguish cases by the last rule of $cal(D)$, with the same conventions as in the proof of @lem:inv_imp_l.
+  Fix $A$ and $B$.
+  By structural induction on a derivation $cal(D)$ of $Gamma seq(level) A -> B, Delta$ with $A -> B in.not Delta$.
+  We distinguish cases by the last rule of $cal(D)$.
 
   #struct[Case $RAx(level)$, $RBotL(level)$, $RBoxGL(1, 1)$, $RLift(2, 3)$][
     The succedent of the conclusion consists only of propositional variables and formulas of the form $Box C$, so it does not contain $A -> B$.
@@ -1231,129 +1207,103 @@ We now show that the inversion rules for implication are height-preservingly adm
   ]
 
   #struct[Case $RWk(level, level)$][
-    Here $Gamma_0 subset.eq Gamma$ and $Delta_0 subset.eq Delta$, and the premise also has height at most $h$.
-    - If $A -> B in Delta_0$, we apply the induction hypothesis to the premise and then $RWk(level, level)$.
+    The premise is $Gamma_0 seq(level) Delta_0$ with $Gamma_0 subset.eq Gamma$ and $Delta_0 subset.eq {A -> B} union Delta$, and it has height at most $h$.
+    - If $A -> B in Delta_0$, then $Delta_0 = A -> B, Delta_1$ for some $Delta_1 subset.eq Delta$ with $A -> B in.not Delta_1$.
       #rewrite(
         prooftree(rule(
           name: $RWk(level, level)$,
-          $GentzenD provesh(h) Gamma seq(level) Delta$,
-          $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
+          $GentzenD provesh(h) Gamma seq(level) A -> B, Delta$,
+          $GentzenD provesh(h) Gamma_0 seq(level) A -> B, Delta_1$,
         )),
         prooftree(rule(
           name: $RWk(level, level)$,
-          $GentzenD provesh(h) A, Gamma seq(level) Delta without {A -> B}, B$,
-          ih($GentzenD provesh(h) A, Gamma_0 seq(level) Delta_0 without {A -> B}, B$),
+          $GentzenD provesh(h) A, Gamma seq(level) Delta, B$,
+          ih($GentzenD provesh(h) A, Gamma_0 seq(level) Delta_1, B$),
         )),
       )
-    - If $A -> B in.not Delta_0$, then $Delta_0 subset.eq Delta without {A -> B}$, and $RWk(level, level)$ applied to the premise itself gives the required sequent.
+    - If $A -> B in.not Delta_0$, then $Delta_0 subset.eq Delta$.
       #rewrite(
         prooftree(rule(
           name: $RWk(level, level)$,
-          $GentzenD provesh(h) Gamma seq(level) Delta$,
+          $GentzenD provesh(h) Gamma seq(level) A -> B, Delta$,
           $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
         )),
         prooftree(rule(
           name: $RWk(level, level)$,
-          $GentzenD provesh(h) A, Gamma seq(level) Delta without {A -> B}, B$,
+          $GentzenD provesh(h) A, Gamma seq(level) Delta, B$,
           $GentzenD provesh(h) Gamma_0 seq(level) Delta_0$,
         )),
       )
   ]
 
   #struct[Case $RImpL(level, level)$][
-    The last rule is of the form below, where $Gamma = Gamma' union {C -> D}$.
-    $
-      #prooftree(rule(
-        name: $RImpL(level, level)$,
-        $GentzenD provesh(h) C -> D, Gamma' seq(level) Delta$,
-        $GentzenD provesh(h-1) Gamma' seq(level) Delta, C$,
-        $GentzenD provesh(h-1) D, Gamma' seq(level) Delta$,
-      ))
-    $
-    - If $C equiv.not A -> B$, we apply the induction hypothesis to both premises and then $RImpL(level, level)$.
+    Let $C -> D$ be the principal formula of the last rule, so that $Gamma = C -> D, Gamma_1$.
+    #wide(prooftree(rule(
+      name: $RImpL(level, level)$,
+      $GentzenD provesh(h) C -> D, Gamma_1 seq(level) A -> B, Delta$,
+      $GentzenD provesh(h-1) Gamma_1 seq(level) A -> B, Delta, C$,
+      $GentzenD provesh(h-1) D, Gamma_1 seq(level) A -> B, Delta$,
+    )))
+    - If $C equiv.not A -> B$:
       #wide(prooftree(rule(
         name: $RImpL(level, level)$,
-        $GentzenD provesh(h) A, C -> D, Gamma' seq(level) Delta without {A -> B}, B$,
-        ih($GentzenD provesh(h-1) A, Gamma' seq(level) Delta without {A -> B}, C, B$),
-        ih($GentzenD provesh(h-1) A, D, Gamma' seq(level) Delta without {A -> B}, B$),
+        $GentzenD provesh(h) A, C -> D, Gamma_1 seq(level) Delta, B$,
+        ih($GentzenD provesh(h-1) A, Gamma_1 seq(level) Delta, C, B$, to: [left]),
+        ih($GentzenD provesh(h-1) A, D, Gamma_1 seq(level) Delta, B$, to: [right]),
       )))
-    - If $C equiv A -> B$, the induction hypothesis applied to the left premise removes $C$, so we add $C -> D$ by weakening.
-      $
-        #prooftree(rule(
-          name: $RWk(level, level)$,
-          $GentzenD provesh(h-1) A, C -> D, Gamma' seq(level) Delta without {A -> B}, B$,
-          ih($GentzenD provesh(h-1) A, Gamma' seq(level) Delta without {A -> B}, B$),
-        ))
-      $
+    - If $C equiv A -> B$, the left premise is $Gamma_1 seq(level) A -> B, Delta$.
+      #wide(prooftree(rule(
+        name: $RWk(level, level)$,
+        $GentzenD provesh(h-1) A, C -> D, Gamma_1 seq(level) Delta, B$,
+        ih($GentzenD provesh(h-1) A, Gamma_1 seq(level) Delta, B$, to: [left]),
+      )))
   ]
 
   #struct[Case $RImpR(level, level)$][
-    Here $Delta = Delta' union {C -> D}$.
-    - Suppose $C -> D equiv A -> B$.
-      - If $A -> B in.not Delta'$, then $Delta' = Delta without {A -> B}$, and the premise is the desired derivation.
-        #rewrite(
-          prooftree(rule(
-            name: $RImpR(level, level)$,
-            $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
-            $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
-          )),
-          $GentzenD provesh(h-1) A, Gamma seq(level) Delta without {A -> B}, B$,
-        )
-      - If $A -> B in Delta'$, then $Delta' without {A -> B} = Delta without {A -> B}$, and we apply the induction hypothesis to the premise; note that $B equiv.not A -> B$.
-        #rewrite(
-          prooftree(rule(
-            name: $RImpR(level, level)$,
-            $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
-            $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
-          )),
-          ih($GentzenD provesh(h-1) A, Gamma seq(level) Delta without {A -> B}, B$),
-        )
-    - Suppose $C -> D equiv.not A -> B$ and $D equiv.not A -> B$.
-      Then $A -> B in Delta'$ and $Delta without {A -> B} = (Delta' without {A -> B}) union {C -> D}$, and we apply the induction hypothesis to the premise and then $RImpR(level, level)$.
-      #rewrite(
-        prooftree(rule(
+    Let $C -> D$ be the principal formula of the last rule, and $Delta_1$ the rest of the succedent, so that $C -> D, Delta_1 = A -> B, Delta$.
+    #wide(prooftree(rule(
+      name: $RImpR(level, level)$,
+      $GentzenD provesh(h) Gamma seq(level) C -> D, Delta_1$,
+      $GentzenD provesh(h-1) C, Gamma seq(level) Delta_1, D$,
+    )))
+    - If $C -> D equiv A -> B$ and $A -> B in.not Delta_1$, then $Delta_1 = Delta$, and the premise is the desired sequent.
+    - If $C -> D equiv A -> B$ and $A -> B in Delta_1$, then $Delta_1 = A -> B, Delta$.
+      The premise is $A, Gamma seq(level) A -> B, Delta, B$, note that $B equiv.not A -> B$.
+      $
+        #ih($GentzenD provesh(h-1) A, Gamma seq(level) Delta, B$)
+      $
+    - If $C -> D equiv.not A -> B$, then $A -> B in Delta_1$; write $Delta_1 = A -> B, Delta_2$ with $A -> B in.not Delta_2$, so that $Delta = C -> D, Delta_2$.
+      The premise is $C, Gamma seq(level) A -> B, Delta_2, D$.
+      - If $D equiv.not A -> B$.
+        #wide(prooftree(rule(
           name: $RImpR(level, level)$,
-          $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
-          $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
-        )),
-        prooftree(rule(
+          $GentzenD provesh(h) A, Gamma seq(level) Delta_2, C -> D, B$,
+          ih($GentzenD provesh(h-1) A, C, Gamma seq(level) Delta_2, D, B$),
+        )))
+      - If $D equiv A -> B$, the premise is $C, Gamma seq(level) A -> B, Delta_2$.
+        #wide(prooftree(rule(
           name: $RImpR(level, level)$,
-          $GentzenD provesh(h) A, Gamma seq(level) Delta' without {A -> B}, C -> D, B$,
-          ih($GentzenD provesh(h-1) A, C, Gamma seq(level) Delta' without {A -> B}, D, B$),
-        )),
-      )
-    - Suppose $C -> D equiv.not A -> B$ and $D equiv A -> B$.
-      Then $A -> B in Delta'$, and the induction hypothesis removes $D$, so we add it back by weakening before applying $RImpR(level, level)$.
-      #rewrite(
-        prooftree(rule(
-          name: $RImpR(level, level)$,
-          $GentzenD provesh(h) Gamma seq(level) Delta', C -> D$,
-          $GentzenD provesh(h-1) C, Gamma seq(level) Delta', D$,
-        )),
-        prooftree(rule(
-          name: $RImpR(level, level)$,
-          $GentzenD provesh(h) A, Gamma seq(level) Delta' without {A -> B}, C -> (A -> B), B$,
+          $GentzenD provesh(h) A, Gamma seq(level) Delta_2, C -> (A -> B), B$,
           rule(
             name: $RWk(level, level)$,
-            $GentzenD provesh(h-1) A, C, Gamma seq(level) Delta' without {A -> B}, A -> B, B$,
-            ih($GentzenD provesh(h-1) A, C, Gamma seq(level) Delta' without {A -> B}, B$),
+            $GentzenD provesh(h-1) A, C, Gamma seq(level) Delta_2, A -> B, B$,
+            ih($GentzenD provesh(h-1) A, C, Gamma seq(level) Delta_2, B$),
           ),
-        )),
-      )
+        )))
   ]
 
   #struct[Case $RBoxL(2, 2)$][
-    Here $Gamma = Gamma' union {Box C}$.
+    Here $Gamma = Box C, Gamma_1$.
     #rewrite(
       prooftree(rule(
         name: $RBoxL(2, 2)$,
-        $GentzenD provesh(h) Box C, Gamma' seq(2) Delta$,
-        $GentzenD provesh(h-1) C, Gamma' seq(2) Delta$,
+        $GentzenD provesh(h) Box C, Gamma_1 seq(2) A -> B, Delta$,
+        $GentzenD provesh(h-1) C, Gamma_1 seq(2) A -> B, Delta$,
       )),
       prooftree(rule(
         name: $RBoxL(2, 2)$,
-        $GentzenD provesh(h) A, Box C, Gamma' seq(2) Delta without {A -> B}, B$,
-        ih($GentzenD provesh(h-1) A, C, Gamma' seq(2) Delta without {A -> B}, B$),
+        $GentzenD provesh(h) A, Box C, Gamma_1 seq(2) Delta, B$,
+        ih($GentzenD provesh(h-1) A, C, Gamma_1 seq(2) Delta, B$),
       )),
     )
   ]
@@ -1362,20 +1312,17 @@ We now show that the inversion rules for implication are height-preservingly adm
     #rewrite(
       prooftree(rule(
         name: $RLift(1, 2)$,
-        $GentzenD provesh(h) Gamma seq(2) Delta$,
-        $GentzenD provesh(h-1) Gamma seq(1) Delta$,
+        $GentzenD provesh(h) Gamma seq(2) A -> B, Delta$,
+        $GentzenD provesh(h-1) Gamma seq(1) A -> B, Delta$,
       )),
       prooftree(rule(
         name: $RLift(1, 2)$,
-        $GentzenD provesh(h) A, Gamma seq(2) Delta without {A -> B}, B$,
-        ih($GentzenD provesh(h-1) A, Gamma seq(1) Delta without {A -> B}, B$),
+        $GentzenD provesh(h) A, Gamma seq(2) Delta, B$,
+        ih($GentzenD provesh(h-1) A, Gamma seq(1) Delta, B$),
       )),
     )
   ]
-
 ]
-
-The converse direction is proved for sequents in which propositional variables and boxed propositional variables may occur besides translations, since the premise of $RBoxL(2, 2)$ with the principal formula $Box p$ contains $p$.
 
 #lemma[cf. @Pet23[Lemma 5]][
   Let $Gamma, Delta subset.eq FmlPL$ and $Phi_1, Phi_2, Psi subset.eq PropVar$ be finite sets.
@@ -1412,7 +1359,6 @@ The converse direction is proved for sequents in which propositional variables a
   #struct[Case $RWk(level, level)$][
     The antecedent of the premise is a subset of $Gamma^Vis, Phi_1, Box Phi_2$, hence of the form $Gamma'^Vis, Phi'_1, Box Phi'_2$ with $Gamma' subset.eq Gamma$, $Phi'_1 subset.eq Phi_1$ and $Phi'_2 subset.eq Phi_2$;
     similarly its succedent is of the form $Psi', Delta'^Vis$ with $Psi' subset.eq Psi$ and $Delta' subset.eq Delta$.
-    We apply the induction hypothesis to the premise.
     #rewrite(
       prooftree(rule(
         name: $RWk(level, level)$,
@@ -1791,7 +1737,7 @@ The converse direction is proved for sequents in which propositional variables a
 ]
 */
 
-We mention that proof-theoretic proof of item 1 of <cor:mem_logic_iff> is the equivalence of 1 and 2 in @prop:visser_fpl, which is not treated in @YS17.
+We mention that the proof-theoretic embedding gives a proof of the equivalence of 1 and 2 in @prop:visser_fpl (item 1 of @cor:mem_logic_iff), which is not treated in @YS17.
 Moreover, combining with @prop:gentzen_d_cut, we obtain the cut elimination theorem of $GentzenDPL$.
 
 #corollary[Cut-admissibility of $GentzenDPL$][

@@ -82,7 +82,7 @@
   show math.equation.where(block: true): set block(above: 1em, below: 1em)
   show math.equation: set text(font: ("New Computer Modern Math", "Libertinus Serif"))
 
-  show link: set text(fill: color.hsl(347.19deg, 80.18%, 56.47%))
+  show link: set text(fill: color.hsl(339.91deg, 97.36%, 44.51%))
 
   // 中央寄せの証明図などは上下に余白を取る
   show align: set block(spacing: 1.2em)
@@ -284,20 +284,22 @@
   align(center, text(size: 0.7em, note)),
   x,
 )
-#let ih(x) = noted([(I.H.)], x)
+// `ih(x)` labels a leaf "(I.H.)"; `ih(x, to: [left])` labels it "(I.H. to left)"
+#let ih(x, to: none) = noted(if to == none [(I.H.)] else [(I.H. to #to)], x)
 // A leaf standing for a subtree, written above it without a line
 #let subtree(name, x) = stack(dir: ttb, spacing: 0.35em, align(center, name), x)
 
 // A proof-tree wider than the text, centered and overflowing both margins instead of wrapping its premises
-#let wide(x) = align(center, box(width: 0pt, align(center, box(width: 1000pt, align(center, x)))))
+// It is a block with the same vertical margins as a display equation.
+#let wide(x) = block(width: 100%, above: 1em, below: 1em, align(center, box(width: 0pt, align(center, box(width: 1000pt, align(center, x))))))
 
 // Rules or proof-trees side by side, aligned at the conclusions
-#let side-by-side(align: center + bottom, ..xs) = std.align(center, grid(
+#let side-by-side(align: center + bottom, ..xs) = block(width: 100%, above: 1em, below: 1em, std.align(center, grid(
   columns: xs.pos().len(),
   column-gutter: 2em,
   align: align,
   ..xs,
-))
+)))
 
 // A derivation `before` rewritten into the derivation `after`, as an equation with a squiggly arrow,
 // always centered, overflowing both margins if it is wider than the text.
