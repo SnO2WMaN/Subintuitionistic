@@ -284,8 +284,8 @@
   align(center, text(size: 0.7em, note)),
   x,
 )
-// `ih(x)` labels a leaf "(I.H.)"; `ih(x, to: [left])` labels it "(I.H. to left)"
-#let ih(x, to: none) = noted(if to == none [(I.H.)] else [(I.H. to #to)], x)
+// `ih(x)` labels a leaf "(I.H.)"; `ih(x, to: [left premise])` labels it "(I.H., left premise)"
+#let ih(x, to: none) = noted(if to == none [(I.H.)] else [(I.H., #to)], x)
 // A leaf standing for a subtree, written above it without a line
 #let subtree(name, x) = stack(dir: ttb, spacing: 0.35em, align(center, name), x)
 
