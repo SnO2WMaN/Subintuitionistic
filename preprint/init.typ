@@ -230,6 +230,7 @@
 
 // The accessibility relation and the valuation of an ω-extension
 #let omegaprec = $attach(prec, tr: omega)$
+#let omegasucc = $attach(succ, tr: omega)$
 #let omegaforces = $attach(forces, tr: omega)$
 
 // The set of subformulas

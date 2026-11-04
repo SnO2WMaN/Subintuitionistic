@@ -1912,19 +1912,19 @@ To verify that the valuation of an $omega$-extension of a model is persistent, w
 
 #proof[
   By induction on $A$.
-  The valuation $omegaforces$ is the same as $forces$ on $W$, and every $y$ with $x omegaprec y$ belongs to $M$ for $x in M$; hence the new points do not affect satisfaction at $x$.
+  The valuation $omegaforces$ is the same as $forces$ on $W$, and every $y omegasucc x$ belongs to $M$ for $x in M$; hence the new points do not affect satisfaction at $x$.
 ]
 
 #lemma[
-  $M^omega$ を $LogicFPL$-モデル $M$ の $omega$-拡大とする．
-  tail $(t_n)_(n < omega)$ は $M^omega$ の下降列であり，bottom $t_omega$ に収束する．
+  Let $M^omega$ be an $omega$-extension of an $LogicFPL$-model $M$.
+  The tail $(t_n)_(n < omega)$ is an infinite descending chain of $M^omega$ and converges to the bottom $t_omega$.
 ] <lem:omega_ext_converge>
 
 #proof[
-  $t_(n + 1) omegaprec t_n$ と $t_omega omegaprec t_n$ は @def:omega_ext による．
-  $t_omega$ の後続 $y$ をとる．
-  $y = t_m$（$m < omega$）ならば，すべての $n > m$ で $t_n omegaprec t_m$ である．
-  $y in W$ ならば $y = r$ または $r prec y$ であり，すべての $n$ で $t_n omegaprec y$ である．
+  $t_(n + 1) omegaprec t_n$ and $t_omega omegaprec t_n$ hold by @def:omega_ext.
+  Let $y omegasucc t_omega$.
+  If $y = t_m$ for some $m < omega$, then $t_n omegaprec t_m$ for all $n > m$.
+  If $y in W$, then $y = r$ or $r prec y$, so $t_n omegaprec y$ for all $n$.
 ]
 
 最後に，$LogicFPL$-フレーム上の帰納法の原理を注意しておく．
