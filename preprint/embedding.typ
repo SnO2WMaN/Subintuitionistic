@@ -1906,13 +1906,13 @@ To verify that the valuation of an $omega$-extension of a model is persistent, w
 ]
 
 #lemma[
-  $M^omega$ を $LogicFPL$-モデル $M$ の $omega$-拡大とする．
-  すべての $x in M$ と $A in FmlPL$ について，$M^omega, x models A <==> M, x models A$ である．
+  Let $M^omega$ be an $omega$-extension of an $LogicFPL$-model $M$.
+  For all $x in M$ and $A in FmlPL$, $M^omega, x models A <==> M, x models A$.
 ] <lem:omega_ext_conservative>
 
 #proof[
-  $A$ に関する帰納法で示す．
-  $omegaforces$ は $W$ 上で $forces$ と一致し，$x in W$ の後続はすべて $W$ に属するので，新しい点は $x$ での充足に影響しない．
+  By induction on $A$.
+  The valuation $omegaforces$ is the same as $forces$ on $W$, and every $y$ with $x omegaprec y$ belongs to $M$ for $x in M$; hence the new points do not affect satisfaction at $x$.
 ]
 
 #lemma[
