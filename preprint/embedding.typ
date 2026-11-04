@@ -1809,12 +1809,12 @@ $LogicFPL$-フレームについて，$W$ が有限であれば特に $prec$ は
 ]
 
 ここから，@KKIM25 に従って，モデルに無限個の点を加える操作を定義する．
-@KKIM25 では任意の極限順序数 $kappa$ について定義しているが，本稿では $omega$ の場合のみを扱う．
+@KKIM25 では任意の極限順序数 $kappa$ について定義しているが，簡潔さのために本稿では $omega$ の場合のみを扱う．
 
 #let omegaprec = $attach(prec, tr: omega)$
 #let omegaforces = $attach(forces, tr: omega)$
 
-#definition[$omega$-拡大，@KKIM25[Definition 2.2]][
+#definition[$omega$-拡大][
   FPLフレーム $F = chevron.l W, prec chevron.r$ と点 $r in F$ をとる．
   $F$ に属さない新しい点 $t_n$（$n <= omega$）を加え，次で定めるフレーム $F^omega = chevron.l W^omega, omegaprec chevron.r$ を，$F$ の $r$ における #emph[$omega$-拡大]（$omega$-extension）と呼ぶ．
   - $W^omega := W union {t_n colon n <= omega}$．
@@ -1986,7 +1986,7 @@ $level = 1$ に関しては @IKK01 の $LogicFPL$ のシークエント計算と
   + すべての有限 $LogicFPL$-モデルのすべての点 $x$ で $x models Gamma seq(1) Delta$ である．
 ] <thm:complete1>
 
-次に，$level = 2$ についての意味論を与える．
+続いて $level = 2$ についての意味論を与える．
 
 #lemma[
   $(x_n)_(n < omega)$ を FPLモデル $M$ の下降列とし，$A, B in FmlPL$ とする．
@@ -2027,7 +2027,7 @@ $level = 1$ に関しては @IKK01 の $LogicFPL$ のシークエント計算と
   以上で示された．
 ]
 
-@thm:complete1 では省略した，@IKK01 による直接有限モデルを構成して完全性（有限モデル性）を $level = 2$ で行う．
+@thm:complete1 では省略した @IKK01 による直接有限モデルを構成することによる完全性（有限モデル性）の証明 $level = 2$ で行う．
 まず，シークエントに関していろいろな定義を行う．
 
 #let proves = $class("relation", tack.r)$
@@ -2087,9 +2087,11 @@ $level = 1$ に関しては @IKK01 の $LogicFPL$ のシークエント計算と
 
 #lemma[Truth Lemma on tail of $omega$-extension][
   $Gamma seq(level) Delta$ を $and or$-飽和かつ $->$-左飽和なシークエントとする．
-  $M = chevron.l W, prec, V chevron.r$ を FPLモデル，$r in W$ を，$Gamma$ のすべての元を強制し，$Delta$ のどの元も強制しない点とする．
-  $M^+ = chevron.l W^+, omegaprec, V^+ chevron.r$ を $M$ の $r$ における $omega$-拡大で，すべての $p in PropVar$ と $0 <= n < omega$ について $V^+ (t_n, p) = V(r, p)$ を満たすものとする．
-  このとき，すべての $A in FmlPL$ と $0 <= n < omega$ について，$A in Gamma^+$ ならば $M^omega, t_n models A$ であり，$A in Delta^+$ ならば $M^omega, t_n nmodels A$ が成立する．
+  $M = chevron.l W, prec, V chevron.r$ を FPLモデル，$r in W$ を，$r models Gamma seq(level) Delta$ とする．
+  $M^+ = chevron.l W^+, omegaprec, V^+ chevron.r$ を $M$ の $r$ における $omega$-拡大で，更にすべての $p in PropVar$ と $0 <= n < omega$ について $V^+ (t_n, p) = V(r, p)$ を満たすものとする．
+  このとき，すべての $A in FmlPL$ と $0 <= n < omega$ について以下が成立する．
+  - $A in Gamma^+ ==> M^omega, t_n models A$
+  - $A in Delta^+ ==> M^omega, t_n nmodels A$
 ] <lem:truth-tail>
 
 #proof[
@@ -2136,9 +2138,9 @@ $level = 1$ に関しては @IKK01 の $LogicFPL$ のシークエント計算と
   @lem:maximal-exists より，$Gamma^+ seq(2) Delta^+ supset.eq Gamma seq(2) Delta$ があリ，
   @lem:maximality-saturate より，$Gamma^+ seq(2) Delta^+$ は $and or$-飽和かつ $->$-左飽和である．
   $GentzenDPL proves Gamma^+ seq(1) Delta^+$ ならば $RLift(1, 2)$ より $GentzenDPL proves Gamma^+ seq(2) Delta^+$ となっておかしいので，$GentzenDPL nproves Gamma^+ seq(1) Delta^+$ である．
-  @thm:complete1 より，有限 FPLモデル $M = chevron.l W, prec, V chevron.r$ と点 $r in W$ で，$r$ が $Gamma^+$ のすべての元を強制し $Delta^+$ のどの元も強制しないものがある．
+  @thm:complete1 より，有限 FPLモデル $M = chevron.l W, prec, V chevron.r$ と点 $r in W$ で，$r nmodels Gamma^+ seq(1) Delta^+$ となるものが存在する．
   $M$ の $r$ における $omega$-extension $M^omega$ を $omegaforces$ を $t_n omegaforces p <==> r forces p$，その他は $forces$ と同じとして定める．
-  これは @lem:ext-val の二条件を満たすのでpersistentであるから $omega$-extensionとしてwell-definedであり（もう片方は明らか），更にこれらは @lem:truth-tail の要請を満たす．
+  これは @lem:ext-val の二条件を満たすのでpersistentであるから $omega$-extensionとしてwell-definedであり（もう片方の要請については明らか），更にこれらは @lem:truth-tail の要請を満たす．
   ゆえに，全ての $t_n colon n < omega$ で，$Gamma subset.eq Gamma^+$ の全ての論理式は充足されるし，$Delta subset.eq Delta^+$ の全ての論理式は充足されない．
   よって $Gamma seq(2) Delta$ はtailのどの点でも充足されず，特に，最終的に充足しない．
 ]
@@ -2179,7 +2181,60 @@ $level = 1$ に関しては @IKK01 の $LogicFPL$ のシークエント計算と
 #proof[
   (1) から (2) は @thm:sound3 による．
   (2) から (3) は，@lem:ext-frame より $omega$-拡大が FPLモデルであり，@lem:ext-bottom より tailが bottomに収束することによる．
-  (3) から (1) を示そう．
+
+  (3) から (1) を対偶で示そう．
+  $GentzenDPL nproves Gamma seq(3) Delta$ とし，$Lambda := Subfml(Gamma union Delta)$ とおく．
+  @lem:maximal-exists より，$Lambda$-極大なシークエント $Gamma^+ seq(3) Delta^+ supset.eq Gamma seq(3) Delta$ を取ることが出来る．
+  @lem:maximality-saturate より $Gamma^+ seq(3) Delta^+$ は $and or$-飽和である．
+  $Gamma^+$ に属する含意の全体を $Gamma^+_->$，$Gamma^+$ に属する命題変数の全体を $Phi$，$Delta^+$ に属する含意の全体を $Delta^+_->$ とする．
+
+  もし $GentzenDPL proves Gamma^+_->, Phi seq(2) Delta^+_->$ ならば，$RLift(2, 3)$ と $RWk(3, 3)$ で $GentzenDPL proves Gamma^+ seq(3) Delta^+$ となるので $GentzenDPL nproves Gamma^+_->, Phi seq(2) Delta^+_->$ である．
+  再び @lem:maximality-saturate より，$Gamma^+_2 seq(2) Delta^+_2 supset.eq Gamma^+_->, Phi seq(2) Delta^+_->$ が取れる．
+  このとき @lem:maximality-saturate より $Gamma^+_2 seq(2) Delta^+_2$ は は $and,or$-saturatedかつ $->$-left saturated である．
+
+  また $RLift(1, 2)$ より $GentzenDPL nproves Gamma^+_2 seq(1) Delta^+_2$ である．
+  @thm:complete1 よりこのとき有限 $LogicFPL$-モデル $M = chevron.l W, prec, forces chevron.r$ と点 $r in W$ で $r nmodels Gamma^+_2 seq(1) Delta^+_2$ が取れる．
+  このとき $M$ の $r$ における $omega$-extension $M^omega$ を以下の $omegaforces$ によって定める．
+  - $x omegaforces p <==> x forces p$ for $x in W$．
+  - $t_n omegaforces p <==> r forces p$ for $n < omega$．
+  - $t_omega omegaforces p <==> p in Gamma^+$．
+  このとき $omegaforces$ がpersistentであることを @lem:ext-val によって確かめる．
+  $t_omega omegaforces p$ であるとき $t_n omegaforces p colon n < omega$ であることを確かめれば十分．
+  $t_omega omegaforces p ==> p in Gamma^+ ==> p in Phi subset.eq Gamma^+_2$ である．
+  $r nmodels Gamma_2^+ seq(1) Delta_2$ より，$r forces p$ であるから，$omegaforces$ の定義より，$t_n omegaforces p colon n < omega$ である．
+  もう片方の要請は明らかであるので，$M^omega$ は $r$ における $omega$-extensionとしてwell-definedである．
+
+  #struct[Claim][
+    このとき，全ての $A in FmlPL$ について以下が成立する．
+    - $A in Gamma^+ ==> M^omega, t_omega models A$．
+    - $A in Delta^+ ==> M^omega, t_omega nmodels A$．
+
+    このことを $A$ の帰納法で同時に示す．
+    #struct[$A equiv p$][
+      $p in Gamma^+$ ならば $omegaforces$ の定義より明らか．
+      $p in Delta^+$ の場合，仮に $t_omega models p$ つまり $p in Gamma^+$ とすると，$RAx(3)$ と $RWk(3, 3)$ より $GentzenDPL proves Gamma^+ seq(3) Delta^+$ が言えてしまいおかしい．
+      よって $M^omega, t_omega nmodels p$．
+    ]
+    #struct[$A equiv bot$][
+      $bot in Gamma^+$ ならば $RBotL(3)$ と $RWk(3, 3)$ より $GentzenDPL proves Gamma^+ seq(3) Delta^+$ が言えてしまいおかしい．
+      $bot in Delta^+$ の場合は定義より明らか．
+    ]
+    #struct[$A equiv B and C, B or C$][
+      $and, or$-saturatedと帰納法の仮定より従う．
+    ]
+    #struct[$A equiv B -> C in Gamma$][
+      $t_omega$ のsuccessor $y$ は $t_n$（$n < omega$），$r$，$r$ のいずれかであり，さらに定義よりそれらはなんらかのtail上の点 $t$ として $t omegaprec y$ である．
+      $B -> C in Gamma^+_-> subset.eq Gamma_2^+$ であり，$M^+$ は $Gamma_2^+ seq(2) Delta_2^+$，$M$，$r$ についての @lem:truth-tail の要請を満たすので，すべての $n < omega$ で $t_n models B -> C$ である．
+      ゆえに $t forces B -> C$ であり，$y forces B$ ならば $y forces C$ である．
+      以上の点の取り方より，$t_omega forces B -> C$ が言える．
+    ]
+    #struct[$A equiv B -> C in Delta$][
+      $B -> C in Delta^+_-> subset.eq Delta_2^+$ なので，@lem:truth-tail より $t_0 nmodels B -> C$ である．
+      $t_omega omegaprec t_0$ なので，@lem:persist より $t_omega nmodels B -> C$ である．
+    ]
+    これでClaimは示された．
+  ]
+  このClaimと，$Gamma seq(3) Delta subset.eq Gamma^+ seq(3) Delta^+$ より，$t_omega nmodels Gamma seq(3) Delta$ が結論できる．
 ]
 
 各レベルの完全性の応用として，$GentzenDPL$ でカット除去定理が可能であること (@cor:gentzen_dpl_cut) を意味論的にも，つまり，様相論理への埋め込みを経由することなく直接的に示すことが出来る．
@@ -2208,6 +2263,8 @@ $level = 1$ に関しては @IKK01 の $LogicFPL$ のシークエント計算と
 ]
 
 == Semantical Embedding
+
+ここでは，Visser translationによる $GentzenDPL$ と $GentzenD$ の埋め込み定理(@thm:iff_visser)の，意味論的な証明を与える．
 
 = Concluding remarks and open problems <sect:conclusion>
 
