@@ -1936,28 +1936,28 @@ Finally, we note the principle of induction on $LogicFPL$-frames.
 
 == Completeness
 
-$level = 1$ については，@IKK01 の $LogicFPL$ のシークエント計算と $level = 1$ の $GentzenDPL$ の導出能力が等しいことを @sect:seq_DPL で見た．
-ゆえにほとんどは @IKK01 の議論をそのまま用いることができるが，@IKK01 で示されているのは有限 $LogicFPL$-フレームに対する健全性である．
-この健全性を無限 $LogicFPL$-フレームに拡張しておく．
+For $level = 1$, recall from @sect:seq_DPL that $GentzenDPL$ restricted to level 1 has the same derivable sequents as the sequent calculus for $LogicFPL$ of @IKK01.
+Hence most of the arguments of @IKK01 can be used as they are; however, what is proved there is soundness with respect to _finite_ $LogicFPL$-frames.
+We extend this soundness to arbitrary $LogicFPL$-frames.
 
-#theorem[Soundness of $seq(1)$ in $GentzenDPL$][
-  $GentzenDPL proves Gamma seq(1) Delta$ ならば，任意の $LogicFPL$-モデル $M$ と点 $x in M$ について $M, x models Gamma seq(1) Delta$ である．
-] <thm:gentzen_dpl_sound1>
+#lemma[Soundness of $seq(1)$ in $GentzenDPL$][
+  If $GentzenDPL proves Gamma seq(1) Delta$, then $M, x models Gamma seq(1) Delta$ for every $LogicFPL$-model $M$ and every $x in M$.
+] <lem:GentzenDPL_sound1>
 
 #proof[
-  $GentzenDPL$ での導出に関する帰納法で示す．
-  $LogicFPL$-モデル $M$ を固定する．
-  $RImpR(1, 1)$ 以外の規則は充足関係の定義から明らかなので，$RImpR(1, 1)$ だけを考える．
+  By induction on the derivation in $GentzenDPL$.
+  Fix an $LogicFPL$-model $M$.
+  All rules other than $RImpR(1, 1)$ are immediate from the definition of satisfaction, so we only consider $RImpR(1, 1)$.
 
-  結論を $Gamma, Pi seq(1) A -> B$（$Pi := {C_j -> D_j colon j < k}$）とする．
-  帰納法の仮定より，各 $I subset.eq {0, dots, k - 1}$ と任意の点 $x in M$ について，$x models Delta_I, Gamma, A -> B, A seq(1) B, Gamma_I$ である．
-  任意の点 $x$ で $x models Gamma, Pi seq(1) A -> B$ であることを，@rem:fpl_induction の帰納法で示す．
-  すなわち，$x$ の任意の後続 $y$ で $y models Gamma, Pi seq(1) A -> B$ であると仮定する．
-  $x models Gamma union Pi$ とし，$x$ の後続 $y$ で $y models A$ であるとする．
-  @lem:fpl_persist より $y models Gamma union Pi$ なので，仮定より $y models A -> B$ である．
-  $I := {j < k colon y models D_j}$ とおくと，$y models Delta_I, Gamma, A -> B, A$ なので，$y models B$ であるか，ある $j in.not I$ で $y models C_j$ である．
-  後者の場合，$x models C_j -> D_j$ と $x prec y$ から $y models D_j$ となり，$j in I$ に矛盾する．
-  よって $y models B$ であり，$x models A -> B$ である．
+  Let the conclusion be $Gamma, Pi seq(1) A -> B$, where $Pi := {C_j -> D_j colon j < k}$.
+  By the induction hypothesis, for every $I subset.eq {0, dots, k - 1}$ and every $x in M$, we have $x models Delta_I, Gamma, A -> B, A seq(1) B, Gamma_I$.
+  We show that $x models Gamma, Pi seq(1) A -> B$ for every $x in M$ by the induction of @rem:fpl_induction; that is, we assume that $y models Gamma, Pi seq(1) A -> B$ for all $y succ x$.
+  Suppose $x models Gamma union Pi$, and let $y succ x$ with $y models A$.
+  By @lem:fpl_persist, $y models Gamma union Pi$, so $y models A -> B$ by the assumption.
+  Let $I := {j < k colon y models D_j}$.
+  Since $y models Delta_I union Gamma union \{ A -> B, A \}$, we have $y models B$ or $y models C_j$ for some $j in.not I$.
+  In the latter case, $x models C_j -> D_j$ and $x prec y$ give $y models D_j$, which contradicts $j in.not I$.
+  Hence $y models B$, and therefore $x models A -> B$.
 ]
 
 逆に，@IKK01 は有限モデルを直接構成して完全性を示している．
@@ -1971,7 +1971,7 @@ $level = 1$ については，@IKK01 の $LogicFPL$ のシークエント計算�
 ] <thm:gentzen_dpl_complete1>
 
 #proof[
-  (1) から (2) は @thm:gentzen_dpl_sound1，(2) から (3) は明らかであり，(3) から (1) は @IKK01[Theorem 3.3] による．
+  (1) から (2) は @lem:GentzenDPL_sound1，(2) から (3) は明らかであり，(3) から (1) は @IKK01[Theorem 3.3] による．
 ]
 
 続いて，$level = 2$ の意味論を与える．
@@ -1999,7 +1999,7 @@ $level = 1$ については，@IKK01 の $LogicFPL$ のシークエント計算�
     すべての $n$ で $x_n models Gamma seq(2) Delta$ なので，$N := 0$ とすればよい．
   ]
   #struct[$RLift(1, 2)$][
-    前提 $Gamma seq(1) Delta$ は @thm:gentzen_dpl_sound1 より $M$ のすべての点で充足されるので，$N := 0$ とすればよい．
+    前提 $Gamma seq(1) Delta$ は @lem:GentzenDPL_sound1 より $M$ のすべての点で充足されるので，$N := 0$ とすればよい．
   ]
   #struct[$RWk(2, 2)$，$RAndL(2, 2)$，$RAndR(2, 2)$，$ROrL(2, 2)$，$ROrR(2, 2)$][
     帰納法の仮定より，前提に対して $N$（前提が二つならば $N_1, N_2$）がとれる．
