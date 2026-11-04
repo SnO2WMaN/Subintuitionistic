@@ -1862,25 +1862,26 @@ In particular, the bottom $t_omega$ satisfies $t_omega omegaprec t_n$ for all po
 ) <fig:omega_ext>
 
 #lemma[
-  $LogicFPL$-フレームの $omega$-拡大は $LogicFPL$-フレームである．
-  したがって，$LogicFPL$-モデルの $omega$-拡大は $LogicFPL$-モデルである．
+  The $omega$-extension of an $LogicFPL$-frame is an $LogicFPL$-frame.
+  Consequently, an $omega$-extension of an $LogicFPL$-model is an $LogicFPL$-model.
 ] <lem:omega_ext_frame>
 
 #proof[
-  モデルについては，$omega$-拡大の付値が persistent であることを定義で課しているので，フレームについて示せばよい．
-  #struct[推移性][
-    $x omegaprec y omegaprec z$ とする．
-    $y in W$ ならば，$W$ の点の後続は $W$ に属するので，$z in W$ かつ $y prec z$ である．
-    このとき，$x in W$ ならば $x prec y$ なので，$prec$ の推移性より $x prec z$ である．
-    $x = t_n$ ならば $y = r$ または $r prec y$ なので，いずれにせよ $r prec z$ であり，$x omegaprec z$ である．
-    $y = t_m$ ならば $x = t_n$（$n > m$）である．
-    $z = t_k$ ならば $n > m > k$ なので $x omegaprec z$ である．
-    $z in W$ ならば $z = r$ または $r prec z$ なので $x omegaprec z$ である．
+  For models, the persistence of the valuation of an $omega$-extension is required by definition, so it suffices to consider frames.
+  #struct[Transitivity][
+    Suppose $x omegaprec y omegaprec z$.
+    If $y in W$, then $z in W$ and $y prec z$, since no point of $W$ has a point outside $W$ above it.
+    In this case, if $x in W$ then $x prec y$, so $x prec z$ by the transitivity of $prec$.
+    If $x = t_n$, then $y = r$ or $r prec y$, so in either case $r prec z$, and hence $x omegaprec z$.
+    If $y = t_m$, then $x = t_n$ with $n > m$.
+    If $z = t_k$, then $n > m > k$, so $x omegaprec z$.
+    If $z in W$, then $z = r$ or $r prec z$ since $y omegaprec z$, so $x omegaprec z$.
   ]
-  #struct[逆整礎性][
-    無限上昇列 $x_1 omegaprec x_2 omegaprec dots.c$ があるとする．
-    $W$ の点は tail や bottom を後続に持たないので，ある $x_i$ が $W$ に属せば，それ以降の点はすべて $W$ に属し，$prec$ の無限上昇列が得られて矛盾する．
-    よってすべての $x_i$ は tail か bottom の点であり，$x_i = t_(n_i)$ とすると $n_1 > n_2 > dots.c$ となるが，$omega + 1$ の無限下降列は存在しないので矛盾する．
+  #struct[Converse well-foundedness][
+    Suppose there is an infinite ascending chain $x_1 omegaprec x_2 omegaprec dots.c$.
+    No point of $W$ has a point of the tail or the bottom above it, so if some $x_i$ belongs to $W$, then all subsequent points belong to $W$, and we obtain an infinite ascending chain with respect to $prec$, a contradiction.
+    Hence every $x_i$ is a point of the tail or the bottom.
+    Writing $x_i = t_(n_i)$, we obtain $n_1 > n_2 > dots.c$, which contradicts the well-foundedness of $omega + 1$.
   ]
 ]
 
