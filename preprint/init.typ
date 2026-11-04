@@ -1,5 +1,6 @@
 #import "@preview/ctheorems:1.1.3": *
 #import "@preview/curryst:0.5.0": prooftree, rule
+#import "@preview/cetz:0.5.2": canvas, draw
 
 // Email addresses, ORCID iDs and URLs
 #let mono(body) = text(font: "Liberation Mono", size: 0.75em, body)
@@ -291,7 +292,10 @@
 
 // A proof-tree wider than the text, centered and overflowing both margins instead of wrapping its premises
 // It is a block with the same vertical margins as a display equation.
-#let wide(x) = block(width: 100%, above: 1em, below: 1em, align(center, box(width: 0pt, align(center, box(width: 1000pt, align(center, x))))))
+#let wide(x) = block(width: 100%, above: 1em, below: 1em, align(center, box(width: 0pt, align(center, box(
+  width: 1000pt,
+  align(center, x),
+)))))
 
 // Rules or proof-trees side by side, aligned at the conclusions
 #let side-by-side(align: center + bottom, ..xs) = block(width: 100%, above: 1em, below: 1em, std.align(center, grid(
