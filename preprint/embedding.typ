@@ -1974,43 +1974,43 @@ The following is an immediate consequence of their argument (the direct construc
   (1) to (2) is @lem:GentzenDPL_sound1, (2) to (3) is obvious, and (3) to (1) follows from @IKK01[Theorem 3.3].
 ]
 
-続いて，$level = 2$ の意味論を与える．
+We now turn to the semantics for $level = 2$.
 
 #lemma[
-  $(x_n)_(n < omega)$ を $LogicFPL$-モデル $M$ の下降列とし，$A, B in FmlPL$ とする．
-  ある $N$ が存在して，すべての $n >= N$ について，$x_n models A -> B$ かつ $x_n models A$ ならば $x_n models B$ である．
+  Let $(x_n)_(n < omega)$ be an infinite descending chain of an $LogicFPL$-model $M$, and let $A, B in FmlPL$.
+  Then there exists $N$ such that, for all $n >= N$, if $x_n models A -> B$ and $x_n models A$, then $x_n models B$.
 ] <lem:chain_mp>
 
 #proof[
-  @lem:chain_persist を $A -> B$ に適用する．
-  すべての $n$ で $x_n models A -> B$ ならば，$N := 0$ とすればよい．
-  実際，$x_n models A$ ならば，$x_(n + 1) models A -> B$ と $x_(n + 1) prec x_n$ から $x_n models B$ である．
-  そうでなければ，ある $N$ が存在してすべての $n >= N$ で $x_n nmodels A -> B$ なので，この $N$ でよい．
+  Apply @lem:chain_persist to $A -> B$.
+  If $x_n models A -> B$ for all $n$, let $N := 0$.
+  Indeed, if $x_n models A$, then $x_(n + 1) models A -> B$ and $x_(n + 1) prec x_n$ give $x_n models B$.
+  Otherwise, there exists $N$ such that $x_n nmodels A -> B$ for all $n >= N$, and this $N$ works since the premise of the claim never holds.
 ]
 
 #lemma[Soundness of $seq(2)$ in $GentzenDPL$][
-  $GentzenDPL proves Gamma seq(2) Delta$ ならば，すべての $LogicFPL$-モデルのすべての下降列の上で $Gamma seq(2) Delta$ は最終的に成り立つ．
+  If $GentzenDPL proves Gamma seq(2) Delta$, then $Gamma seq(2) Delta$ is eventually always satisfied on every infinite descending chain of every $LogicFPL$-model.
 ] <lem:gentzen_dpl_sound2>
 
 #proof[
-  $GentzenDPL$ での導出に関する帰納法で示す．
-  $LogicFPL$-モデル $M$ とその下降列 $(x_n)_(n < omega)$ を固定し，最後の規則で場合分けする．
-  #struct[$RAx(2)$，$RBotL(2)$][
-    すべての $n$ で $x_n models Gamma seq(2) Delta$ なので，$N := 0$ とすればよい．
+  By induction on the derivation in $GentzenDPL$.
+  Fix an $LogicFPL$-model $M$ and an infinite descending chain $(x_n)_(n < omega)$ of $M$, and consider the last rule of the derivation.
+  #struct[$RAx(2)$, $RBotL(2)$][
+    $x_n models Gamma seq(2) Delta$ for all $n$, so $N := 0$ works.
   ]
   #struct[$RLift(1, 2)$][
-    前提 $Gamma seq(1) Delta$ は @lem:GentzenDPL_sound1 より $M$ のすべての点で充足されるので，$N := 0$ とすればよい．
+    The premise $Gamma seq(1) Delta$ is satisfied at every point of $M$ by @lem:GentzenDPL_sound1, so $N := 0$ works.
   ]
-  #struct[$RWk(2, 2)$，$RAndL(2, 2)$，$RAndR(2, 2)$，$ROrL(2, 2)$，$ROrR(2, 2)$][
-    帰納法の仮定より，前提に対して $N$（前提が二つならば $N_1, N_2$）がとれる．
-    その $N$（あるいは $max(N_1, N_2)$）をとれば，充足関係の定義より結論も充足される．
+  #struct[$RWk(2, 2)$, $RAndL(2, 2)$, $RAndR(2, 2)$, $ROrL(2, 2)$, $ROrR(2, 2)$][
+    By the induction hypothesis, we obtain $N$ for the premise (or $N_1, N_2$ if there are two premises).
+    Taking this $N$ (or $max(N_1, N_2)$), the conclusion is satisfied by the definition of satisfaction.
   ]
   #struct[$RImpL(2, 2)$][
-    結論を $A -> B, Gamma seq(2) Delta$ とする．
-    前提 $Gamma seq(2) Delta, A$ と $B, Gamma seq(2) Delta$ について帰納法の仮定から得られる $N_1$，$N_2$ と，@lem:chain_mp の $N_3$ をとり，$N := max(N_1, N_2, N_3)$ とする．
-    $n >= N$ とし，$x_n models A -> B$ かつ $x_n models Gamma$ とする．
-    一つ目の前提より，$x_n$ は $Delta$ のある論理式を充足するか，$x_n models A$ である．
-    後者ならば @lem:chain_mp より $x_n models B$ であり，二つ目の前提より $x_n$ は $Delta$ のある論理式を充足する．
+    Let the conclusion be $A -> B, Gamma seq(2) Delta$.
+    Let $N_1$ and $N_2$ be obtained from the induction hypothesis for the premises $Gamma seq(2) Delta, A$ and $B, Gamma seq(2) Delta$, let $N_3$ be as in @lem:chain_mp, and let $N := max(N_1, N_2, N_3)$.
+    Let $n >= N$, and suppose $x_n models A -> B$ and $x_n models Gamma$.
+    By the first premise, $x_n$ satisfies some formula in $Delta$, or $x_n models A$.
+    In the latter case, $x_n models B$ by @lem:chain_mp, and then $x_n$ satisfies some formula in $Delta$ by the second premise.
   ]
 ]
 
