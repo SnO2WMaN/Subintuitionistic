@@ -40,13 +40,12 @@
   date: none,
   body,
 ) = {
-  // 脚注の中の `@thm:...` にも効かせるため，文書の最も外側で適用する
   show: thmrules.with(qed-symbol: [❏])
 
   set document(author: authors.map(a => a.name), title: title)
   if type(date) == datetime { set document(date: date) }
   // Noto Serif CJK SC sets the Chinese title of Che21 in the bibliography
-  set text(font: ("New Computer Modern", "Libertinus Serif", "Noto Serif CJK SC"), lang: "en", size: 10pt)
+  set text(font: ("New Computer Modern", "Libertinus Serif", "Zen Old Mincho"), lang: "en", size: 10pt)
   set par(leading: 0.5em, spacing: 0.75em)
 
   // The page layout of LaTeX's `article` class at 10pt on letter paper, as compiled by arXiv
@@ -215,7 +214,26 @@
 #let proves = $class("relation", tack.r)$
 // Derivability by a proof-tree of height at most `h`; `proves^h` would put `h` above the turnstile
 #let provesh(h) = $attach(proves, tr: #h)$
+#let nproves = $class("relation", tack.r.not)$
 #let forces = $class("relation", std.sym.forces)$
+#let nforces = $class("relation", std.sym.forces.not)$
+#let models = $class("relation", tack.rr)$
+#let nmodels = $class("relation", tack.rr.not)$
+
+// Satisfaction in modal (`M`) and propositional (`P`) Kripke models, when both appear together
+#let mmodels = $attach(models, br: upright("M"))$
+#let nmmodels = $attach(nmodels, br: upright("M"))$
+#let pmodels = $attach(models, br: upright("P"))$
+#let npmodels = $attach(nmodels, br: upright("P"))$
+// The persistent valuation obtained from a valuation of a modal Kripke model
+#let pforces = $attach(forces, br: upright("P"))$
+
+// The accessibility relation and the valuation of an ω-extension
+#let omegaprec = $attach(prec, tr: omega)$
+#let omegaforces = $attach(forces, tr: omega)$
+
+// The set of subformulas
+#let Subfml = $op("Sub")$
 
 #let Box = $class("unary", square)$
 #let lconj = $and.big$
