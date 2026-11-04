@@ -2014,55 +2014,56 @@ We now turn to the semantics for $level = 2$.
   ]
 ]
 
-@thm:gentzen_dpl_complete1 では省略した，有限モデルを直接構成する完全性の証明を，$level = 2$ について与える．
-まず，シークエントについての定義を行う．
+In @thm:gentzen_dpl_complete1 we omitted the proof of completeness by directly constructing finite models; we give it for $level = 2$.
+We first make some definitions on sequents.
 
 #definition[
-  $Gamma, Delta, Gamma', Delta' subset.eq FmlPL$ を有限集合とする．
-  シークエントの包含関係 $Gamma seq(level) Delta subset.eq Gamma' seq(level) Delta'$ を，$Gamma subset.eq Gamma'$ かつ $Delta subset.eq Delta'$ として定める．
+  Let $Gamma, Gamma', Delta, Delta' subset.eq FmlPL$ be finite sets.
+  We write $Gamma seq(level) Delta subset.eq Gamma' seq(level) Delta'$ if $Gamma subset.eq Gamma'$ and $Delta subset.eq Delta'$.
 
-  シークエント $Gamma seq(level) Delta$ が次の四条件を満たすとき，#emph[$and or$-飽和]（$and or$-saturated）であるという．
-  - $A and B in Gamma$ ならば，$A in Gamma$ かつ $B in Gamma$．
-  - $A and B in Delta$ ならば，$A in Delta$ または $B in Delta$．
-  - $A or B in Gamma$ ならば，$A in Gamma$ または $B in Gamma$．
-  - $A or B in Delta$ ならば，$A in Delta$ かつ $B in Delta$．
+  A sequent $Gamma seq(level) Delta$ is _$and or$-saturated_ if it satisfies the following four conditions.
+  - If $A and B in Gamma$, then $A in Gamma$ and $B in Gamma$.
+  - If $A and B in Delta$, then $A in Delta$ or $B in Delta$.
+  - If $A or B in Gamma$, then $A in Gamma$ or $B in Gamma$.
+  - If $A or B in Delta$, then $A in Delta$ and $B in Delta$.
 
-  次の条件を満たすとき，#emph[$->$-左飽和]（$->$-left-saturated）であるという．
-  - $A -> B in Gamma$ ならば，$A in Delta$ または $B in Gamma$．
+  A sequent $Gamma seq(level) Delta$ is _$->$-left-saturated_ if it satisfies the following condition.
+  - If $A -> B in Gamma$, then $A in Delta$ or $B in Gamma$.
 
-  $Lambda subset.eq FmlPL$ を部分論理式について閉じた有限集合とする．
-  次の三条件を満たすとき，#emph[$Lambda$-極大]であるという．
-  - $Gamma union Delta subset.eq Lambda$．
-  - $GentzenDPL nproves Gamma seq(level) Delta$．
-  - すべての $A in Lambda$ について，$A in.not Gamma$ ならば $GentzenDPL proves A, Gamma seq(level) Delta$ であり，$A in.not Delta$ ならば $GentzenDPL proves Gamma seq(level) Delta, A$ である．
+  Let $Lambda subset.eq FmlPL$ be a subformula closed finite set.
+  A sequent $Gamma seq(level) Delta$ is _$Lambda$-maximal_ if it satisfies the following three conditions.
+  - $Gamma union Delta subset.eq Lambda$.
+  - $GentzenDPL nproves Gamma seq(level) Delta$.
+  - For every $A in Lambda$, if $A in.not Gamma$ then $GentzenDPL proves A, Gamma seq(level) Delta$, and if $A in.not Delta$ then $GentzenDPL proves Gamma seq(level) Delta, A$.
 ] <def:saturated>
 
-以降，$Lambda$ を部分論理式について閉じた有限集合とする．
+From now on, $Lambda$ denotes a subformula closed finite set.
 
 #lemma[Lindenbaum Lemma][
-  $Gamma union Delta subset.eq Lambda$ かつ $GentzenDPL nproves Gamma seq(level) Delta$ とする．
-  このとき，$Lambda$-極大なシークエント $Gamma^+ seq(level) Delta^+ supset.eq Gamma seq(level) Delta$ が存在する．
+  Suppose $Gamma union Delta subset.eq Lambda$ and $GentzenDPL nproves Gamma seq(level) Delta$.
+  Then there exists a $Lambda$-maximal sequent $Gamma^+ seq(level) Delta^+ supset.eq Gamma seq(level) Delta$.
 ] <lem:lindenbaum>
 
 #proof[
-  集合 ${Gamma' seq(level) Delta' supset.eq Gamma seq(level) Delta colon Gamma' union Delta' subset.eq Lambda, GentzenDPL nproves Gamma' seq(level) Delta'}$ は，$Lambda$ が有限なので有限であり，$Gamma seq(level) Delta$ を含むので空でない．
-  ゆえにその $subset.eq$-極大な元 $Gamma^+ seq(level) Delta^+$ がとれる．
-  $A in Lambda$ かつ $A in.not Gamma^+$ ならば，$Gamma^+ seq(level) Delta^+ subset.neq A, Gamma^+ seq(level) Delta^+$ なので，極大性より $GentzenDPL proves A, Gamma^+ seq(level) Delta^+$ である．
-  $A in.not Delta^+$ についても同様である．
+  The set ${Gamma' seq(level) Delta' supset.eq Gamma seq(level) Delta colon Gamma' union Delta' subset.eq Lambda, GentzenDPL nproves Gamma' seq(level) Delta'}$ is finite since $Lambda$ is finite, and nonempty since it contains $Gamma seq(level) Delta$.
+  Hence we can take a $subset.eq$-maximal element $Gamma^+ seq(level) Delta^+$ of it.
+  If $A in Lambda$ and $A in.not Gamma^+$, then $Gamma^+ seq(level) Delta^+ subset.neq A, Gamma^+ seq(level) Delta^+$, so $GentzenDPL proves A, Gamma^+ seq(level) Delta^+$ by $subset.eq$-maximality.
+  The case $A in.not Delta^+$ is similar.
 ]
 
 #lemma[
-  + $Lambda$-極大な $Gamma seq(level) Delta$ は $and or$-飽和である．
-  + $Lambda$-極大な $Gamma seq(2) Delta$ は $->$-左飽和である．
+  + A $Lambda$-maximal sequent $Gamma seq(level) Delta$ is $and or$-saturated.
+  + A $Lambda$-maximal sequent $Gamma seq(2) Delta$ is $->$-left-saturated.
 ] <lem:maximal_saturated>
 
 #proof[
-  (1) は $and$，$or$ の規則から (2) と同様に示せる．
-  (2) を示す．
-  $Gamma seq(2) Delta$ を $Lambda$-極大とし，$A -> B in Gamma$ とする．
-  $Lambda$ は部分論理式について閉じているので $A, B in Lambda$ である．
-  $A in.not Delta$ かつ $B in.not Gamma$ とすると，$Lambda$-極大性より $GentzenDPL proves Gamma seq(2) Delta, A$ かつ $GentzenDPL proves B, Gamma seq(2) Delta$ である．
-  $RImpL(2, 2)$ より $GentzenDPL proves A -> B, Gamma seq(2) Delta$，すなわち $GentzenDPL proves Gamma seq(2) Delta$ となって矛盾する．
+  (1) is shown from the rules for $and$ and $or$ in the same way as (2).
+  We show (2).
+  Let $Gamma seq(2) Delta$ be $Lambda$-maximal and $A -> B in Gamma$.
+  Since $Lambda$ is subformula closed, $A, B in Lambda$.
+  Suppose $A in.not Delta$ and $B in.not Gamma$.
+  Then $GentzenDPL proves Gamma seq(2) Delta, A$ and $GentzenDPL proves B, Gamma seq(2) Delta$ by the $Lambda$-maximality.
+  By $RImpL(2, 2)$, $GentzenDPL proves A -> B, Gamma seq(2) Delta$, that is, $GentzenDPL proves Gamma seq(2) Delta$, a contradiction.
 ]
 
 #lemma[Truth Lemma on tail of $omega$-extension][
