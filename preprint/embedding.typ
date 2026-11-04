@@ -1817,17 +1817,17 @@ While @KKIM25 defines it for an arbitrary limit ordinal $kappa$, we deal only wi
   - $W^omega := W union {t_n colon n <= omega}$.
   - $x omegaprec y$ iff one of the following holds.
     + $x, y in W$ and $x prec y$.
-    + $x = t_n$ and $y = t_m$ for some $m < n <= omega$.
+    + $x = t_n$ and $y = t_m$ for some $n > m$.
     + $x = t_n$ for some $n <= omega$, $y in W$, and either $y = r$ or $r prec y$.
   We call $(t_n)_(n < omega)$ the _tail_ and $t_omega$ the _bottom_ of $F^omega$.
 
   For an $LogicFPL$-model $M = chevron.l W, prec, forces chevron.r$, we say that $M^omega = chevron.l W^omega, omegaprec, omegaforces chevron.r$ is an _$omega$-extension_ of $M$ at $r$ if $chevron.l W^omega, omegaprec chevron.r$ is the $omega$-extension of $chevron.l W, prec chevron.r$ at $r$ and $omegaforces$ is a valuation on $W^omega$ satisfying the following two conditions.
   + $omegaforces$ is persistent on $chevron.l W^omega, omegaprec chevron.r$.
-  + $x forces p <==> x omegaforces p$ for all $x in W$ and $p in PropVar$; that is, $omegaforces$ is same to $forces$ on $W$.
+  + $x forces p <==> x omegaforces p$ for all $x in W$ and $p in PropVar$; that is, $omegaforces$ is the same as $forces$ on $W$.
 ] <def:omega_ext>
 
 @fig:omega_ext illustrates the shape of an $omega$-extension.
-We have $t_n omegaprec y$ exactly when $y$ is $t_m$ for some $m < n$, $y = r$, or $r prec y$.
+We have $t_n omegaprec y$ exactly when $y = t_m$ for some $m$ with $n > m$, $y = r$, or $r prec y$.
 In particular, the bottom $t_omega$ satisfies $t_omega omegaprec t_n$ for all points $t_n$ of the tail.
 
 #figure(
@@ -1885,24 +1885,24 @@ In particular, the bottom $t_omega$ satisfies $t_omega omegaprec t_n$ for all po
   ]
 ]
 
-モデルの $omega$-拡大の付値が persistent であることを確かめるために，次の言い換えを用意しておく．
+To verify that the valuation of an $omega$-extension of a model is persistent, we prepare the following reformulation.
 
 #lemma[
-  $M = chevron.l W, prec, forces chevron.r$ を $LogicFPL$-モデル，$F^omega = chevron.l W^omega, omegaprec chevron.r$ を $chevron.l W, prec chevron.r$ の $r$ における $omega$-拡大とし，$omegaforces$ を $W^omega$ 上の付値で $W$ 上では $forces$ と一致するものとする．
-  $omegaforces$ が $F^omega$ 上で persistent であることは，すべての $p in PropVar$ について次の二条件が成り立つことと同値である．
-  + $m < n <= omega$ ならば，$t_n omegaforces p ==> t_m omegaforces p$．
-  + $t_0 omegaforces p ==> r forces p$．
+  Let $M = chevron.l W, prec, forces chevron.r$ be an $LogicFPL$-model, let $F^omega = chevron.l W^omega, omegaprec chevron.r$ be the $omega$-extension of $chevron.l W, prec chevron.r$ at $r$, and let $omegaforces$ be a valuation on $W^omega$ that is the same as $forces$ on $W$.
+  Then $omegaforces$ is persistent on $F^omega$ if and only if the following two conditions hold for all $p in PropVar$.
+  + If $n > m$, then $t_n omegaforces p ==> t_m omegaforces p$.
+  + $t_0 omegaforces p ==> r forces p$.
 ] <lem:omega_ext_persist>
 
 #proof[
-  persistent ならば，$t_n omegaprec t_m$ と $t_0 omegaprec r$ より二条件が成り立つ．
-  逆を示す．
-  $x omegaprec y$ かつ $x omegaforces p$ とし，@def:omega_ext の三つの場合に分ける．
-  - $x, y in W$ ならば，$forces$ が persistent なので $y omegaforces p$ である．
-  - $x = t_n$，$y = t_m$ ならば $n > m$ であり，条件 (1) より $y omegaforces p$ である．
-  - $x = t_n$，$y in W$ ならば，条件 (1) より $t_0 omegaforces p$，条件 (2) より $r forces p$ である．
-    $y = r$ ならばこれで示された．
-    $r prec y$ ならば，$forces$ が persistent なので $y omegaforces p$ である．
+  If $omegaforces$ is persistent, then the two conditions hold since $t_n omegaprec t_m$ for $n > m$ and $t_0 omegaprec r$.
+  Conversely, suppose that $x omegaprec y$ and $x omegaforces p$.
+  We distinguish the three cases of @def:omega_ext.
+  - If $x, y in W$, then $y omegaforces p$ since $forces$ is persistent.
+  - If $x = t_n$ and $y = t_m$, then $n > m$, so $y omegaforces p$ by condition (1).
+  - If $x = t_n$ and $y in W$, then $t_0 omegaforces p$ by condition (1), and hence $r forces p$ by condition (2).
+    If $y = r$, we are done.
+    If $r prec y$, then $y omegaforces p$ since $forces$ is persistent.
 ]
 
 #lemma[
