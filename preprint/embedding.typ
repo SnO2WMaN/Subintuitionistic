@@ -1781,18 +1781,19 @@ The persistence of valuations extends to all formulas.
   The other cases are immediate from the induction hypothesis.
 ]
 
-ここで，モデルの点の列について，いくつかの定義を追加する．
+We next introduce some notions concerning sequences of points in a model.
 
 #definition[
-  $LogicFPL$-モデル $M$ の点の無限列 $(x_n)_(n < omega)$ で，すべての $n$ について $x_(n + 1) prec x_n$ を満たすものを#emph[下降列]（descending chain）と呼ぶ．
-  $prec$ の推移性より，$m < n$ ならば $x_n prec x_m$ である．
+  Let $M$ be an $LogicFPL$-model.
+  A sequence $(x_n)_(n < omega)$ of points of $M$ is an _infinite descending chain_ if $x_(n + 1) prec x_n$ for all $n$.
+  By the transitivity of $prec$, $n > m$ implies $x_n prec x_m$.
 
-  点 $y in M$ と $M$ の下降列 $(x_n)_(n < omega)$ が次の二条件を満たすとき，$(x_n)_(n < omega)$ は $y$ に#emph[収束する]という．
-  - すべての $n$ について $y prec x_n$ である．
-  - $y$ の任意の後続 $z$ について，ある $N_z$ が存在して，すべての $n >= N_z$ で $x_n prec z$ である．
+  An infinite descending chain $(x_n)_(n < omega)$ of $M$ _converges_ to a point $y in M$ if the following two conditions hold.
+  - $y prec x_n$ for all $n$.
+  - For every $z succ y$, there exists $N_z$ such that $x_n prec z$ for all $n >= N_z$.
 
-  論理式 $A$ が下降列 $(x_n)_(n < omega)$ 上で#emph[最終的に成り立つ]（eventually always true）とは，ある $N$ が存在して，すべての $n >= N$ で $x_n models A$ となることをいう．
-  シークエントについても同様に定める．
+  A formula $A$ is _eventually always satisfied_ on an infinite descending chain $(x_n)_(n < omega)$ if there exists $N$ such that $x_n models A$ for all $n >= N$.
+  This notion is defined for sequents in the same way.
 ] <def:descending_chain>
 
 #lemma[
