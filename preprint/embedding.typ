@@ -35,7 +35,7 @@ every arithmetical sentence obtained from it by the above interpretation is prov
 Here, $mrm("Rfn")_TheoryPA (Sigma_1)$ denotes the reflection principle for $Sigma_1$-sentences.
 Subsequently, Beklemishev @Bek90 proved the classification theorem for provability logics,
 which states that every provability logic must belong to one of four families of logics,
-each being an appropriate extension of one of $LogicGL$, $LogicS$, or $LogicD$.
+each being an appropriate extension of one of $LogicGL$, $LogicS$ or $LogicD$.
 For more results and detailed discussions about $LogicD$ and the classification theorem,
 see Beklemishev's papers @Bek87 @Bek89 @Bek90 or the survey by Artemov and Beklemishev @AB05.
 
@@ -174,7 +174,7 @@ It is easy to see that $(dot)^Vis$ is injective, that is, $A^Vis equiv B^Vis$ im
      (A or B)^Vis & equiv (A^Vis -> bot) -> B^Vis.
   $
 
-  Thus the translations of propositional variables, conjunctions and disjunctions are implications, and the translations of implications are boxed formulas.
+  Thus $p^Vis$, $(A and B)^Vis$ and $(A or B)^Vis$ are implications, while $(A -> B)^Vis$ is a boxed formula.
   This point requires particular care when we consider a proof-theoretic embedding.
 ] <rem:visser_unfolded>
 
@@ -187,19 +187,7 @@ Visser @Vis81 proved the following by means of Kripke semantics.
   3. $LogicGL proves A^God$.
 ] <prop:visser_fpl>
 
-As we show in @subsect:main_results (see @rem:visser_fpl_embedding), the equivalence of items 1 and 2 can also be proved by a proof-theoretic embedding.
-
-/*
-Finally, we fix the proof-theoretic terminology used throughout this paper.
-For the sequent calculi introduced in the following sections,
-the notions of a derivation and its height, and of (height-preserving) admissible rules,
-are defined as usual (see e.g. @TS00 @NvP11).
-We write $sans(upright(G)) proves S$ if a sequent $S$ is derivable in a sequent calculus $sans(upright(G))$,
-and $sans(upright(G)) provesh(h) S$ if $S$ is derivable in $sans(upright(G))$ by a derivation of height at most $h$.
-For a formula $A$ and sets $Gamma, Delta$ of formulas, in the context of sequents,
-we write $A, Gamma$ for ${A} union Gamma$ and $Gamma, Delta$ for $Gamma union Delta$.
-Note that $A, Gamma = Gamma$ when $A in Gamma$, so that contraction is built into this notation.
-*/
+As we show in @sect:embedding (see @rem:visser_fpl_embedding), the equivalence of items 1 and 2 can also be proved by a proof-theoretic embedding.
 
 == Sequent calculus for modal provability logics
 
@@ -357,7 +345,7 @@ In what follows, we use $RCut(level, level)$ freely in derivations in $GentzenD$
   $
 ]
 
-= Embedding <sect:embedding>
+= Sequent calculus $GentzenDPL$ of logic $LogicDPL$ <sect:seq_DPL>
 
 In this section, we define the propositional logics $LogicSPL$ and $LogicDPL$ by means of a sequent calculus, show that $(dot)^Vis$ embeds them into $LogicS$ and $LogicD$, and additionally discuss the errors in Petrukhin's proof.
 
@@ -534,7 +522,7 @@ Therefore, $GentzenDPL proves emptyset seq(1) {A}$ if and only if $LogicFPL prov
   When $level = 2, 3$, we further apply $RLift(1, 2)$, and when $level = 3$ we apply $RLift(2, 3)$ to $B -> C seq(2) B -> C$ with $n = m = 1$ and $Phi = emptyset$, which is applicable since both sides consist of implications.
 ]
 
-== Proof-theoretic embedding <subsect:main_results>
+= Proof-theoretic embedding <sect:embedding>
 
 The main result of this section is @thm:iff_visser: $GentzenDPL proves Gamma seq(level) Delta$ if and only if $GentzenD proves Gamma^Vis seq(level) Delta^Vis$.
 We give a detailed proof based on the proofs in @YS17 @Pet23.
@@ -876,7 +864,7 @@ We first collect the syntactic properties of the translation $(dot)^Vis$ that th
 ] <lem:erase_bot>
 
 #proof[
-  By structural induction on a derivation $cal(D)$ of $Gamma seq(level) Delta$, we show that there is a derivation of $Gamma seq(level) Delta without {bot}$ whose height is at most $h := height(cal(D))$.
+  By structural induction on a derivation $cal(D)$ of $Gamma seq(level) Delta$, for all $Gamma$, $Delta$ and $level$, we show that there is a derivation of $Gamma seq(level) Delta without {bot}$ whose height is at most $h := height(cal(D))$.
   We distinguish cases by the last rule of $cal(D)$.
 
   #struct[Case $RAx(level)$, $RBotL(level)$, $RBoxGL(1, 1)$, $RLift(2, 3)$][
@@ -1020,7 +1008,7 @@ We first collect the syntactic properties of the translation $(dot)^Vis$ that th
 
 #proof[
   Fix $A$ and $B$.
-  We prove both claims simultaneously, for all $Gamma$ and $Delta$ with $A -> B in.not Gamma$, by induction on a derivation $cal(D)$ of $A -> B, Gamma seq(level) Delta$, distinguishing cases by the last rule of $cal(D)$.
+  We prove both claims simultaneously, for all $Gamma$, $Delta$ and $level$ with $A -> B in.not Gamma$, by induction on a derivation $cal(D)$ of $A -> B, Gamma seq(level) Delta$, distinguishing cases by the last rule of $cal(D)$.
   Except in some cases, we display only the derivations for the left conclusion; the right conclusion is obtained in the same way.
 
   #struct[Case $RAx(level)$, $RBotL(level)$, $RBoxGL(1, 1)$, $RLift(2, 3)$][
@@ -1169,7 +1157,7 @@ We first collect the syntactic properties of the translation $(dot)^Vis$ that th
 
 #proof[
   Fix $A$ and $B$.
-  We prove the claim for all $Gamma$ and $Delta$ with $A -> B in.not Delta$ by induction on a derivation $cal(D)$ of $Gamma seq(level) A -> B, Delta$, distinguishing cases by the last rule of $cal(D)$.
+  We prove the claim for all $Gamma$, $Delta$ and $level$ with $A -> B in.not Delta$ by induction on a derivation $cal(D)$ of $Gamma seq(level) A -> B, Delta$, distinguishing cases by the last rule of $cal(D)$.
 
   #struct[Case $RAx(level)$, $RBotL(level)$, $RBoxGL(1, 1)$, $RLift(2, 3)$][
     The succedent of the conclusion consists only of propositional variables and formulas of the form $Box C$, so it does not contain $A -> B$.
@@ -1302,13 +1290,13 @@ We first collect the syntactic properties of the translation $(dot)^Vis$ that th
 
 #proof[
   Let $cal(D)$ be a derivation of the $GentzenD proves Gamma^Vis, Phi_1, Box Phi_2 seq(level) Psi, Delta^Vis$ and $h := height(cal(D))$.
-  The induction hypothesis is taken for all $Gamma$, $Delta$, $Phi_1$, $Phi_2$ and $Psi$:
+  The induction hypothesis is taken for all $Gamma$, $Delta$, $Phi_1$, $Phi_2$, $Psi$ and $level$:
   in each case below, we write a sequent obtained from the premises of the last rule in the form $Gamma'^Vis, Phi'_1, Box Phi'_2 seq(level) Psi', Delta'^Vis$, with components different from those of the conclusion, and apply the induction hypothesis to it.
   In each case we display the last rule, the derivations in $GentzenD$ obtained from its premises by $Inv(RImpL(level, level))$ and $Inv(RImpR(level, level))$, and the derivation in $GentzenDPL$ built from the sequents given by the induction hypothesis.
 
   We first note the following.
   By @lem:visser_shape, the three sets $Gamma^Vis$, $Phi_1$ and $Box Phi_2$ are pairwise disjoint, as are $Psi$ and $Delta^Vis$;
-  an element of $Gamma^Vis$ or $Delta^Vis$ that is an implication is $A^Vis$ for a propositional variable, a conjunction or a disjunction $A$, and one that is boxed is $(A -> B)^Vis$ for an implication $A -> B$.
+  an element of $Gamma^Vis$ or $Delta^Vis$ that is an implication is $p^Vis$, $(A and B)^Vis$ or $(A or B)^Vis$, and one that is boxed is $(A -> B)^Vis$.
   Since $GentzenDPL$ has $RWk(level, level)$, it suffices to derive in $GentzenDPL$ a sequent whose antecedent is a subset of $Gamma, Phi_1, Phi_2$ and whose succedent is a subset of $Psi, Delta$.
   Since $RWk(level, level)$ of $GentzenD$ does not increase the height, a sequent of height at most $h - 1$ may be weakened before the induction hypothesis is applied to it.
 
@@ -1323,6 +1311,7 @@ We first collect the syntactic properties of the translation $(dot)^Vis$ that th
   ]
 
   #struct[Case $RWk(level, level)$][
+    The induction hypothesis applies to the subderivation of the premise, whose height is at most $h$ and which has fewer applications of rules than $cal(D)$.
     The antecedent of the premise is a subset of $Gamma^Vis, Phi_1, Box Phi_2$, hence of the form $Gamma'^Vis, Phi'_1, Box Phi'_2$ with $Gamma' subset.eq Gamma$, $Phi'_1 subset.eq Phi_1$ and $Phi'_2 subset.eq Phi_2$;
     similarly its succedent is of the form $Psi', Delta'^Vis$ with $Psi' subset.eq Psi$ and $Delta' subset.eq Delta$.
     #rewrite(
@@ -1707,53 +1696,51 @@ Combining @thm:iff_visser with @prop:gentzen_d_cut, we obtain the cut-admissibil
 
 == Errors in Petrukhin's proof <sect:errors_in_petrukhin>
 
-This embedding result is based on Petrukhin @Pet23, but the proof in the original paper appears to contain several errors.
-We point them out below.
-Throughout this subsection, $GentzenS$ and $GentzenSPL$ denote the calculi used in @Pet23, namely Kushida's sequent calculus for $LogicS$ @Kus20 and Petrukhin's sequent calculus for $LogicSPL$, whose sequents are based on multisets; the names of the rules are adapted to ours.
-The issue concerns @Pet23[Lemma 5], which corresponds to @lem:of_visser in the present paper.
+Our embedding result builds on Petrukhin @Pet23, whose proof, however, contains errors.
+All of them concern @Pet23[Lemma 5], which corresponds to @lem:of_visser of the present paper; we point them out below.
+We state it in terms of the calculi used in @Pet23, namely Kushida's sequent calculus for $LogicS$ @Kus20 and Petrukhin's sequent calculus for $LogicSPL$; their sequents are based on _multisets_, and the names of the rules are adapted to ours except where noted.
 
 #proposition(numbering: none)[@Pet23[Lemma 5]][
-  If $GentzenS proves Gamma^Vis, Phi, Box Phi seq(level) Psi, Delta^Vis$, then $GentzenSPL proves Gamma, Phi seq(level) Psi, Delta$.
+  If Kushida's sequent calculus for $LogicS$ proves $Gamma^Vis, Phi, Box Phi seq(level) Psi, Delta^Vis$, then Petrukhin's sequent calculus for $LogicSPL$ proves $Gamma, Phi seq(level) Psi, Delta$.
   Here $Gamma, Delta$ are multisets of formulas and $Phi, Psi$ are multisets of propositional variables.
 ]
 
-The proof proceeds by induction on the height of the derivation of $GentzenS proves Gamma^Vis, Phi, Box Phi seq(level) Psi, Delta^Vis$.
-Petrukhin claims that the proof proceeds as in @YS17[Lemma 7], but the problem occurs in the case of $RBoxL(2, 2)$.
+Petrukhin's proof proceeds by induction on the height #footnote[Petrukhin does not define the height; we understand it as the usual one, which counts every application of a rule, unlike our height in @def:height.] of a derivation of $Gamma^Vis, Phi, Box Phi seq(level) Psi, Delta^Vis$ in Kushida's calculus.
+He states that a significant part of the cases coincide with those in the proof of @YS17[Lemma 7] or can be obtained from them by slight modifications, but a problem arises in the case $RBoxL(2, 2)$, which is written $(Box arrow.r.double)$ in @Pet23, and similarly in the case of the other rule $(Box arrow.r)$ for $Box$ in the antecedent.
 Petrukhin verifies only the case where the principal formula is $Box(E^Vis -> F^Vis)$.
-To begin with, this verification itself is erroneous.
-The derivation given there is the following (cf. @Pet23[p.~17]).
+Moreover, the treatment of this case is itself incorrect.
+The derivation given there is the following (see @Pet23[p.~17]; here $provesh(h)$ refers to this usual height).
 $
   #prooftree(rule(
     name: $RBoxL(2, 2)$,
-    $GentzenS provesh(h) Box(E^Vis -> F^Vis), Gamma^Vis, Phi seq(2) Psi, Delta^Vis$,
-    $GentzenS provesh(h-1) E^Vis -> F^Vis, Gamma^Vis, Phi seq(2) Psi, Delta^Vis$,
+    $provesh(h) Box(E^Vis -> F^Vis), Gamma^Vis, Phi seq(2) Psi, Delta^Vis$,
+    $provesh(h-1) E^Vis -> F^Vis, Gamma^Vis, Phi seq(2) Psi, Delta^Vis$,
   ))
 $
 There are two problems.
 First, $Box Phi$ is missing from both the conclusion and the premise.
-Second, even if we supply it and regard the premise as $GentzenS provesh(h-1) E^Vis -> F^Vis, Gamma^Vis, Phi, Box Phi seq(2) Psi, Delta^Vis$, the induction hypothesis cannot be applied to this premise.
-This is because $E^Vis -> F^Vis$ never belongs to $Sigma^Vis$ for any $Sigma$ (@lem:visser_not_imp), and is of course not a propositional variable, so the premise is not of the form $Gamma^Vis, Phi, Box Phi seq(level) Psi, Delta^Vis$.
-Nevertheless, Petrukhin appears to apply the induction hypothesis to this premise and obtain $E -> F, Gamma, Phi seq(2) Psi, Delta$, which is not justified.
+Second, even if we supply it and regard the premise as $provesh(h-1) E^Vis -> F^Vis, Gamma^Vis, Phi, Box Phi seq(2) Psi, Delta^Vis$, the induction hypothesis cannot be applied to this premise.
+This is because $E^Vis -> F^Vis$ is neither a propositional variable nor an element of $FmlPL^Vis$ (@lem:visser_not_imp), so the premise is not of the form $Gamma^Vis, Phi, Box Phi seq(level) Psi, Delta^Vis$.
+Nevertheless, Petrukhin applies the induction hypothesis to this premise and obtains $E -> F, Gamma, Phi seq(2) Psi, Delta$, which is not justified.
 
-Furthermore, one should in fact also consider the case where, for some $p in Phi$, the principal formula is $Box p$.
-In this case the derivation is as follows.
+Moreover, Petrukhin's proof lacks the case where the principal formula is $Box p$ for some $p in Phi$.
+In this case, the last rule is as follows.
 $
   #prooftree(rule(
     name: $RBoxL(2, 2)$,
-    $GentzenS provesh(h) Box p, Gamma^Vis, p, Phi without {p}, Box(Phi without {p}) seq(2) Psi, Delta^Vis$,
-    $GentzenS provesh(h-1) p, Gamma^Vis, p, (Phi without {p}), Box(Phi without {p}) seq(2) Psi, Delta^Vis$,
+    $provesh(h) Box p, Gamma^Vis, p, Phi without {p}, Box(Phi without {p}) seq(2) Psi, Delta^Vis$,
+    $provesh(h-1) p, Gamma^Vis, p, (Phi without {p}), Box(Phi without {p}) seq(2) Psi, Delta^Vis$,
   ))
 $
-Now, in order to apply the induction hypothesis to this premise and carry the argument through, one would need to obtain, by _height-preserving_ weakening and contraction on the premise, $GentzenS provesh(h-1) p, Box p, Gamma^Vis, (Phi without {p}), Box(Phi without {p}) seq(2) Psi, Delta^Vis$.
-However, such height-preserving weakening and contraction cannot be carried out in $GentzenS$#footnote[The calculus adopted by @Pet23 is the sequent calculus of @Kus20, but this does not affect the details of the argument.] (cf. @NvP11).
-The reason this problem did not arise in the proof of @YS17 is that the sequent calculus for $LogicKFour$ adopted there is of G3-style (cf. @TS00).
-In that system, the weakening, contraction and inversion rules are height-preserving admissible#footnote[However, @YS17 does not make explicit how these properties are established for their extension to $LogicKFour$.].
+Now, in order to apply the induction hypothesis to this premise and carry the argument through, one would need to add $Box p$ to the premise by _height-preserving_ weakening, obtaining, up to the multiplicity of $p$, $provesh(h-1) p, Box p, Gamma^Vis, (Phi without {p}), Box(Phi without {p}) seq(2) Psi, Delta^Vis$.
+However, weakening is not height-preserving admissible in Kushida's calculus#footnote[For example, $p seq(2) p$ is an initial sequent, whereas $q, p seq(2) p$ is not, since the only initial sequents with a context are those for $bot$.].
+This problem does not arise in @YS17, because their calculus for $LogicKFour$ has no rule that removes $Box$ from a formula in the antecedent: the premise of $(Box_4)$ contains both $Box Gamma$ and $Gamma$, so the form $Phi, Box Phi$ is preserved automatically#footnote[Their calculus is also G3-style (cf. @TS00): weakening and contraction are height-preserving admissible, and all rules except $(Box_4)$ are height-preserving invertible @YS17[p.~248]. However, @YS17 does not explain how these properties are proved for their calculus for $LogicKFour$.].
 
 In this paper, these problems are avoided in @lem:of_visser as follows.
 Since our sequents are based on _sets_, contraction is built into the formulation and never needs to be applied explicitly, let alone height-preservingly.
-The case where the principal formula of $RBoxL(2, 2)$ is $Box(E^Vis -> F^Vis)$ is handled by the height-preserving inversion $Inv(RImpL(2, 2))$, which returns the premise to the form required by the induction hypothesis; the same device handles the cases of $RImpL(level, level)$ and $RImpR(level, level)$ whose principal formulas are the translations of variables, conjunctions and disjunctions (@rem:visser_unfolded).
+The case where the principal formula of $RBoxL(2, 2)$ is $Box(E^Vis -> F^Vis)$ is handled by the height-preserving inversion $Inv(RImpL(2, 2))$, which returns the premise to the form required by the induction hypothesis; the same device handles the cases of $RImpL(level, level)$ and $RImpR(level, level)$ whose principal formulas are $p^Vis$, $(A and B)^Vis$ or $(A or B)^Vis$ (@rem:visser_unfolded).
 Moreover, the problematic case where the principal formula of $RBoxL(2, 2)$ is $Box p$ is absorbed by allowing the two sets of variables $Phi_1$ and $Phi_2$ in the statement to differ:
-unboxing $Box p$ merely moves $p$ from $Phi_2$ to $Phi_1$, so the induction hypothesis applies directly, without any use of weakening.
+unboxing $Box p$ merely adds $p$ to $Phi_1$, so the induction hypothesis applies directly, without any height-preserving weakening or contraction in $GentzenD$.
 
 = Semantics <sect:semantics>
 
@@ -1786,7 +1773,7 @@ We consider the problem of semantics to be rather important, for the following s
 Suppose that there is a propositional logic that corresponds (or _should_ correspond) to $LogicS$ or $LogicD$.
 Then, for practical purposes, we consider that the justification of the correspondence should be witnessed by
 some semantics, such as Kripke-style or arithmetical interpretations.
-In this paper, we defined the logics $LogicSPL$ and $LogicDPL$ by sequent calculi,
+In this paper, we defined the logics $LogicSPL$ and $LogicDPL$ by the sequent calculus $GentzenDPL$,
 and we cannot eliminate the possibility that they are, in a sense, ad hoc logics built solely in order to claim the embeddability.
 In other words, it is conceivable that different logics $LogicSPL'$ and $LogicDPL'$,
 obtained by slightly modifying the definitions of $GentzenDPL$, can also be embedded into $LogicS$ and $LogicD$;
@@ -1799,7 +1786,7 @@ For these reasons, we regard the semantic witnessing of $LogicSPL$ and $LogicDPL
 
 Hilbert-style systems for $LogicBPL$ and $LogicFPL$ have been studied in @SO97 @IKK01.
 A natural question is then what Hilbert-style systems for $LogicSPL$ and $LogicDPL$ look like.
-However, we defined $LogicSPL$ and $LogicDPL$ by sequent calculi, and moreover by sequent calculi with several levels of sequents.
+However, we defined $LogicSPL$ and $LogicDPL$ by a sequent calculus, and moreover by a sequent calculus with several levels of sequents.
 Defining Hilbert-style systems seems to be far from easy.
 In fact, we conjecture that no Hilbert-style system exists in the language with a single level of implication $->$.
 If this conjecture is true, further questions arise:
@@ -1808,7 +1795,7 @@ and what do such implications mean?
 
 == Syntactic cut-elimination
 
-The embeddability and the cut-admissibility of our sequent calculi for $LogicSPL$ and $LogicDPL$ rely
-on the cut-elimination for the sequent calculus for $LogicD$ of @KKIM25 (@prop:gentzen_d_cut); apart from this, the arguments in @subsect:main_results are explicit transformations of derivations.
+The embeddability and the cut-admissibility of our sequent calculus $GentzenDPL$ rely
+on the cut-elimination for the sequent calculus for $LogicD$ of @KKIM25 (@prop:gentzen_d_cut); apart from this, the arguments in @sect:embedding are explicit transformations of derivations.
 In @KKIM25 the cut-elimination is obtained by a reduction to the syntactic cut-elimination for Kushida's calculus @Kus20, and also by a semantic argument.
 It is still open to give a direct, constructive cut-elimination procedure for the sequent calculus $GentzenDPL$ itself.
