@@ -1927,11 +1927,11 @@ To verify that the valuation of an $omega$-extension of a model is persistent, w
   If $y in W$, then $y = r$ or $r prec y$, so $t_n omegaprec y$ for all $n$.
 ]
 
-最後に，$LogicFPL$-フレーム上の帰納法の原理を注意しておく．
+Finally, we note the principle of induction on $LogicFPL$-frames.
 
 #remark[
-  任意の点 $x$ で性質 $P(x)$ が成り立つことを示すには，「$x$ の任意の後続 $y$ で $P(y)$ ならば $P(x)$」を任意の $x$ について示せばよい．
-  実際，$P(x_1)$ が成り立たない点 $x_1$ があれば，$P(x_2)$ が成り立たない後続 $x_2$ があり，これを繰り返すと $prec$ の無限上昇列が得られるが，これは $prec$ が逆整礎であることに矛盾する．
+  To show that a property $P(x)$ holds for every point $x$ in $LogicFPL$-frame, it suffices to show, for every $x$, that $P(x)$ holds whenever $P(y)$ holds for all $y succ x$.
+  Indeed, if $P(x_1)$ fails for some point $x_1$, then $P(x_2)$ fails for some $x_2 succ x_1$, and repeating this yields an infinite ascending chain with respect to $prec$, which contradicts the converse well-foundedness of $prec$.
 ] <rem:fpl_induction>
 
 == Completeness
