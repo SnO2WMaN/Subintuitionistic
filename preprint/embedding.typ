@@ -1960,18 +1960,18 @@ We extend this soundness to arbitrary $LogicFPL$-frames.
   Hence $y models B$, and therefore $x models A -> B$.
 ]
 
-逆に，@IKK01 は有限モデルを直接構成して完全性を示している．
-その議論から直ちに次が得られる（有限モデルを直接構成する議論は，$level = 2$ について後で述べる）．
+Conversely, @IKK01 proves completeness by directly constructing finite models.
+The following is an immediate consequence of their argument (the direct construction of finite models will be described later for $level = 2$).
 
 #theorem[Completeness of $seq(1)$ in $GentzenDPL$, cf. @IKK01[Theorem 3.3]][
-  有限集合 $Gamma, Delta subset.eq FmlPL$ について，次の三条件は同値である．
-  + $GentzenDPL proves Gamma seq(1) Delta$．
-  + すべての $LogicFPL$-モデルのすべての点 $x$ で $x models Gamma seq(1) Delta$ である．
-  + すべての有限 $LogicFPL$-モデルのすべての点 $x$ で $x models Gamma seq(1) Delta$ である．
+  For finite sets $Gamma, Delta subset.eq FmlPL$, the following are equivalent.
+  + $GentzenDPL proves Gamma seq(1) Delta$.
+  + $x models Gamma seq(1) Delta$ for every point $x$ of every $LogicFPL$-model.
+  + $x models Gamma seq(1) Delta$ for every point $x$ of every finite $LogicFPL$-model.
 ] <thm:gentzen_dpl_complete1>
 
 #proof[
-  (1) から (2) は @lem:GentzenDPL_sound1，(2) から (3) は明らかであり，(3) から (1) は @IKK01[Theorem 3.3] による．
+  (1) to (2) is @lem:GentzenDPL_sound1, (2) to (3) is obvious, and (3) to (1) follows from @IKK01[Theorem 3.3].
 ]
 
 続いて，$level = 2$ の意味論を与える．
