@@ -1797,42 +1797,42 @@ We next introduce some notions concerning sequences of points in a model.
 ] <def:descending_chain>
 
 #lemma[
-  $(x_n)_(n < omega)$ を $LogicFPL$-モデル $M$ の下降列とし，$A in FmlPL$ とする．
-  すべての $n$ で $x_n models A$ であるか，ある $N$ が存在してすべての $n >= N$ で $x_n nmodels A$ である．
+  Let $(x_n)_(n < omega)$ be an infinite descending chain of an $LogicFPL$-model $M$, and let $A in FmlPL$.
+  Then either $x_n models A$ for all $n$, or there exists $N$ such that $x_n nmodels A$ for all $n >= N$.
 ] <lem:chain_persist>
 
 #proof[
-  ある $N$ で $x_N nmodels A$ であるとする．
-  $n > N$ ならば $x_n prec x_N$ なので，$x_n models A$ とすると @lem:fpl_persist より $x_N models A$ となって矛盾する．
-  よってすべての $n >= N$ で $x_n nmodels A$ である．
+  Suppose that $x_N nmodels A$ for some $N$, and let $n >= N$.
+  If $n = N$, there is nothing to prove.
+  If $n > N$, then $x_n prec x_N$, so $x_n models A$ would imply $x_N models A$ by @lem:fpl_persist, a contradiction.
+  Hence $x_n nmodels A$.
 ]
 
-ここから，@KKIM25 に従って，モデルに無限個の点を加える操作を定義する．
-@KKIM25 では任意の極限順序数 $kappa$ について定義しているが，簡潔さのために本稿では $omega$ の場合のみを扱う．
+Following @KKIM25, we next define an operation that adds infinitely many points to a model.
+While @KKIM25 defines it for an arbitrary limit ordinal $kappa$, we deal only with the case of $omega$ for simplicity.
 
-#definition[$omega$-拡大][
-  $LogicFPL$-フレーム $F = chevron.l W, prec chevron.r$ と点 $r in F$ をとる．
-  $W$ に属さない新しい点 $t_n$（$n <= omega$）を加え，次で定めるフレーム $F^omega = chevron.l W^omega, omegaprec chevron.r$ を，$F$ の $r$ における #emph[$omega$-拡大]（$omega$-extension）と呼ぶ．
-  - $W^omega := W union {t_n colon n <= omega}$．
-  - $x omegaprec y$ は，次のいずれかが成り立つときとする．
-    + $x, y in W$ かつ $x prec y$．
-    + $x = t_n$，$y = t_m$ で，$m < n <= omega$．
-    + $x = t_n$（$n <= omega$），$y in W$ で，$y = r$ または $r prec y$．
-  $(t_n)_(n < omega)$ を#emph[tail]，$t_omega$ を#emph[bottom]と呼ぶ．
+#definition[$omega$-extension][
+  Let $F = chevron.l W, prec chevron.r$ be an $LogicFPL$-frame and $r in F$.
+  Adding new points $t_n$ ($n <= omega$) not in $W$, we define a frame $F^omega = chevron.l W^omega, omegaprec chevron.r$ as follows, and call it the _$omega$-extension_ of $F$ at $r$.
+  - $W^omega := W union {t_n colon n <= omega}$.
+  - $x omegaprec y$ iff one of the following holds.
+    + $x, y in W$ and $x prec y$.
+    + $x = t_n$ and $y = t_m$ for some $m < n <= omega$.
+    + $x = t_n$ for some $n <= omega$, $y in W$, and either $y = r$ or $r prec y$.
+  We call $(t_n)_(n < omega)$ the _tail_ and $t_omega$ the _bottom_ of $F^omega$.
 
-  $LogicFPL$-モデル $M = chevron.l W, prec, forces chevron.r$ について，$M^omega = chevron.l W^omega, omegaprec, omegaforces chevron.r$ が $M$ の $r$ における $omega$-拡大であるとは，$chevron.l W^omega, omegaprec chevron.r$ が $chevron.l W, prec chevron.r$ の $r$ における $omega$-拡大であって，$omegaforces$ が次の二条件を満たす $W^omega$ 上の付値であることをいう．
-  + $omegaforces$ は $chevron.l W^omega, omegaprec chevron.r$ 上で persistent である．
-  + 任意の $x in W$ と $p in PropVar$ について，$x forces p <==> x omegaforces p$ である（すなわち $omegaforces$ は $W$ 上で $forces$ と一致する）．
+  For an $LogicFPL$-model $M = chevron.l W, prec, forces chevron.r$, we say that $M^omega = chevron.l W^omega, omegaprec, omegaforces chevron.r$ is an _$omega$-extension_ of $M$ at $r$ if $chevron.l W^omega, omegaprec chevron.r$ is the $omega$-extension of $chevron.l W, prec chevron.r$ at $r$ and $omegaforces$ is a valuation on $W^omega$ satisfying the following two conditions.
+  + $omegaforces$ is persistent on $chevron.l W^omega, omegaprec chevron.r$.
+  + $x forces p <==> x omegaforces p$ for all $x in W$ and $p in PropVar$; that is, $omegaforces$ is same to $forces$ on $W$.
 ] <def:omega_ext>
 
-@fig:omega_ext に $omega$-拡大の形を示す．
-点 $t_n$ の後続は，$t_m$（$m < n$），$r$，$r$ の後続である．
-bottom $t_omega$ は tail のすべての点を後続に持つ．
+@fig:omega_ext illustrates the shape of an $omega$-extension.
+We have $t_n omegaprec y$ exactly when $y$ is $t_m$ for some $m < n$, $y = r$, or $r prec y$.
+In particular, the bottom $t_omega$ satisfies $t_omega omegaprec t_n$ for all points $t_n$ of the tail.
 
 #figure(
   canvas({
     import draw: *
-    // W の部分．r とその後続を楕円で囲む．
     circle((0, 3.3), radius: (2.4, 1.25), stroke: luma(140))
     content((2.9, 4.1), $W$)
     circle((0, 2.5), radius: 0.07, fill: black)
@@ -1843,7 +1843,6 @@ bottom $t_omega$ は tail のすべての点を後続に持つ．
     line((-0.07, 2.57), (-0.93, 3.53), mark: (end: "stealth", fill: black))
     line((0.07, 2.57), (0.93, 3.63), mark: (end: "stealth", fill: black))
     line((0.02, 2.6), (0.18, 4.1), mark: (end: "stealth", fill: black))
-    // tail．
     circle((0, 1.3), radius: 0.07, fill: black)
     content((0.5, 1.3), $t_0$)
     circle((0, 0.2), radius: 0.07, fill: black)
@@ -1852,16 +1851,14 @@ bottom $t_omega$ は tail のすべての点を後続に持つ．
     line((0, 1.4), (0, 2.4), mark: (end: "stealth", fill: black))
     line((0, 0.3), (0, 1.2), mark: (end: "stealth", fill: black))
     line((0, -0.45), (0, 0.1), mark: (end: "stealth", fill: black))
-    // bottom．
     circle((0, -1.8), radius: 0.07, fill: black)
     content((0.55, -1.8), $t_omega$)
     line((0, -1.7), (0, -1.1), mark: (end: "stealth", fill: black))
-    // 名前．
     content((-1.6, 0.4), [tail])
     content((-1.6, -1.8), [bottom])
     line((-1.0, 1.55), (-1.0, -0.95), stroke: (paint: luma(140), thickness: 0.5pt))
   }),
-  caption: [$r$ における $omega$-拡大．],
+  caption: [The $omega$-extension at $r$. An arrow from $x$ to $y$ indicates $x omegaprec y$; arrows that follow by transitivity are omitted.],
 ) <fig:omega_ext>
 
 #lemma[
