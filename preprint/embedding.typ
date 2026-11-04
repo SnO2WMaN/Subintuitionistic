@@ -1744,44 +1744,41 @@ unboxing $Box p$ merely adds $p$ to $Phi_1$, so the induction hypothesis applies
 
 = Semantics <sect:semantics>
 
-このセクションでは，$LogicSPL$ および $LogicDPL$ の Kripke意味論的な性質について議論する．
-$LogicFPL$ の意味論は，Visser @Vis81 によってすでに議論されている．
+In this section, we discuss Kripke semantics for $LogicSPL$ and $LogicDPL$.
+Kripke semantics for $LogicFPL$ was already studied by Visser @Vis81.
 
 #definition[
-  $LogicFPL$-フレーム $chevron.l W, prec chevron.r$ とは，非空集合 $W$ と，$W$ 上の推移的かつ逆整礎（converse well-founded，すなわち無限上昇列 $x_1 prec x_2 prec dots.c$ が存在しない）な二項関係 $prec$ の組である．
-  $x prec y$ のとき，$y$ を $x$ の#emph[後続]と呼ぶ．
-  $LogicFPL$-モデル $chevron.l W, prec, forces chevron.r$ は，$LogicFPL$-フレーム $chevron.l W, prec chevron.r$ と，$chevron.l W, prec chevron.r$ 上で persistent な付値関数 $forces colon W times PropVar -> 2$ の組である．
-  ここで，付値 $forces$ が $chevron.l W, prec chevron.r$ 上で#emph[persistent]であるとは，任意の $x, y in W$ と $p in PropVar$ について，$x prec y$ かつ $x forces p$ ならば $y forces p$ が成り立つことをいう．
-  フレーム $F$ ないしモデル $M$ の点 $x$ を，$x in F$ または $x in M$ と書く．
+  An _$LogicFPL$-frame_ $chevron.l W, prec chevron.r$ is a pair of a nonempty set $W$ and a binary relation $prec$ on $W$ that is transitive and conversely well-founded, that is, there is no infinite ascending chain $x_1 prec x_2 prec dots.c$.
+  An _$LogicFPL$-model_ $chevron.l W, prec, forces chevron.r$ is a triple of an $LogicFPL$-frame $chevron.l W, prec chevron.r$ and a valuation $forces colon W times PropVar -> 2$ that is persistent on $chevron.l W, prec chevron.r$.
+  Here, a valuation $forces$ is _persistent_ on $chevron.l W, prec chevron.r$ if, for all $x, y in W$ and $p in PropVar$, $x prec y$ and $x forces p$ imply $y forces p$.
+  We write $x in F$ or $x in M$ for a point $x$ of a frame $F$ or a model $M$.
 
-  $LogicFPL$-モデル $M = chevron.l W, prec, forces chevron.r$，点 $x in M$，論理式 $A in FmlPL$ について，充足関係 $M, x models A$ を次のように定義する．
-  $M$ が明らかなときは $x models A$ と書く．
-  - $M, x models p$ iff $x forces p$．
-  - $M, x nmodels bot$．
-  - $M, x models A and B$ iff $M, x models A$ かつ $M, x models B$．
-  - $M, x models A or B$ iff $M, x models A$ または $M, x models B$．
-  - $M, x models A -> B$ iff $x$ の任意の後続 $y$ について，$M, y models A$ ならば $M, y models B$．
+  For an $LogicFPL$-model $M = chevron.l W, prec, forces chevron.r$, a point $x in M$ and a formula $A in FmlPL$, the satisfaction relation $M, x models A$ is defined as follows; we write $x models A$ when $M$ is clear from the context.
+  - $M, x models p$ iff $x forces p$.
+  - $M, x nmodels bot$.
+  - $M, x models A and B$ iff $M, x models A$ and $M, x models B$.
+  - $M, x models A or B$ iff $M, x models A$ or $M, x models B$.
+  - $M, x models A -> B$ iff, for every $y succ x$, $M, y models A$ implies $M, y models B$.
 
-  有限集合 $Gamma subset.eq FmlPL$ について，任意の $A in Gamma$ で $x models A$ であることを $x models Gamma$ と書く．
-  シークエント $Gamma seq(level) Delta$ について，$x models Gamma$ ならばある $B in Delta$ で $x models B$ であることを $M, x models Gamma seq(level) Delta$ と書き，$Gamma seq(level) Delta$ は $x$ で#emph[充足される]という（レベル $level$ は充足関係に関係しない）．
+  For a finite set $Gamma subset.eq FmlPL$, we write $x models Gamma$ if $x models A$ for all $A in Gamma$.
+  For a sequent $Gamma seq(level) Delta$, we write $M, x models Gamma seq(level) Delta$ if $x models Gamma$ implies $x models B$ for some $B in Delta$; the level $level$ plays no role in satisfaction.
 ] <def:fpl_model>
 
-逆整礎な関係は非反射的である．
-$x prec x$ ならば $x prec x prec dots.c$ が無限上昇列になるからである．
-また，直観主義命題論理 $LogicInt$ の Kripke意味論と異なり，$x models A -> B$ であるかどうかは $x$ 自身での $A$，$B$ の充足には関係しない．
+A conversely well-founded relation is irreflexive, since $x prec x$ would yield an infinite ascending chain $x prec x prec dots.c$.
+Note also that, unlike Kripke semantics for intuitionistic propositional logic $LogicInt$, whether $x models A -> B$ holds does not depend on the satisfaction of $A$ and $B$ at $x$ itself.
 
-付値に課した persistent性は，充足関係では論理式全体に拡張される．
+The persistence of valuations extends to all formulas.
 
 #lemma[
-  $M$ を $LogicFPL$-モデルとし，$x, y in M$ とする．
-  $x prec y$ かつ $x models A$ ならば，$y models A$ である．
+  Let $M$ be an $LogicFPL$-model and $x, y in M$.
+  If $x prec y$ and $x models A$, then $y models A$.
 ] <lem:fpl_persist>
 
 #proof[
-  $A$ に関する帰納法で示す．
-  命題変数については付値が persistent であることによる．
-  含意については，$prec$ の推移性より $y$ の後続は $x$ の後続であることによる．
-  他の場合は帰納法の仮定から明らかである．
+  By induction on $A$.
+  The case of $A equiv p$ follows from the persistence of the valuation.
+  The case of $A equiv B -> C$ follows from the fact that $y prec z$ implies $x prec z$ by the transitivity of $prec$.
+  The other cases are immediate from the induction hypothesis.
 ]
 
 ここで，モデルの点の列について，いくつかの定義を追加する．
