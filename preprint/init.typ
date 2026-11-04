@@ -82,7 +82,7 @@
   show math.equation.where(block: true): set block(above: 1em, below: 1em)
   show math.equation: set text(font: ("New Computer Modern Math", "Libertinus Serif"))
 
-  show link: set text(fill: color.hsl(234deg, 71.43%, 49.41%))
+  show link: set text(fill: color.hsl(339.91deg, 97.36%, 44.51%))
 
   // 中央寄せの証明図などは上下に余白を取る
   show align: set block(spacing: 1.2em)
@@ -208,6 +208,9 @@
 // before it (`tau "S"` would read "τ S").
 #let mrm(s) = math.upright(eval(s.clusters().join(" "), mode: "math"))
 
+// The height of a derivation `D`
+#let height(D) = $mrm("hgt")(#D)$
+
 #let proves = $class("relation", tack.r)$
 // Derivability by a proof-tree of height at most `h`; `proves^h` would put `h` above the turnstile
 #let provesh(h) = $attach(proves, tr: #h)$
@@ -255,6 +258,7 @@
 #let rulename(n, a, b) = $paren.l attach(#n, tr: #a, br: #b) paren.r$
 #let RAx(l) = $paren.l mrm("Ax")_#l paren.r$
 #let RBotL(l) = $paren.l bot mrm("L")_#l paren.r$
+#let RWk(a, b) = rulename(mrm("Wk"), a, b)
 #let RWL(a, b) = rulename(mrm("WL"), a, b)
 #let RWR(a, b) = rulename(mrm("WR"), a, b)
 #let RImpL(a, b) = rulename($class("normal", ->) mrm("L")$, a, b)
@@ -280,14 +284,32 @@
   align(center, text(size: 0.7em, note)),
   x,
 )
-#let ih(x) = noted([(I.H.)], x)
+// `ih(x)` labels a leaf "(I.H.)"; `ih(x, to: [left premise])` labels it "(I.H., left premise)"
+#let ih(x, to: none) = noted(if to == none [(I.H.)] else [(I.H., #to)], x)
 // A leaf standing for a subtree, written above it without a line
 #let subtree(name, x) = stack(dir: ttb, spacing: 0.35em, align(center, name), x)
 
+// A proof-tree wider than the text, centered and overflowing both margins instead of wrapping its premises
+// It is a block with the same vertical margins as a display equation.
+#let wide(x) = block(width: 100%, above: 1em, below: 1em, align(center, box(width: 0pt, align(center, box(width: 1000pt, align(center, x))))))
+
 // Rules or proof-trees side by side, aligned at the conclusions
-#let side-by-side(align: center + bottom, ..xs) = std.align(center, grid(
+#let side-by-side(align: center + bottom, ..xs) = block(width: 100%, above: 1em, below: 1em, std.align(center, grid(
   columns: xs.pos().len(),
   column-gutter: 2em,
   align: align,
   ..xs,
+)))
+
+// A derivation `before` rewritten into the derivation `after`, as an equation with a squiggly arrow,
+// always centered, overflowing both margins if it is wider than the text.
+// The columns are measured so that the trees keep their natural width rather than being squeezed.
+#let rewrite(before, after) = context wide(grid(
+  columns: (measure(before).width, auto, measure(after).width),
+  column-gutter: 2em,
+  align: horizon,
+  before, $arrow.squiggly$, after,
 ))
+
+// `struct[title][body]`: a part of a proof, with a bold title at the start of the first line.
+#let struct(title, body) = block(width: 100%, breakable: true, above: 1.2em)[*#title*:#h(0.5em)#body]
