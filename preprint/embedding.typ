@@ -2221,25 +2221,28 @@ Finally, we give the semantics for $level = 3$.
   By the Claim and $Gamma seq(3) Delta subset.eq Gamma^+ seq(3) Delta^+$, we have $M^omega, t_omega nmodels Gamma seq(3) Delta$.
 ]
 
-各レベルの完全性から，$GentzenDPL$ のカット許容性（@cor:gentzen_dpl_cut）を，様相論理への埋め込みを経由せずに直接示すこともできる．
+From the completeness for each level, we can also prove the cut-admissibility of $GentzenDPL$ (@cor:gentzen_dpl_cut) directly, without going through the embedding into modal logic.
 
 #proof[Semantical proof of @cor:gentzen_dpl_cut][
-  $GentzenDPL + RCut(level, level)$ での導出に関する帰納法で示す．
-  最後の規則が $RCut(level, level)$ のとき，帰納法の仮定より $GentzenDPL proves Gamma_1 seq(level) Delta_1, A$ かつ $GentzenDPL proves A, Gamma_2 seq(level) Delta_2$ である．
-  ある点 $x$ で二つの前提が充足されるならば，結論 $Gamma_1, Gamma_2 seq(level) Delta_1, Delta_2$ も $x$ で充足される．
-  実際，$x models Gamma_1 union Gamma_2$ ならば，一つ目の前提より $x$ は $Delta_1$ のある論理式を充足するか $x models A$ であり，後者ならば二つ目の前提より $x$ は $Delta_2$ のある論理式を充足する．
-  これを用いて，$GentzenDPL proves Gamma_1, Gamma_2 seq(level) Delta_1, Delta_2$ をレベルごとに示す．
+  By induction on the derivation in $GentzenDPL + RCut(level, level)$.
+  Suppose the last rule is $RCut(level, level)$.
+  By the induction hypothesis, $GentzenDPL proves Gamma_1 seq(level) Delta_1, A$ and $GentzenDPL proves A, Gamma_2 seq(level) Delta_2$.
+  Let $M$ be an $LogicFPL$-model and $x in M$.
+  If $M, x models Gamma_1 seq(level) Delta_1, A$ and $M, x models A, Gamma_2 seq(level) Delta_2$, then $M, x models Gamma_1, Gamma_2 seq(level) Delta_1, Delta_2$.
+  Indeed, suppose $M, x models Gamma_1 union Gamma_2$.
+  By the first premise, $M, x$ satisfies some formula in $Delta_1$, or $M, x models A$; in the latter case, $M, x$ satisfies some formula in $Delta_2$ by the second premise.
+  Using this, we show $GentzenDPL proves Gamma_1, Gamma_2 seq(level) Delta_1, Delta_2$ for each level.
   #struct[$level = 1$][
-    @thm:gentzen_dpl_complete1 より，二つの前提はすべての $LogicFPL$-モデルのすべての点で充足されるので，結論もそうである．
-    よって @thm:gentzen_dpl_complete1 より結論は導出できる．
+    By @thm:gentzen_dpl_complete1, the two premises are satisfied at every point of every $LogicFPL$-model, and hence so is the conclusion.
+    Therefore the conclusion is derivable by @thm:gentzen_dpl_complete1.
   ]
   #struct[$level = 2$][
-    @thm:gentzen_dpl_complete2 より，すべての $LogicFPL$-モデルのすべての下降列の上で，二つの前提はそれぞれある $N_1$，$N_2$ 以降で充足される．
-    よって結論は $max(N_1, N_2)$ 以降で充足され，@thm:gentzen_dpl_complete2 より導出できる．
+    By @thm:gentzen_dpl_complete2, for every infinite descending chain $(x_n)_(n < omega)$ of every $LogicFPL$-model $M$, there exist $N_1$ and $N_2$ such that $M, x_n models Gamma_1 seq(2) Delta_1, A$ for all $n >= N_1$ and $M, x_n models A, Gamma_2 seq(2) Delta_2$ for all $n >= N_2$.
+    Hence $M, x_n models Gamma_1, Gamma_2 seq(2) Delta_1, Delta_2$ for all $n >= max(N_1, N_2)$, and the conclusion is derivable by @thm:gentzen_dpl_complete2.
   ]
   #struct[$level = 3$][
-    @thm:gentzen_dpl_complete3 より，すべての $LogicFPL$-モデルのすべての点 $y$ について，$y$ に収束する下降列があれば二つの前提は $y$ で充足されるので，結論もそうである．
-    よって @thm:gentzen_dpl_complete3 より結論は導出できる．
+    By @thm:gentzen_dpl_complete3, for every $LogicFPL$-model $M$ and every $y in M$ to which some infinite descending chain converges, the two premises are satisfied at $y$, and hence so is the conclusion.
+    Therefore the conclusion is derivable by @thm:gentzen_dpl_complete3.
   ]
 ]
 
