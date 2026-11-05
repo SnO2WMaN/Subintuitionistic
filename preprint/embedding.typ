@@ -1777,7 +1777,7 @@ The persistency of valuations extends to all formulas.
 #proof[
   By induction on $A$.
   The case of $A equiv p$ follows from the persistency of the valuation.
-  The case of $A equiv B -> C$ follows from the fact that $y prec z$ implies $x prec z$ by the transitivity of $prec$.
+  The case of $A equiv B -> C$ follows from the fact that $y prec z$ implies $x prec z$ for all $z$, since $x prec y$ and $prec$ is transitive.
   The other cases are immediate from the induction hypothesis.
 ]
 
@@ -1881,14 +1881,14 @@ In particular, the bottom $t_omega$ satisfies $t_omega omegaprec t_n$ for all po
     Suppose there is an infinite ascending chain $x_1 omegaprec x_2 omegaprec dots.c$.
     No point of $W$ has a point of the tail or the bottom above it, so if some $x_i$ belongs to $W$, then all subsequent points belong to $W$, and we obtain an infinite ascending chain with respect to $prec$, a contradiction.
     Hence every $x_i$ is a point of the tail or the bottom.
-    Writing $x_i = t_(n_i)$, we obtain $n_1 > n_2 > dots.c$, which contradicts the well-foundedness of $omega + 1$.
+    Writing $x_i = t_(n_i)$, we obtain $n_1 > n_2 > dots.c$, which is impossible since there is no infinite strictly decreasing sequence in $omega + 1$.
   ]
 ]
 
 To verify that the valuation of an $omega$-extension of a model is persistent, we prepare the following reformulation.
 
 #lemma[
-  Let $M = chevron.l W, prec, forces chevron.r$ be an $LogicFPL$-model, let $F^omega = chevron.l W^omega, omegaprec chevron.r$ be the $omega$-extension of $chevron.l W, prec chevron.r$ at $r$, and let $omegaforces$ be a valuation on $W^omega$ that is the same as $forces$ on $W$.
+  Let $M = chevron.l W, prec, forces chevron.r$ be an $LogicFPL$-model, let $F^omega = chevron.l W^omega, omegaprec chevron.r$ be the $omega$-extension of $chevron.l W, prec chevron.r$ at a point $r in M$, and let $omegaforces$ be a valuation on $W^omega$ that is the same as $forces$ on $W$.
   Then $omegaforces$ is persistent on $F^omega$ if and only if the following two conditions hold for all $p in PropVar$.
   + If $n > m$, then $t_n omegaforces p ==> t_m omegaforces p$.
   + $t_0 omegaforces p ==> r forces p$.
@@ -1930,7 +1930,7 @@ To verify that the valuation of an $omega$-extension of a model is persistent, w
 Finally, we note the principle of induction on $LogicFPL$-frames.
 
 #remark[
-  To show that a property $P(x)$ holds for every point $x$ in $LogicFPL$-frame, it suffices to show, for every $x$, that $P(x)$ holds whenever $P(y)$ holds for all $y succ x$.
+  To show that a property $P(x)$ holds for every point $x$ in an $LogicFPL$-frame, it suffices to show, for every $x$, that $P(x)$ holds whenever $P(y)$ holds for all $y succ x$.
   Indeed, if $P(x_1)$ fails for some point $x_1$, then $P(x_2)$ fails for some $x_2 succ x_1$, and repeating this yields an infinite ascending chain with respect to $prec$, which contradicts the converse well-foundedness of $prec$.
 ] <rem:fpl_induction>
 
@@ -1949,7 +1949,7 @@ We extend this soundness to arbitrary $LogicFPL$-frames.
   Fix an $LogicFPL$-model $M$.
   All rules other than $RImpR(1, 1)$ are immediate from the definition of satisfaction, so we only consider $RImpR(1, 1)$.
 
-  Let the conclusion be $Gamma, Pi seq(1) A -> B$, where $Pi := {C_j -> D_j colon j < k}$.
+  Let the conclusion be $Gamma, Pi seq(1) A -> B$, where $Pi := {C_j -> D_j colon j < k}$, and use the notation of $RImpR(1, 1)$.
   By the induction hypothesis, for every $I subset.eq {0, dots, k - 1}$ and every $x in M$, we have $x models Delta_I, Gamma, A -> B, A seq(1) B, Gamma_I$.
   We show that $x models Gamma, Pi seq(1) A -> B$ for every $x in M$ by the induction of @rem:fpl_induction; that is, we assume that $y models Gamma, Pi seq(1) A -> B$ for all $y succ x$.
   Suppose $x models Gamma union Pi$, and let $y succ x$ with $y models A$.
@@ -1966,8 +1966,8 @@ The following is an immediate consequence of their argument (the direct construc
 #theorem[Completeness of $seq(1)$ in $GentzenDPL$, cf. @IKK01[Theorem 3.3]][
   For finite sets $Gamma, Delta subset.eq FmlPL$, the following are equivalent.
   + $GentzenDPL proves Gamma seq(1) Delta$.
-  + $x models Gamma seq(1) Delta$ for every point $x$ of every $LogicFPL$-model.
-  + $x models Gamma seq(1) Delta$ for every point $x$ of every finite $LogicFPL$-model.
+  + $M, x models Gamma seq(1) Delta$ for every $LogicFPL$-model $M$ and every $x in M$.
+  + $M, x models Gamma seq(1) Delta$ for every finite $LogicFPL$-model $M$ and every $x in M$.
 ] <thm:gentzen_dpl_complete1>
 
 #proof[
@@ -1985,7 +1985,7 @@ We now turn to the semantics for $level = 2$.
   Apply @lem:chain_persist to $A -> B$.
   If $x_n models A -> B$ for all $n$, let $N := 0$.
   Indeed, if $x_n models A$, then $x_(n + 1) models A -> B$ and $x_(n + 1) prec x_n$ give $x_n models B$.
-  Otherwise, there exists $N$ such that $x_n nmodels A -> B$ for all $n >= N$, and this $N$ works since the premise of the claim never holds.
+  Otherwise, there exists $N$ such that $x_n nmodels A -> B$ for all $n >= N$, and this $N$ works since the assumption $x_n models A -> B$ never holds for $n >= N$.
 ]
 
 #lemma[Soundness of $seq(2)$ in $GentzenDPL$][
