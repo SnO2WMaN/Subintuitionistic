@@ -45,7 +45,7 @@
   set document(author: authors.map(a => a.name), title: title)
   if type(date) == datetime { set document(date: date) }
   // Noto Serif CJK SC sets the Chinese title of Che21 in the bibliography
-  set text(font: ("New Computer Modern", "Libertinus Serif", "Zen Old Mincho"), lang: "en", size: 10pt)
+  set text(font: ("New Computer Modern", "Libertinus Serif", "Noto Serif CJK SC"), lang: "en", size: 10pt)
   set par(leading: 0.5em, spacing: 0.75em)
 
   // The page layout of LaTeX's `article` class at 10pt on letter paper, as compiled by arXiv
