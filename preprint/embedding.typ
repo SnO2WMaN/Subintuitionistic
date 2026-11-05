@@ -2116,7 +2116,7 @@ From now on, $Lambda$ denotes a subformula closed finite set.
 #proof[
   (1) to (2) is @lem:gentzen_dpl_sound2.
   (2) to (3) holds since an $omega$-extension is an $LogicFPL$-model by @lem:omega_ext_frame, and its tail is an infinite descending chain by @lem:omega_ext_converge.
-  (3) to (4) is clear.
+  (3) to (4) is obvious.
 
   We show (4) to (1) by contraposition.
   Suppose $GentzenDPL nproves Gamma seq(2) Delta$, and let $Lambda := Subfml(Gamma union Delta)$.
@@ -2129,92 +2129,96 @@ From now on, $Lambda$ denotes a subformula closed finite set.
   Therefore $Gamma seq(2) Delta$ is not satisfied at any point of the tail, and in particular it is not eventually always satisfied.
 ]
 
-最後に，$level = 3$ の意味論を与える．
+Finally, we give the semantics for $level = 3$.
 
 #lemma[Soundness of $seq(3)$ in $GentzenDPL$][
-  $GentzenDPL proves Gamma seq(3) Delta$ とする．
-  $LogicFPL$-モデル $M$ と点 $y in M$ について，$y$ に収束する下降列があれば $M, y models Gamma seq(3) Delta$ である．
+  Suppose $GentzenDPL proves Gamma seq(3) Delta$.
+  Let $M$ be an $LogicFPL$-model and $y in M$.
+  If there is an infinite descending chain converging to $y$, then $M, y models Gamma seq(3) Delta$.
 ] <lem:gentzen_dpl_sound3>
 
 #proof[
-  $GentzenDPL$ での導出に関する帰納法で示す．
-  $M$，$y$ と，$y$ に収束する下降列 $(x_k)_(k < omega)$ を固定し，最後の規則で場合分けする．
-  $RLift(2, 3)$ 以外の規則は，充足関係の定義から明らかである．
-  $RLift(2, 3)$ の前提を $Pi, Phi seq(2) Sigma$ とする．
-  ここで $Pi := {A_i -> B_i colon i < n}$，$Sigma := {C_j -> D_j colon j < m}$ であり，$Phi$ は命題変数の有限集合である．
-  $y models Pi union Phi$ とし，すべての $j < m$ で $y nmodels C_j -> D_j$ であると仮定して矛盾を導く．
+  By induction on the derivation in $GentzenDPL$.
+  Fix $M$, $y$, and an infinite descending chain $(x_k)_(k < omega)$ converging to $y$, and consider the last rule of the derivation.
+  All rules other than $RLift(2, 3)$ are immediate from the definition of satisfaction.
+  Let the premise of $RLift(2, 3)$ be $Pi_1, Phi seq(2) Pi_2$, where $Pi_1 := {A_i -> B_i colon i < n}$, $Pi_2 := {C_j -> D_j colon j < m}$, and $Phi$ is a finite set of propositional variables.
+  Suppose $M, y models Pi_1 union Phi$ and $M, y nmodels C_j -> D_j$ for all $j < m$; we derive a contradiction.
 
-  前提に @lem:gentzen_dpl_sound2 を適用すると，ある $N$ があって，すべての $k >= N$ で $x_k models Pi, Phi seq(2) Sigma$ である．
-  収束性よりすべての $k$ で $y prec x_k$ なので，@lem:fpl_persist より $x_k models Pi union Phi$ である．
-  よって，任意の $k >= N$ について，ある $j < m$ で $x_k models C_j -> D_j$ である．
+  By @lem:gentzen_dpl_sound2 applied to the premise, there exists $N$ such that $M, x_k models Pi_1, Phi seq(2) Pi_2$ for all $k >= N$.
+  By convergence, $y prec x_k$ for all $k$, so $M, x_k models Pi_1 union Phi$ by @lem:fpl_persist.
+  Hence, for every $k >= N$, there exists $j < m$ with $M, x_k models C_j -> D_j$.
 
-  一方，各 $j < m$ について，$y nmodels C_j -> D_j$ より，$z_j models C_j$ かつ $z_j nmodels D_j$ を満たす $y$ の後続 $z_j$ がある．
-  収束性より，各 $j$ について $N_j$ があって，すべての $k >= N_j$ で $x_k prec z_j$ である．
+  On the other hand, for each $j < m$, since $M, y nmodels C_j -> D_j$, there exists $z_j succ y$ with $M, z_j models C_j$ and $M, z_j nmodels D_j$.
+  By convergence, for each $j$ there exists $N_j$ such that $x_k prec z_j$ for all $k >= N_j$.
 
-  $k := max(N, N_0, dots, N_(m - 1))$ とする．
-  ある $j < m$ で $x_k models C_j -> D_j$ であり，$x_k prec z_j$ かつ $z_j models C_j$ なので $z_j models D_j$ となって矛盾する．
+  Let $k := max(N, N_0, dots, N_(m - 1))$.
+  Then $M, x_k models C_j -> D_j$ for some $j < m$, and since $x_k prec z_j$ and $M, z_j models C_j$, we have $M, z_j models D_j$, a contradiction.
 ]
 
 #theorem[Completeness of $seq(3)$ in $GentzenDPL$][
-  有限集合 $Gamma, Delta subset.eq FmlPL$ について，次の四条件は同値である．
-  + $GentzenDPL proves Gamma seq(3) Delta$．
-  + すべての $LogicFPL$-モデル $M$ と点 $y in M$ について，$y$ に収束する下降列があれば $M, y models Gamma seq(3) Delta$ である．
-  + すべての $LogicFPL$-モデルのすべての $omega$-拡大の bottom $t_omega$ で $t_omega models Gamma seq(3) Delta$ である．
-  + すべての有限 $LogicFPL$-モデルのすべての $omega$-拡大の bottom $t_omega$ で $t_omega models Gamma seq(3) Delta$ である．
+  For finite sets $Gamma, Delta subset.eq FmlPL$, the following are equivalent.
+  + $GentzenDPL proves Gamma seq(3) Delta$.
+  + $M, y models Gamma seq(3) Delta$ for every $LogicFPL$-model $M$ and every $y in M$ to which some infinite descending chain converges.
+  + $M^omega, t_omega models Gamma seq(3) Delta$ for the bottom $t_omega$ of every $omega$-extension $M^omega$ of every $LogicFPL$-model.
+  + $M^omega, t_omega models Gamma seq(3) Delta$ for the bottom $t_omega$ of every $omega$-extension $M^omega$ of every finite $LogicFPL$-model.
 ] <thm:gentzen_dpl_complete3>
 
 #proof[
-  (1) から (2) は @lem:gentzen_dpl_sound3 による．
-  (2) から (3) は，@lem:omega_ext_frame より $omega$-拡大は $LogicFPL$-モデルであり，@lem:omega_ext_converge より tail は bottom に収束することによる．
-  (3) から (4) は明らかである．
+  (1) to (2) is @lem:gentzen_dpl_sound3.
+  (2) to (3) holds since an $omega$-extension is an $LogicFPL$-model by @lem:omega_ext_frame, and its tail converges to its bottom by @lem:omega_ext_converge.
+  (3) to (4) is obvious.
 
-  (4) から (1) を対偶で示す．
-  $GentzenDPL nproves Gamma seq(3) Delta$ とし，$Lambda := Subfml(Gamma union Delta)$ とおく．
-  @lem:lindenbaum より $Lambda$-極大なシークエント $Gamma^+ seq(3) Delta^+ supset.eq Gamma seq(3) Delta$ があり，@lem:maximal_saturated より $Gamma^+ seq(3) Delta^+$ は $and or$-飽和である．
-  $Gamma^+$ に属する含意の全体を $Gamma^+_->$，$Gamma^+$ に属する命題変数の全体を $Phi$，$Delta^+$ に属する含意の全体を $Delta^+_->$ とする．
+  We show (4) to (1) by contraposition.
+  Suppose $GentzenDPL nproves Gamma seq(3) Delta$, and let $Lambda := Subfml(Gamma union Delta)$.
+  By @lem:lindenbaum, there is a $Lambda$-maximal sequent $Gamma^+ seq(3) Delta^+ supset.eq Gamma seq(3) Delta$, and it is $and or$-saturated by @lem:maximal_saturated.
+  Let $Gamma^+_->$ be the set of implications in $Gamma^+$, $Phi$ the set of propositional variables in $Gamma^+$, and $Delta^+_->$ the set of implications in $Delta^+$.
 
-  $GentzenDPL proves Gamma^+_->, Phi seq(2) Delta^+_->$ ならば，$RLift(2, 3)$ と $RWk(3, 3)$ で $GentzenDPL proves Gamma^+ seq(3) Delta^+$ となるので，$GentzenDPL nproves Gamma^+_->, Phi seq(2) Delta^+_->$ である．
-  @lem:lindenbaum より $Lambda$-極大なシークエント $Gamma^+_2 seq(2) Delta^+_2 supset.eq Gamma^+_->, Phi seq(2) Delta^+_->$ があり，@lem:maximal_saturated より $Gamma^+_2 seq(2) Delta^+_2$ は $and or$-飽和かつ $->$-左飽和である．
-  $RLift(1, 2)$ より $GentzenDPL nproves Gamma^+_2 seq(1) Delta^+_2$ なので，@thm:gentzen_dpl_complete1 より，有限 $LogicFPL$-モデル $M = chevron.l W, prec, forces chevron.r$ と点 $r in M$ で $M, r nmodels Gamma^+_2 seq(1) Delta^+_2$ となるものがとれる．
-  $M$ の $r$ における $omega$-拡大 $M^omega$ を，次の付値 $omegaforces$ で定める．
-  - $x omegaforces p <==> x forces p$（$x in W$）．
-  - $t_n omegaforces p <==> r forces p$（$n < omega$）．
-  - $t_omega omegaforces p <==> p in Gamma^+$．
-  $omegaforces$ が persistent であることを @lem:omega_ext_persist で確かめる．
-  条件 (2) と，条件 (1) のうち $n < omega$ の場合は明らかである．
-  $t_omega omegaforces p$ ならば $p in Gamma^+$，よって $p in Phi subset.eq Gamma^+_2$ であり，$r models Gamma^+_2$ より $r forces p$，すなわちすべての $m < omega$ で $t_m omegaforces p$ である．
+  If $GentzenDPL proves Gamma^+_->, Phi seq(2) Delta^+_->$, then $GentzenDPL proves Gamma^+ seq(3) Delta^+$ by $RLift(2, 3)$ and $RWk(3, 3)$; hence $GentzenDPL nproves Gamma^+_->, Phi seq(2) Delta^+_->$.
+  By @lem:lindenbaum, there is a $Lambda$-maximal sequent $Gamma^+_2 seq(2) Delta^+_2 supset.eq Gamma^+_->, Phi seq(2) Delta^+_->$, and it is $and or$-saturated and $->$-left-saturated by @lem:maximal_saturated.
+  Since $GentzenDPL nproves Gamma^+_2 seq(1) Delta^+_2$ by $RLift(1, 2)$, by @thm:gentzen_dpl_complete1 there are a finite $LogicFPL$-model $M = chevron.l W, prec, forces chevron.r$ and a point $r in M$ such that $M, r nmodels Gamma^+_2 seq(1) Delta^+_2$.
+  Define an $omega$-extension $M^omega$ of $M$ at $r$ by the following valuation $omegaforces$.
+  - $x omegaforces p <==> x forces p$ for $x in W$.
+  - $t_n omegaforces p <==> r forces p$ for $n < omega$.
+  - $t_omega omegaforces p <==> p in Gamma^+$.
+  We check by @lem:omega_ext_persist that $omegaforces$ is persistent.
+  Condition (2), and condition (1) for $n < omega$, are obvious.
+  If $t_omega omegaforces p$, then $p in Gamma^+$, so $p in Phi subset.eq Gamma^+_2$, and hence $r forces p$ since $M, r models Gamma^+_2$; that is, $t_m omegaforces p$ for all $m < omega$.
+  Hence $omegaforces$ is persistent, and $M^omega$ is a well-defined $omega$-extension of $M$ at $r$.
 
   #struct[Claim][
-    すべての $A in FmlPL$ について次が成り立つ．
-    - $A in Gamma^+ ==> M^omega, t_omega models A$．
-    - $A in Delta^+ ==> M^omega, t_omega nmodels A$．
+    For every $A in FmlPL$, the following hold.
+    - If $A in Gamma^+$, then $M^omega, t_omega models A$.
+    - If $A in Delta^+$, then $M^omega, t_omega nmodels A$.
 
-    充足関係はすべて $M^omega$ でのものとし，$A$ に関する帰納法で示す．
+    We show this by induction on $A$.
     #struct[$A equiv p$][
-      $p in Gamma^+$ ならば，$omegaforces$ の定義より $t_omega models p$ である．
-      $p in Delta^+$ のとき，$t_omega models p$，すなわち $p in Gamma^+$ とすると，$RAx(3)$ と $RWk(3, 3)$ より $GentzenDPL proves Gamma^+ seq(3) Delta^+$ となって矛盾する．
-      よって $t_omega nmodels p$ である．
+      If $p in Gamma^+$, then $M^omega, t_omega models p$ by the definition of $omegaforces$.
+      Suppose $p in Delta^+$.
+      If $M^omega, t_omega models p$, that is, $p in Gamma^+$, then $GentzenDPL proves Gamma^+ seq(3) Delta^+$ by $RAx(3)$ and $RWk(3, 3)$, a contradiction.
+      Hence $M^omega, t_omega nmodels p$.
     ]
     #struct[$A equiv bot$][
-      $bot in Gamma^+$ とすると，$RBotL(3)$ と $RWk(3, 3)$ より $GentzenDPL proves Gamma^+ seq(3) Delta^+$ となって矛盾する．
-      $bot in Delta^+$ ならば $t_omega nmodels bot$ である．
+      If $bot in Gamma^+$, then $GentzenDPL proves Gamma^+ seq(3) Delta^+$ by $RBotL(3)$ and $RWk(3, 3)$, a contradiction.
+      If $bot in Delta^+$, then $M^omega, t_omega nmodels bot$.
     ]
-    #struct[$A equiv B and C$，$A equiv B or C$][
-      $and or$-飽和と帰納法の仮定による．
+    #struct[$A equiv B and C$, $A equiv B or C$][
+      By the $and or$-saturation and the induction hypothesis.
     ]
     #struct[$A equiv B -> C in Gamma^+$][
-      $B -> C in Gamma^+_-> subset.eq Gamma_2^+$ である．
-      $M^omega$ は $Gamma_2^+ seq(2) Delta_2^+$，$M$，$r$ について @lem:truth_tail の仮定を満たすので，すべての $n < omega$ で $t_n models B -> C$ である．
-      $t_omega$ の後続 $y$ は $t_n$（$n < omega$），$r$，$r$ の後続のいずれかであり，いずれの場合も $t omegaprec y$ を満たす tail の点 $t$ がある（$y = t_n$ ならば $t := t_(n + 1)$，それ以外ならば $t := t_0$）．
-      $t models B -> C$ なので，$y models B$ ならば $y models C$ である．
-      よって $t_omega models B -> C$ である．
+      We have $B -> C in Gamma^+_-> subset.eq Gamma_2^+$.
+      Since $M^omega$ satisfies the assumptions of @lem:truth_tail for $Gamma_2^+ seq(2) Delta_2^+$, $M$ and $r$, we have $M^omega, t_n models B -> C$ for all $n < omega$.
+      Let $y omegasucc t_omega$.
+      Then $y = t_n$ for some $n < omega$, $y = r$, or $y succ r$, and in each case there is a point $t$ of the tail with $t omegaprec y$: $t := t_(n + 1)$ if $y = t_n$, and $t := t_0$ otherwise.
+      Since $M^omega, t models B -> C$, $M^omega, y models B$ implies $M^omega, y models C$.
+      Hence $M^omega, t_omega models B -> C$.
     ]
     #struct[$A equiv B -> C in Delta^+$][
-      $B -> C in Delta^+_-> subset.eq Delta_2^+$ なので，@lem:truth_tail より $t_0 nmodels B -> C$ である．
-      $t_omega omegaprec t_0$ なので，@lem:fpl_persist より $t_omega nmodels B -> C$ である．
+      Since $B -> C in Delta^+_-> subset.eq Delta_2^+$, we have $M^omega, t_0 nmodels B -> C$ by @lem:truth_tail.
+      Since $t_omega omegaprec t_0$, we have $M^omega, t_omega nmodels B -> C$ by @lem:fpl_persist.
     ]
+    This concludes the proof of the Claim.
   ]
-  Claim と $Gamma seq(3) Delta subset.eq Gamma^+ seq(3) Delta^+$ より，$t_omega nmodels Gamma seq(3) Delta$ である．
+  By the Claim and $Gamma seq(3) Delta subset.eq Gamma^+ seq(3) Delta^+$, we have $M^omega, t_omega nmodels Gamma seq(3) Delta$.
 ]
 
 各レベルの完全性から，$GentzenDPL$ のカット許容性（@cor:gentzen_dpl_cut）を，様相論理への埋め込みを経由せずに直接示すこともできる．
