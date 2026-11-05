@@ -2066,67 +2066,67 @@ From now on, $Lambda$ denotes a subformula closed finite set.
   By $RImpL(2, 2)$, $GentzenDPL proves A -> B, Gamma seq(2) Delta$, that is, $GentzenDPL proves Gamma seq(2) Delta$, a contradiction.
 ]
 
-#lemma[Truth Lemma on tail of $omega$-extension][
-  $Gamma seq(level) Delta$ を $and or$-飽和かつ $->$-左飽和なシークエントとする．
-  $M = chevron.l W, prec, forces chevron.r$ を $LogicFPL$-モデル，$r in M$ を $M, r nmodels Gamma seq(level) Delta$ を満たす点，すなわち $Gamma$ のすべての論理式を充足し $Delta$ のどの論理式も充足しない点とする．
-  $M^omega$ を $M$ の $r$ における $omega$-拡大で，すべての $p in PropVar$ と $n < omega$ について $t_n omegaforces p <==> r forces p$ を満たすものとする．
-  このとき，すべての $A in FmlPL$ と $n < omega$ について次が成り立つ．
-  - $A in Gamma ==> M^omega, t_n models A$．
-  - $A in Delta ==> M^omega, t_n nmodels A$．
+#lemma[Truth lemma on tail of $omega$-extension][
+  Let $Gamma seq(level) Delta$ be an $and or$-saturated and $->$-left-saturated sequent.
+  Let $M = chevron.l W, prec, forces chevron.r$ be an $LogicFPL$-model, and let $r in M$ be a point with $M, r nmodels Gamma seq(level) Delta$, that is, $r$ satisfies every formula in $Gamma$ and no formula in $Delta$.
+  Let $M^omega$ be an $omega$-extension of $M$ at $r$ such that $t_n omegaforces p <==> r forces p$ for all $p in PropVar$ and $n < omega$.
+  Then, for all $A in FmlPL$ and $n < omega$, the following hold.
+  - If $A in Gamma$, then $M^omega, t_n models A$.
+  - If $A in Delta$, then $M^omega, t_n nmodels A$.
 ] <lem:truth_tail>
 
 #proof[
-  以下，充足関係はすべて $M^omega$ でのものとする．
-  @lem:omega_ext_conservative より，$r$ と $r$ の後続での充足は $M$ でのものと一致する．
-  とくに，$A in Gamma$ ならば $r models A$ であり，$A in Delta$ ならば $r nmodels A$ である．
-  $A$ に関する帰納法で，すべての $n < omega$ について同時に示す．
+  By @lem:omega_ext_conservative, $M^omega, y models A <==> M, y models A$ for $y = r$ and every $y succ r$.
+  In particular, $M^omega, r models A$ if $A in Gamma$, and $M^omega, r nmodels A$ if $A in Delta$.
+  We show the claim by induction on $A$, simultaneously for all $n < omega$.
   #struct[$A equiv p$][
-    $t_n omegaforces p <==> r forces p$ であり，$p in Gamma$ ならば $r forces p$，$p in Delta$ ならば $r nforces p$ である．
+    $t_n omegaforces p <==> r forces p$, and $r forces p$ if $p in Gamma$, and $r nforces p$ if $p in Delta$.
   ]
   #struct[$A equiv bot$][
-    $r nmodels bot$ なので $bot in.not Gamma$ である．
-    $bot in Delta$ ならば $t_n nmodels bot$ である．
+    Since $M^omega, r nmodels bot$, we have $bot in.not Gamma$.
+    If $bot in Delta$, then $M^omega, t_n nmodels bot$.
   ]
-  #struct[$A equiv B and C$，$A equiv B or C$][
-    $and or$-飽和と帰納法の仮定による．
+  #struct[$A equiv B and C$, $A equiv B or C$][
+    By the $and or$-saturation and the induction hypothesis.
   ]
   #struct[$A equiv B -> C in Gamma$][
-    $t_n$ の後続は，$t_m$（$m < n$），$r$，$r$ の後続である．
-    $y$ をそのいずれかとし，$y models B$ ならば $y models C$ であることを示す．
-    $y$ が $r$ の後続ならば，$r models B -> C$ による．
-    $y = t_m$ または $y = r$ とする．
-    $->$-左飽和より $B in Delta$ または $C in Gamma$ である．
-    $B in Delta$ ならば，帰納法の仮定（$y = r$ のときは上の注意）より $y nmodels B$ なので，主張は成り立つ．
-    $C in Gamma$ ならば，同様に $y models C$ である．
+    Let $y omegasucc t_n$.
+    Then $y = t_m$ for some $m < n$, $y = r$, or $y succ r$.
+    We show that $M^omega, y models B$ implies $M^omega, y models C$.
+    If $y succ r$, this follows from $M^omega, r models B -> C$.
+    Suppose $y = t_m$ or $y = r$.
+    By the $->$-left-saturation, $B in Delta$ or $C in Gamma$.
+    If $B in Delta$, then $M^omega, y nmodels B$ by the induction hypothesis (or by the remark above if $y = r$), so the claim holds.
+    If $C in Gamma$, then $M^omega, y models C$ similarly.
   ]
   #struct[$A equiv B -> C in Delta$][
-    $r nmodels B -> C$ なので，$y models B$ かつ $y nmodels C$ を満たす $r$ の後続 $y$ がある．
-    $y$ は $t_n$ の後続でもあるので，$t_n nmodels B -> C$ である．
+    Since $M^omega, r nmodels B -> C$, there exists $y succ r$ such that $M^omega, y models B$ and $M^omega, y nmodels C$.
+    Since $y omegasucc t_n$ as well, we have $M^omega, t_n nmodels B -> C$.
   ]
 ]
 
 #theorem[Completeness of $seq(2)$ in $GentzenDPL$][
-  有限集合 $Gamma, Delta subset.eq FmlPL$ について，次の四条件は同値である．
-  + $GentzenDPL proves Gamma seq(2) Delta$．
-  + すべての $LogicFPL$-モデルのすべての下降列の上で $Gamma seq(2) Delta$ は最終的に成り立つ．
-  + すべての $LogicFPL$-モデルのすべての $omega$-拡大の tail $(t_n)_(n < omega)$ の上で $Gamma seq(2) Delta$ は最終的に成り立つ．
-  + すべての有限 $LogicFPL$-モデルのすべての $omega$-拡大の tail $(t_n)_(n < omega)$ の上で $Gamma seq(2) Delta$ は最終的に成り立つ．
+  For finite sets $Gamma, Delta subset.eq FmlPL$, the following are equivalent.
+  + $GentzenDPL proves Gamma seq(2) Delta$.
+  + $Gamma seq(2) Delta$ is eventually always satisfied on every infinite descending chain of every $LogicFPL$-model.
+  + $Gamma seq(2) Delta$ is eventually always satisfied on the tail $(t_n)_(n < omega)$ of every $omega$-extension of every $LogicFPL$-model.
+  + $Gamma seq(2) Delta$ is eventually always satisfied on the tail $(t_n)_(n < omega)$ of every $omega$-extension of every finite $LogicFPL$-model.
 ] <thm:gentzen_dpl_complete2>
 
 #proof[
-  (1) から (2) は @lem:gentzen_dpl_sound2 による．
-  (2) から (3) は，@lem:omega_ext_frame より $omega$-拡大は $LogicFPL$-モデルであり，@lem:omega_ext_converge よりその tail は下降列であることによる．
-  (3) から (4) は明らかである．
+  (1) to (2) is @lem:gentzen_dpl_sound2.
+  (2) to (3) holds since an $omega$-extension is an $LogicFPL$-model by @lem:omega_ext_frame, and its tail is an infinite descending chain by @lem:omega_ext_converge.
+  (3) to (4) is clear.
 
-  (4) から (1) を対偶で示す．
-  $GentzenDPL nproves Gamma seq(2) Delta$ とし，$Lambda := Subfml(Gamma union Delta)$ とおく．
-  @lem:lindenbaum より $Lambda$-極大なシークエント $Gamma^+ seq(2) Delta^+ supset.eq Gamma seq(2) Delta$ があり，@lem:maximal_saturated より $Gamma^+ seq(2) Delta^+$ は $and or$-飽和かつ $->$-左飽和である．
-  $GentzenDPL proves Gamma^+ seq(1) Delta^+$ ならば $RLift(1, 2)$ より $GentzenDPL proves Gamma^+ seq(2) Delta^+$ となるので，$GentzenDPL nproves Gamma^+ seq(1) Delta^+$ である．
-  @thm:gentzen_dpl_complete1 より，有限 $LogicFPL$-モデル $M = chevron.l W, prec, forces chevron.r$ と点 $r in M$ で $M, r nmodels Gamma^+ seq(1) Delta^+$ となるものが存在する．
-  $M$ の $r$ における $omega$-拡大 $M^omega$ を，付値 $omegaforces$ を $W$ 上では $forces$ と同じとし，$t_n omegaforces p <==> r forces p$（$n <= omega$）として定める．
-  これは @lem:omega_ext_persist の二条件を満たすので persistent であり，$M^omega$ は $M$ の $omega$-拡大である．
-  さらに $M^omega$ は @lem:truth_tail の仮定を満たすので，すべての $n < omega$ で，$t_n$ は $Gamma subset.eq Gamma^+$ のすべての論理式を充足し，$Delta subset.eq Delta^+$ のどの論理式も充足しない．
-  よって $Gamma seq(2) Delta$ は tail のどの点でも充足されず，とくに最終的に成り立たない．
+  We show (4) to (1) by contraposition.
+  Suppose $GentzenDPL nproves Gamma seq(2) Delta$, and let $Lambda := Subfml(Gamma union Delta)$.
+  By @lem:lindenbaum, there is a $Lambda$-maximal sequent $Gamma^+ seq(2) Delta^+ supset.eq Gamma seq(2) Delta$, and it is $and or$-saturated and $->$-left-saturated by @lem:maximal_saturated.
+  If $GentzenDPL proves Gamma^+ seq(1) Delta^+$, then $GentzenDPL proves Gamma^+ seq(2) Delta^+$ by $RLift(1, 2)$; hence $GentzenDPL nproves Gamma^+ seq(1) Delta^+$.
+  By @thm:gentzen_dpl_complete1, there exist a finite $LogicFPL$-model $M = chevron.l W, prec, forces chevron.r$ and a point $r in M$ such that $M, r nmodels Gamma^+ seq(1) Delta^+$.
+  Define an $omega$-extension $M^omega$ of $M$ at $r$ by letting $omegaforces$ be the same as $forces$ on $W$ and $t_n omegaforces p <==> r forces p$ for $n <= omega$.
+  It satisfies the two conditions of @lem:omega_ext_persist, so it is persistent, and hence $M^omega$ is an $omega$-extension of $M$.
+  Moreover, $M^omega$ satisfies the assumptions of @lem:truth_tail, so for every $n < omega$, $t_n$ satisfies every formula in $Gamma subset.eq Gamma^+$ and no formula in $Delta subset.eq Delta^+$.
+  Therefore $Gamma seq(2) Delta$ is not satisfied at any point of the tail, and in particular it is not eventually always satisfied.
 ]
 
 最後に，$level = 3$ の意味論を与える．
