@@ -1767,7 +1767,7 @@ Kripke semantics for $LogicFPL$ was already studied by Visser @Vis81.
 A conversely well-founded relation is irreflexive, since $x prec x$ would yield an infinite ascending chain $x prec x prec dots.c$.
 Note also that, unlike Kripke semantics for intuitionistic propositional logic $LogicInt$, whether $x models A -> B$ holds does not depend on the satisfaction of $A$ and $B$ at $x$ itself.
 
-The persistence of valuations extends to all formulas.
+The persistency of valuations extends to all formulas.
 
 #lemma[
   Let $M$ be an $LogicFPL$-model and $x, y in M$.
@@ -1776,7 +1776,7 @@ The persistence of valuations extends to all formulas.
 
 #proof[
   By induction on $A$.
-  The case of $A equiv p$ follows from the persistence of the valuation.
+  The case of $A equiv p$ follows from the persistency of the valuation.
   The case of $A equiv B -> C$ follows from the fact that $y prec z$ implies $x prec z$ by the transitivity of $prec$.
   The other cases are immediate from the induction hypothesis.
 ]
@@ -1867,7 +1867,7 @@ In particular, the bottom $t_omega$ satisfies $t_omega omegaprec t_n$ for all po
 ] <lem:omega_ext_frame>
 
 #proof[
-  For models, the persistence of the valuation of an $omega$-extension is required by definition, so it suffices to consider frames.
+  For models, the persistency of the valuation of an $omega$-extension is required by definition, so it suffices to consider frames.
   #struct[Transitivity][
     Suppose $x omegaprec y omegaprec z$.
     If $y in W$, then $z in W$ and $y prec z$, since no point of $W$ has a point outside $W$ above it.
@@ -2248,137 +2248,138 @@ From the completeness for each level, we can also prove the cut-admissibility of
 
 == Semantical proof of embedding theorem
 
-ここでは，Visser翻訳による $GentzenDPL$ の $GentzenD$ への埋め込み定理（@thm:iff_visser）の，意味論的な（より簡潔な）証明を与える．
+In this subsection, we give a semantical (and simpler) proof of the embedding theorem (@thm:iff_visser) of $GentzenDPL$ into $GentzenD$ via the Visser--Gödel translation.
 
 #definition[
-  $LogicGL$-モデル $M = chevron.l W, prec, forces chevron.r$ は，$LogicFPL$-フレーム $chevron.l W, prec chevron.r$ と付値関数 $forces colon W times PropVar -> 2$ の組である．
-  $LogicFPL$-モデルとの違いは，付値に persistent性を課さないことだけである．
+  A _$LogicGL$-model_ $M = chevron.l W, prec, forces chevron.r$ is a pair of an $LogicFPL$-frame $chevron.l W, prec chevron.r$ and a valuation $forces colon W times PropVar -> 2$.
+  The only difference from $LogicFPL$-models is that persistency is not required of the valuation.
 
-  $LogicGL$-モデル $M$，点 $x in M$，$A in FmlML$ について，様相論理の充足関係 $M, x mmodels A$ を次で定める．
-  - $M, x mmodels p$ iff $x forces p$．
-  - $M, x nmmodels bot$．
-  - $M, x mmodels A -> B$ iff $M, x mmodels A$ ならば $M, x mmodels B$．
-  - $M, x mmodels Box A$ iff 任意の $y succ x$ について $M, y mmodels A$．
-  集合とシークエントの充足関係も，$LogicFPL$-モデルのときと同様に定める．
+  For a $LogicGL$-model $M$, a point $x in M$ and $A in FmlML$, the satisfaction relation $M, x mmodels A$ for modal formulas is defined as follows.
+  - $M, x mmodels p$ iff $x forces p$.
+  - $M, x nmmodels bot$.
+  - $M, x mmodels A -> B$ iff $M, x mmodels A$ implies $M, x mmodels B$.
+  - $M, x mmodels Box A$ iff $M, y mmodels A$ for every $y succ x$.
+  Satisfaction of sets of formulas and of sequents is defined in the same way as for $LogicFPL$-models, and so are the notions of being eventually always satisfied on an infinite descending chain.
 
-  $LogicGL$-モデル $M$ の $r$ における $omega$-拡大は，@def:omega_ext と同様に定めるが，その付値 $omegaforces$ には $W$ 上で $forces$ と一致することだけを課し，persistent性は課さない．
+  An _$omega$-extension_ of a $LogicGL$-model $M$ at $r$ is defined in the same way as @def:omega_ext, except that its valuation $omegaforces$ is only required to be the same as $forces$ on $W$, and persistency is not required.
 ] <def:gl_model>
 
-$LogicFPL$-モデルは付値が persistent な $LogicGL$-モデルであり，$LogicFPL$-モデルの $omega$-拡大は $LogicGL$-モデルとしての $omega$-拡大でもある．
-以下，混乱を避けるため，命題論理の充足関係を $pmodels$ と書く．
+An $LogicFPL$-model is a $LogicGL$-model whose valuation is persistent, and an $omega$-extension of an $LogicFPL$-model is also an $omega$-extension of it as a $LogicGL$-model.
+To avoid confusion, we write $pmodels$ for the satisfaction relation of propositional logic.
 
 #lemma[
-  $M$ を $LogicFPL$-モデルとする．
-  すべての $x in M$ と $A in FmlPL$ について，$M, x pmodels A <==> M, x mmodels A^Vis$ である．
+  Let $M$ be an $LogicFPL$-model.
+  For all $x in M$ and $A in FmlPL$, $M, x pmodels A <==> M, x mmodels A^Vis$.
 ] <lem:fpl_to_gl>
 
 #proof[
-  $A$ に関する帰納法で示す．
-  $bot$，$and$，$or$ の場合は帰納法の仮定による．
+  By induction on $A$.
+  The cases of $bot$, $and$ and $or$ follow from the induction hypothesis.
   #struct[$A equiv p$][
-    $x mmodels p^Vis$ は $x mmodels p and Box p$ である．
-    $x mmodels p^Vis$ ならば $x forces p$ なので $x pmodels p$ である．
-    逆に $x pmodels p$ ならば，付値が persistent なので $x mmodels Box p$ でもあり，$x mmodels p^Vis$ である．
+    $M, x mmodels p^Vis$ means $M, x mmodels p and Box p$.
+    If $M, x mmodels p^Vis$, then $x forces p$, so $M, x pmodels p$.
+    Conversely, if $M, x pmodels p$, then $M, x mmodels Box p$ by the persistency of the valuation, so $M, x mmodels p^Vis$.
   ]
   #struct[$A equiv B -> C$][
     $
-      x pmodels B -> C & <==> #text[任意の $y succ x$ で，$y pmodels B$ ならば $y pmodels C$] \
-                       & <==> #text[任意の $y succ x$ で，$y mmodels B^Vis$ ならば $y mmodels C^Vis$] \
-                       & <==> x mmodels Box(B^Vis -> C^Vis) \
-                       & <==> x mmodels (B -> C)^Vis.
+      M, x pmodels B -> C & <==> #text[for every $y succ x$, $M, y pmodels B$ implies $M, y pmodels C$] \
+                          & <==> #text[for every $y succ x$, $M, y mmodels B^Vis$ implies $M, y mmodels C^Vis$] \
+                          & <==> M, x mmodels Box(B^Vis -> C^Vis) \
+                          & <==> M, x mmodels (B -> C)^Vis
     $
   ]
 ]
 
 #lemma[
-  $M = chevron.l W, prec, forces chevron.r$ を $LogicGL$-モデルとする．
-  $W$ 上の付値 $pforces$ を，$x pforces p$ iff $x forces p$ かつ $x$ のすべての後続 $y$ で $y forces p$，として定め，$M_upright("P") := chevron.l W, prec, pforces chevron.r$ とおく．
-  このとき $M_upright("P")$ は $LogicFPL$-モデルであり，すべての $x in W$ と $A in FmlPL$ について，$M_upright("P"), x pmodels A <==> M, x mmodels A^Vis$ である．
+  Let $M = chevron.l W, prec, forces chevron.r$ be a $LogicGL$-model.
+  Define a valuation $pforces$ on $W$ by $x pforces p$ iff $x forces p$ and $y forces p$ for every $y succ x$, and let $M_upright("P") := chevron.l W, prec, pforces chevron.r$.
+  Then $M_upright("P")$ is an $LogicFPL$-model, and $M_upright("P"), x pmodels A <==> M, x mmodels A^Vis$ for all $x in W$ and $A in FmlPL$.
 ] <lem:gl_to_fpl>
 
 #proof[
-  $x prec y$ かつ $x pforces p$ ならば，$y forces p$ であり，$prec$ の推移性より $y$ の後続は $x$ の後続なので，$y pforces p$ である．
-  よって $pforces$ は persistent であり，$M_upright("P")$ は $LogicFPL$-モデルである．
-  同値性は $A$ に関する帰納法で示す．
-  $A equiv p$ の場合は，$x pforces p$ と $x mmodels p and Box p$ が同値であることが $pforces$ の定義そのものである．
-  $A equiv B -> C$ の場合は @lem:fpl_to_gl と同様であり，他の場合は帰納法の仮定による．
+  Suppose $x prec y$ and $x pforces p$.
+  Then $y forces p$, and every $z succ y$ satisfies $z succ x$ by the transitivity of $prec$, so $z forces p$; hence $y pforces p$.
+  Thus $pforces$ is persistent, and $M_upright("P")$ is an $LogicFPL$-model.
+  The equivalence is shown by induction on $A$.
+  The case $A equiv p$ is exactly the definition of $pforces$, since $M_upright("P"), x pmodels p$ iff $x pforces p$ iff $M, x mmodels p and Box p$.
+  The case $A equiv B -> C$ is as in @lem:fpl_to_gl, and the other cases follow from the induction hypothesis.
 ]
 
-@lem:fpl_to_gl と @lem:gl_to_fpl はどちらもフレームを変えず，点ごとの同値である．
-したがってシークエントについても，それぞれ $x pmodels Gamma seq(level) Delta <==> x mmodels Gamma^Vis seq(level) Delta^Vis$ が点ごとに成り立つ．
+Neither @lem:fpl_to_gl nor @lem:gl_to_fpl changes the frame, and both are equivalences at each point.
+Hence they also hold for sequents: $M_upright("P"), x pmodels Gamma seq(level) Delta <==> M, x mmodels Gamma^Vis seq(level) Delta^Vis$ for every $LogicGL$-model $M$ and $x in M$, and $M, x pmodels Gamma seq(level) Delta <==> M, x mmodels Gamma^Vis seq(level) Delta^Vis$ for every $LogicFPL$-model $M$ and $x in M$.
 
 #lemma[
-  $M$ を $LogicGL$-モデル，$M^omega$ をその $r$ における $omega$-拡大とする．
-  このとき @lem:gl_to_fpl の構成による $M^omega_upright("P")$ は，$LogicFPL$-モデル $M_upright("P")$ の $r$ における $omega$-拡大である．
+  Let $M$ be a $LogicGL$-model and $M^omega$ an $omega$-extension of $M$ at $r$.
+  Then $M^omega_upright("P")$, obtained by the construction of @lem:gl_to_fpl, is an $omega$-extension of the $LogicFPL$-model $M_upright("P")$ at $r$.
 ] <lem:gl_to_fpl_omega_ext>
 
 #proof[
-  $M^omega_upright("P")$ と $M_upright("P")$ のフレームは，それぞれ $M^omega$ と $M$ のフレームなので，前者は後者の $r$ における $omega$-拡大である．
-  @lem:gl_to_fpl より $M^omega_upright("P")$ の付値は persistent である．
-  $x in W$ の後続はすべて $W$ に属し，$M^omega$ の付値は $W$ 上で $M$ の付値と一致するので，$W$ 上で $M^omega_upright("P")$ の付値は $M_upright("P")$ の付値と一致する．
+  The frames of $M^omega_upright("P")$ and $M_upright("P")$ are those of $M^omega$ and $M$, respectively, so the former is the $omega$-extension of the latter at $r$.
+  The valuation of $M^omega_upright("P")$ is persistent by @lem:gl_to_fpl.
+  Every $y omegasucc x$ belongs to $W$ for $x in W$, and the valuation of $M^omega$ is the same as that of $M$ on $W$, so the valuation of $M^omega_upright("P")$ is the same as that of $M_upright("P")$ on $W$.
 ]
 
-@KKIM25 より次の事実を引用する．
+We quote the following facts from @KKIM25.
 
-#proposition[Completeness of $seq(1)$ of $GentzenD$，cf. @KKIM25[Theorem 5.4]][
-  有限集合 $Gamma, Delta subset.eq FmlML$ について，次の二条件は同値である．
-  + $GentzenD proves Gamma seq(1) Delta$．
-  + すべての $LogicGL$-モデルのすべての点 $x$ で $x mmodels Gamma seq(1) Delta$ である．
+#proposition[Completeness of $seq(1)$ of $GentzenD$, cf. @KKIM25[Theorem 5.4]][
+  For finite sets $Gamma, Delta subset.eq FmlML$, the following are equivalent.
+  + $GentzenD proves Gamma seq(1) Delta$.
+  + $M, x mmodels Gamma seq(1) Delta$ for every point $x$ of every $LogicGL$-model $M$.
 ] <prop:gentzen_d_complete1>
 
-#proposition[Completeness of $seq(2)$ of $GentzenD$，cf. @KKIM25[Theorem 5.6]][
-  有限集合 $Gamma, Delta subset.eq FmlML$ について，次の二条件は同値である．
-  + $GentzenD proves Gamma seq(2) Delta$．
-  + すべての $LogicGL$-モデルのすべての $omega$-拡大の tail $(t_n)_(n < omega)$ の上で $Gamma seq(2) Delta$ は最終的に成り立つ．
+#proposition[Completeness of $seq(2)$ of $GentzenD$, cf. @KKIM25[Theorem 5.6]][
+  For finite sets $Gamma, Delta subset.eq FmlML$, the following are equivalent.
+  + $GentzenD proves Gamma seq(2) Delta$.
+  + $Gamma seq(2) Delta$ is eventually always satisfied on the tail $(t_n)_(n < omega)$ of every $omega$-extension of every $LogicGL$-model.
 ] <prop:gentzen_d_complete2>
 
-#proposition[Completeness of $seq(3)$ of $GentzenD$，cf. @KKIM25[Theorem 5.8]][
-  有限集合 $Gamma, Delta subset.eq FmlML$ について，次の二条件は同値である．
-  + $GentzenD proves Gamma seq(3) Delta$．
-  + すべての $LogicGL$-モデルのすべての $omega$-拡大の bottom $t_omega$ で $t_omega mmodels Gamma seq(3) Delta$ である．
+#proposition[Completeness of $seq(3)$ of $GentzenD$, cf. @KKIM25[Theorem 5.8]][
+  For finite sets $Gamma, Delta subset.eq FmlML$, the following are equivalent.
+  + $GentzenD proves Gamma seq(3) Delta$.
+  + $M^omega, t_omega mmodels Gamma seq(3) Delta$ for the bottom $t_omega$ of every $omega$-extension $M^omega$ of every $LogicGL$-model.
 ] <prop:gentzen_d_complete3>
 
-これらの命題と先の補題を合わせれば，@thm:iff_visser を意味論的に示すことができる．
+Combining these propositions with the lemmas above, we can prove @thm:iff_visser semantically.
 
 #proof[Semantical proof of @thm:iff_visser][
-  $GentzenDPL proves Gamma seq(level) Delta <==> GentzenD proves Gamma^Vis seq(level) Delta^Vis$ を，各 $level = 1, 2, 3$ について示す．
+  We show $GentzenDPL proves Gamma seq(level) Delta <==> GentzenD proves Gamma^Vis seq(level) Delta^Vis$ for each $level = 1, 2, 3$.
   #struct[$level = 1$][
-    @thm:gentzen_dpl_complete1 の (2) より，左辺は「すべての $LogicFPL$-モデルのすべての点 $x$ で $x pmodels Gamma seq(1) Delta$」と同値であり，
-    @prop:gentzen_d_complete1 より，右辺は「すべての $LogicGL$-モデルのすべての点 $x$ で $x mmodels Gamma^Vis seq(1) Delta^Vis$」と同値である．
+    By (2) of @thm:gentzen_dpl_complete1, the left side is equivalent to: $M, x pmodels Gamma seq(1) Delta$ for every point $x$ of every $LogicFPL$-model $M$.
+    By @prop:gentzen_d_complete1, the right side is equivalent to: $M, x mmodels Gamma^Vis seq(1) Delta^Vis$ for every point $x$ of every $LogicGL$-model $M$.
     #struct[$(==>)$][
-      $LogicGL$-モデル $M$ と点 $x in M$ をとる．
-      @lem:gl_to_fpl より $M_upright("P")$ は $LogicFPL$-モデルなので，仮定より $M_upright("P"), x pmodels Gamma seq(1) Delta$ であり，@lem:gl_to_fpl より $M, x mmodels Gamma^Vis seq(1) Delta^Vis$ である．
+      Let $M$ be a $LogicGL$-model and $x in M$.
+      Since $M_upright("P")$ is an $LogicFPL$-model by @lem:gl_to_fpl, we have $M_upright("P"), x pmodels Gamma seq(1) Delta$ by the assumption, and hence $M, x mmodels Gamma^Vis seq(1) Delta^Vis$ by @lem:gl_to_fpl.
     ]
     #struct[$(<==)$][
-      $LogicFPL$-モデル $M$ と点 $x in M$ をとる．
-      $M$ は $LogicGL$-モデルなので，仮定より $M, x mmodels Gamma^Vis seq(1) Delta^Vis$ であり，@lem:fpl_to_gl より $M, x pmodels Gamma seq(1) Delta$ である．
+      Let $M$ be an $LogicFPL$-model and $x in M$.
+      Since $M$ is a $LogicGL$-model, $M, x mmodels Gamma^Vis seq(1) Delta^Vis$ by the assumption, and hence $M, x pmodels Gamma seq(1) Delta$ by @lem:fpl_to_gl.
     ]
   ]
   #struct[$level = 2$][
-    @thm:gentzen_dpl_complete2 の (3) より，左辺は「すべての $LogicFPL$-モデルのすべての $omega$-拡大の tail の上で $Gamma seq(2) Delta$ が最終的に成り立つ」と同値であり，
-    @prop:gentzen_d_complete2 より，右辺は「すべての $LogicGL$-モデルのすべての $omega$-拡大の tail の上で $Gamma^Vis seq(2) Delta^Vis$ が最終的に成り立つ」と同値である．
+    By (3) of @thm:gentzen_dpl_complete2, the left side is equivalent to: $Gamma seq(2) Delta$ is eventually always satisfied on the tail of every $omega$-extension of every $LogicFPL$-model.
+    By @prop:gentzen_d_complete2, the right side is equivalent to: $Gamma^Vis seq(2) Delta^Vis$ is eventually always satisfied on the tail of every $omega$-extension of every $LogicGL$-model.
     #struct[$(==>)$][
-      $LogicGL$-モデル $M$ とその $omega$-拡大 $M^omega$ をとる．
-      @lem:gl_to_fpl_omega_ext より $M^omega_upright("P")$ は $LogicFPL$-モデル $M_upright("P")$ の $omega$-拡大なので，仮定より，ある $N$ があってすべての $n >= N$ で $M^omega_upright("P"), t_n pmodels Gamma seq(2) Delta$ である．
-      @lem:gl_to_fpl より，$n >= N$ で $M^omega, t_n mmodels Gamma^Vis seq(2) Delta^Vis$ である．
+      Let $M$ be a $LogicGL$-model and $M^omega$ an $omega$-extension of $M$.
+      Since $M^omega_upright("P")$ is an $omega$-extension of the $LogicFPL$-model $M_upright("P")$ by @lem:gl_to_fpl_omega_ext, the assumption gives $N$ such that $M^omega_upright("P"), t_n pmodels Gamma seq(2) Delta$ for all $n >= N$.
+      By @lem:gl_to_fpl, $M^omega, t_n mmodels Gamma^Vis seq(2) Delta^Vis$ for all $n >= N$.
     ]
     #struct[$(<==)$][
-      $LogicFPL$-モデル $M$ とその $omega$-拡大 $M^omega$ をとる．
-      $M^omega$ は $LogicGL$-モデル $M$ の $omega$-拡大でもあるので，仮定より，ある $N$ があってすべての $n >= N$ で $M^omega, t_n mmodels Gamma^Vis seq(2) Delta^Vis$ である．
-      @lem:omega_ext_frame より $M^omega$ は $LogicFPL$-モデルなので，@lem:fpl_to_gl より $n >= N$ で $M^omega, t_n pmodels Gamma seq(2) Delta$ である．
+      Let $M$ be an $LogicFPL$-model and $M^omega$ an $omega$-extension of $M$.
+      Since $M^omega$ is also an $omega$-extension of the $LogicGL$-model $M$, the assumption gives $N$ such that $M^omega, t_n mmodels Gamma^Vis seq(2) Delta^Vis$ for all $n >= N$.
+      Since $M^omega$ is an $LogicFPL$-model by @lem:omega_ext_frame, $M^omega, t_n pmodels Gamma seq(2) Delta$ for all $n >= N$ by @lem:fpl_to_gl.
     ]
   ]
   #struct[$level = 3$][
-    @thm:gentzen_dpl_complete3 の (3) より，左辺は「すべての $LogicFPL$-モデルのすべての $omega$-拡大の bottom $t_omega$ で $t_omega pmodels Gamma seq(3) Delta$」と同値であり，
-    @prop:gentzen_d_complete3 より，右辺は「すべての $LogicGL$-モデルのすべての $omega$-拡大の bottom $t_omega$ で $t_omega mmodels Gamma^Vis seq(3) Delta^Vis$」と同値である．
+    By (3) of @thm:gentzen_dpl_complete3, the left side is equivalent to: $M^omega, t_omega pmodels Gamma seq(3) Delta$ for the bottom $t_omega$ of every $omega$-extension $M^omega$ of every $LogicFPL$-model.
+    By @prop:gentzen_d_complete3, the right side is equivalent to: $M^omega, t_omega mmodels Gamma^Vis seq(3) Delta^Vis$ for the bottom $t_omega$ of every $omega$-extension $M^omega$ of every $LogicGL$-model.
     #struct[$(==>)$][
-      $LogicGL$-モデル $M$ とその $omega$-拡大 $M^omega$ をとる．
-      @lem:gl_to_fpl_omega_ext より $M^omega_upright("P")$ は $LogicFPL$-モデル $M_upright("P")$ の $omega$-拡大なので，仮定より $M^omega_upright("P"), t_omega pmodels Gamma seq(3) Delta$ であり，@lem:gl_to_fpl より $M^omega, t_omega mmodels Gamma^Vis seq(3) Delta^Vis$ である．
+      Let $M$ be a $LogicGL$-model and $M^omega$ an $omega$-extension of $M$.
+      Since $M^omega_upright("P")$ is an $omega$-extension of the $LogicFPL$-model $M_upright("P")$ by @lem:gl_to_fpl_omega_ext, the assumption gives $M^omega_upright("P"), t_omega pmodels Gamma seq(3) Delta$, and hence $M^omega, t_omega mmodels Gamma^Vis seq(3) Delta^Vis$ by @lem:gl_to_fpl.
     ]
     #struct[$(<==)$][
-      $LogicFPL$-モデル $M$ とその $omega$-拡大 $M^omega$ をとる．
-      $M^omega$ は $LogicGL$-モデル $M$ の $omega$-拡大でもあるので，仮定より $M^omega, t_omega mmodels Gamma^Vis seq(3) Delta^Vis$ である．
-      @lem:omega_ext_frame より $M^omega$ は $LogicFPL$-モデルなので，@lem:fpl_to_gl より $M^omega, t_omega pmodels Gamma seq(3) Delta$ である．
+      Let $M$ be an $LogicFPL$-model and $M^omega$ an $omega$-extension of $M$.
+      Since $M^omega$ is also an $omega$-extension of the $LogicGL$-model $M$, the assumption gives $M^omega, t_omega mmodels Gamma^Vis seq(3) Delta^Vis$.
+      Since $M^omega$ is an $LogicFPL$-model by @lem:omega_ext_frame, $M^omega, t_omega pmodels Gamma seq(3) Delta$ by @lem:fpl_to_gl.
     ]
   ]
 ]
