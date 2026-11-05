@@ -1,5 +1,6 @@
 #import "@preview/ctheorems:1.1.3": *
 #import "@preview/curryst:0.5.0": prooftree, rule
+#import "@preview/cetz:0.5.2": canvas, draw
 
 // Email addresses, ORCID iDs and URLs
 #let mono(body) = text(font: "Liberation Mono", size: 0.75em, body)
@@ -39,7 +40,6 @@
   date: none,
   body,
 ) = {
-  // 脚注の中の `@thm:...` にも効かせるため，文書の最も外側で適用する
   show: thmrules.with(qed-symbol: [❏])
 
   set document(author: authors.map(a => a.name), title: title)
@@ -214,7 +214,27 @@
 #let proves = $class("relation", tack.r)$
 // Derivability by a proof-tree of height at most `h`; `proves^h` would put `h` above the turnstile
 #let provesh(h) = $attach(proves, tr: #h)$
+#let nproves = $class("relation", tack.r.not)$
 #let forces = $class("relation", std.sym.forces)$
+#let nforces = $class("relation", std.sym.forces.not)$
+#let models = $class("relation", tack.rr)$
+#let nmodels = $class("relation", tack.rr.not)$
+
+// Satisfaction in modal (`M`) and propositional (`P`) Kripke models, when both appear together
+#let mmodels = $attach(models, br: upright("M"))$
+#let nmmodels = $attach(nmodels, br: upright("M"))$
+#let pmodels = $attach(models, br: upright("P"))$
+#let npmodels = $attach(nmodels, br: upright("P"))$
+// The persistent valuation obtained from a valuation of a modal Kripke model
+#let pforces = $attach(forces, br: upright("P"))$
+
+// The accessibility relation and the valuation of an ω-extension
+#let omegaprec = $attach(prec, tr: omega)$
+#let omegasucc = $attach(succ, tr: omega)$
+#let omegaforces = $attach(forces, tr: omega)$
+
+// The set of subformulas
+#let Subfml = $op("Sub")$
 
 #let Box = $class("unary", square)$
 #let lconj = $and.big$
@@ -291,7 +311,10 @@
 
 // A proof-tree wider than the text, centered and overflowing both margins instead of wrapping its premises
 // It is a block with the same vertical margins as a display equation.
-#let wide(x) = block(width: 100%, above: 1em, below: 1em, align(center, box(width: 0pt, align(center, box(width: 1000pt, align(center, x))))))
+#let wide(x) = block(width: 100%, above: 1em, below: 1em, align(center, box(width: 0pt, align(center, box(
+  width: 1000pt,
+  align(center, x),
+)))))
 
 // Rules or proof-trees side by side, aligned at the conclusions
 #let side-by-side(align: center + bottom, ..xs) = block(width: 100%, above: 1em, below: 1em, std.align(center, grid(

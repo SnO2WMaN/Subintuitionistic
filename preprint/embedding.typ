@@ -1744,7 +1744,645 @@ unboxing $Box p$ merely adds $p$ to $Phi_1$, so the induction hypothesis applies
 
 = Semantics <sect:semantics>
 
-// TODO:
+In this section, we discuss Kripke semantics for $LogicSPL$ and $LogicDPL$.
+Kripke semantics for $LogicFPL$ was already studied by Visser @Vis81.
+
+#definition[
+  An _$LogicFPL$-frame_ $chevron.l W, prec chevron.r$ is a pair of a nonempty set $W$ and a binary relation $prec$ on $W$ that is transitive and conversely well-founded, that is, there is no infinite ascending chain $x_1 prec x_2 prec dots.c$.
+  An _$LogicFPL$-model_ $chevron.l W, prec, forces chevron.r$ is a triple of an $LogicFPL$-frame $chevron.l W, prec chevron.r$ and a valuation $forces colon W times PropVar -> 2$ that is persistent on $chevron.l W, prec chevron.r$.
+  Here, a valuation $forces$ is _persistent_ on $chevron.l W, prec chevron.r$ if, for all $x, y in W$ and $p in PropVar$, $x prec y$ and $x forces p$ imply $y forces p$.
+  We write $x in F$ or $x in M$ for a point $x$ of a frame $F$ or a model $M$.
+
+  For an $LogicFPL$-model $M = chevron.l W, prec, forces chevron.r$, a point $x in M$ and a formula $A in FmlPL$, the satisfaction relation $M, x models A$ is defined as follows; we write $x models A$ when $M$ is clear from the context.
+  - $M, x models p$ iff $x forces p$.
+  - $M, x nmodels bot$.
+  - $M, x models A and B$ iff $M, x models A$ and $M, x models B$.
+  - $M, x models A or B$ iff $M, x models A$ or $M, x models B$.
+  - $M, x models A -> B$ iff, for every $y succ x$, $M, y models A$ implies $M, y models B$.
+
+  For a finite set $Gamma subset.eq FmlPL$, we write $x models Gamma$ if $x models A$ for all $A in Gamma$.
+  For a sequent $Gamma seq(level) Delta$, we write $M, x models Gamma seq(level) Delta$ if $x models Gamma$ implies $x models B$ for some $B in Delta$; the level $level$ plays no role in satisfaction.
+] <def:fpl_model>
+
+A conversely well-founded relation is irreflexive, since $x prec x$ would yield an infinite ascending chain $x prec x prec dots.c$.
+Note also that, unlike Kripke semantics for intuitionistic propositional logic $LogicInt$, whether $x models A -> B$ holds does not depend on the satisfaction of $A$ and $B$ at $x$ itself.
+
+The persistency of valuations extends to all formulas.
+
+#lemma[
+  Let $M$ be an $LogicFPL$-model and $x, y in M$.
+  If $x prec y$ and $x models A$, then $y models A$.
+] <lem:fpl_persist>
+
+#proof[
+  By induction on $A$.
+  The case of $A equiv p$ follows from the persistency of the valuation.
+  The case of $A equiv B -> C$ follows from the fact that $y prec z$ implies $x prec z$ for all $z$, since $x prec y$ and $prec$ is transitive.
+  The other cases are immediate from the induction hypothesis.
+]
+
+We next introduce some notions concerning sequences of points in a model.
+
+#definition[
+  Let $M$ be an $LogicFPL$-model.
+  A sequence $(x_n)_(n < omega)$ of points of $M$ is an _infinite descending chain_ if $x_(n + 1) prec x_n$ for all $n$.
+  By the transitivity of $prec$, $n > m$ implies $x_n prec x_m$.
+
+  An infinite descending chain $(x_n)_(n < omega)$ of $M$ _converges_ to a point $y in M$ if the following two conditions hold.
+  - $y prec x_n$ for all $n$.
+  - For every $z succ y$, there exists $N_z$ such that $x_n prec z$ for all $n >= N_z$.
+
+  A formula $A$ is _eventually always satisfied_ on an infinite descending chain $(x_n)_(n < omega)$ if there exists $N$ such that $x_n models A$ for all $n >= N$.
+  This notion is defined for sequents in the same way.
+] <def:descending_chain>
+
+#lemma[
+  Let $(x_n)_(n < omega)$ be an infinite descending chain of an $LogicFPL$-model $M$, and let $A in FmlPL$.
+  Then either $x_n models A$ for all $n$, or there exists $N$ such that $x_n nmodels A$ for all $n >= N$.
+] <lem:chain_persist>
+
+#proof[
+  Suppose that $x_N nmodels A$ for some $N$, and let $n >= N$.
+  If $n = N$, there is nothing to prove.
+  If $n > N$, then $x_n prec x_N$, so $x_n models A$ would imply $x_N models A$ by @lem:fpl_persist, a contradiction.
+  Hence $x_n nmodels A$.
+]
+
+Following @KKIM25, we next define an operation that adds infinitely many points to a model.
+While @KKIM25 defines it for an arbitrary limit ordinal $kappa$, we deal only with the case of $omega$ for simplicity.
+
+#definition[$omega$-extension][
+  Let $F = chevron.l W, prec chevron.r$ be an $LogicFPL$-frame and $r in F$.
+  Adding new points $t_n$ ($n <= omega$) not in $W$, we define a frame $F^omega = chevron.l W^omega, omegaprec chevron.r$ as follows, and call it the _$omega$-extension_ of $F$ at $r$.
+  - $W^omega := W union {t_n colon n <= omega}$.
+  - $x omegaprec y$ iff one of the following holds.
+    + $x, y in W$ and $x prec y$.
+    + $x = t_n$ and $y = t_m$ for some $n > m$.
+    + $x = t_n$ for some $n <= omega$, $y in W$, and either $y = r$ or $r prec y$.
+  We call $(t_n)_(n < omega)$ the _tail_ and $t_omega$ the _bottom_ of $F^omega$.
+
+  For an $LogicFPL$-model $M = chevron.l W, prec, forces chevron.r$, we say that $M^omega = chevron.l W^omega, omegaprec, omegaforces chevron.r$ is an _$omega$-extension_ of $M$ at $r$ if $chevron.l W^omega, omegaprec chevron.r$ is the $omega$-extension of $chevron.l W, prec chevron.r$ at $r$ and $omegaforces$ is a valuation on $W^omega$ satisfying the following two conditions.
+  + $omegaforces$ is persistent on $chevron.l W^omega, omegaprec chevron.r$.
+  + $x forces p <==> x omegaforces p$ for all $x in W$ and $p in PropVar$; that is, $omegaforces$ is the same as $forces$ on $W$.
+] <def:omega_ext>
+
+@fig:omega_ext illustrates the shape of an $omega$-extension.
+We have $t_n omegaprec y$ exactly when $y = t_m$ for some $m$ with $n > m$, $y = r$, or $r prec y$.
+In particular, the bottom $t_omega$ satisfies $t_omega omegaprec t_n$ for all points $t_n$ of the tail.
+
+#figure(
+  canvas({
+    import draw: *
+    circle((0, 3.3), radius: (2.4, 1.25), stroke: luma(140))
+    content((2.9, 4.1), $W$)
+    circle((0, 2.5), radius: 0.07, fill: black)
+    content((0.5, 2.4), $r$)
+    circle((-1.0, 3.6), radius: 0.07, fill: black)
+    circle((1.0, 3.7), radius: 0.07, fill: black)
+    circle((0.2, 4.2), radius: 0.07, fill: black)
+    line((-0.07, 2.57), (-0.93, 3.53), mark: (end: "stealth", fill: black))
+    line((0.07, 2.57), (0.93, 3.63), mark: (end: "stealth", fill: black))
+    line((0.02, 2.6), (0.18, 4.1), mark: (end: "stealth", fill: black))
+    circle((0, 1.3), radius: 0.07, fill: black)
+    content((0.5, 1.3), $t_0$)
+    circle((0, 0.2), radius: 0.07, fill: black)
+    content((0.5, 0.2), $t_1$)
+    content((0, -0.75), $dots.v$)
+    line((0, 1.4), (0, 2.4), mark: (end: "stealth", fill: black))
+    line((0, 0.3), (0, 1.2), mark: (end: "stealth", fill: black))
+    line((0, -0.45), (0, 0.1), mark: (end: "stealth", fill: black))
+    circle((0, -1.8), radius: 0.07, fill: black)
+    content((0.55, -1.8), $t_omega$)
+    line((0, -1.7), (0, -1.1), mark: (end: "stealth", fill: black))
+    content((-1.6, 0.4), [tail])
+    content((-1.6, -1.8), [bottom])
+    line((-1.0, 1.55), (-1.0, -0.95), stroke: (paint: luma(140), thickness: 0.5pt))
+  }),
+  caption: [The $omega$-extension at $r$. An arrow from $x$ to $y$ indicates $x omegaprec y$; arrows that follow by transitivity are omitted.],
+) <fig:omega_ext>
+
+#lemma[
+  The $omega$-extension of an $LogicFPL$-frame is an $LogicFPL$-frame.
+  Consequently, an $omega$-extension of an $LogicFPL$-model is an $LogicFPL$-model.
+] <lem:omega_ext_frame>
+
+#proof[
+  For models, the persistency of the valuation of an $omega$-extension is required by definition, so it suffices to consider frames.
+  #struct[Transitivity][
+    Suppose $x omegaprec y omegaprec z$.
+    If $y in W$, then $z in W$ and $y prec z$, since no point of $W$ has a point outside $W$ above it.
+    In this case, if $x in W$ then $x prec y$, so $x prec z$ by the transitivity of $prec$.
+    If $x = t_n$, then $y = r$ or $r prec y$, so in either case $r prec z$, and hence $x omegaprec z$.
+    If $y = t_m$, then $x = t_n$ with $n > m$.
+    If $z = t_k$, then $n > m > k$, so $x omegaprec z$.
+    If $z in W$, then $z = r$ or $r prec z$ since $y omegaprec z$, so $x omegaprec z$.
+  ]
+  #struct[Converse well-foundedness][
+    Suppose there is an infinite ascending chain $x_1 omegaprec x_2 omegaprec dots.c$.
+    No point of $W$ has a point of the tail or the bottom above it, so if some $x_i$ belongs to $W$, then all subsequent points belong to $W$, and we obtain an infinite ascending chain with respect to $prec$, a contradiction.
+    Hence every $x_i$ is a point of the tail or the bottom.
+    Writing $x_i = t_(n_i)$, we obtain $n_1 > n_2 > dots.c$, which is impossible since there is no infinite strictly decreasing sequence in $omega + 1$.
+  ]
+]
+
+To verify that the valuation of an $omega$-extension of a model is persistent, we prepare the following reformulation.
+
+#lemma[
+  Let $M = chevron.l W, prec, forces chevron.r$ be an $LogicFPL$-model, let $F^omega = chevron.l W^omega, omegaprec chevron.r$ be the $omega$-extension of $chevron.l W, prec chevron.r$ at a point $r in M$, and let $omegaforces$ be a valuation on $W^omega$ that is the same as $forces$ on $W$.
+  Then $omegaforces$ is persistent on $F^omega$ if and only if the following two conditions hold for all $p in PropVar$.
+  + If $n > m$, then $t_n omegaforces p ==> t_m omegaforces p$.
+  + $t_0 omegaforces p ==> r forces p$.
+] <lem:omega_ext_persist>
+
+#proof[
+  If $omegaforces$ is persistent, then the two conditions hold since $t_n omegaprec t_m$ for $n > m$ and $t_0 omegaprec r$.
+  Conversely, suppose that $x omegaprec y$ and $x omegaforces p$.
+  We distinguish the three cases of @def:omega_ext.
+  - If $x, y in W$, then $y omegaforces p$ since $forces$ is persistent.
+  - If $x = t_n$ and $y = t_m$, then $n > m$, so $y omegaforces p$ by condition (1).
+  - If $x = t_n$ and $y in W$, then $t_0 omegaforces p$ by condition (1), and hence $r forces p$ by condition (2).
+    If $y = r$, we are done.
+    If $r prec y$, then $y omegaforces p$ since $forces$ is persistent.
+]
+
+#lemma[
+  Let $M^omega$ be an $omega$-extension of an $LogicFPL$-model $M$.
+  For all $x in M$ and $A in FmlPL$, $M^omega, x models A <==> M, x models A$.
+] <lem:omega_ext_conservative>
+
+#proof[
+  By induction on $A$.
+  The valuation $omegaforces$ is the same as $forces$ on $W$, and every $y omegasucc x$ belongs to $M$ for $x in M$; hence the new points do not affect satisfaction at $x$.
+]
+
+#lemma[
+  Let $M^omega$ be an $omega$-extension of an $LogicFPL$-model $M$.
+  The tail $(t_n)_(n < omega)$ is an infinite descending chain of $M^omega$ and converges to the bottom $t_omega$.
+] <lem:omega_ext_converge>
+
+#proof[
+  $t_(n + 1) omegaprec t_n$ and $t_omega omegaprec t_n$ hold by @def:omega_ext.
+  Let $y omegasucc t_omega$.
+  If $y = t_m$ for some $m < omega$, then $t_n omegaprec t_m$ for all $n > m$.
+  If $y in W$, then $y = r$ or $r prec y$, so $t_n omegaprec y$ for all $n$.
+]
+
+Finally, we note the principle of induction on $LogicFPL$-frames.
+
+#remark[
+  To show that a property $P(x)$ holds for every point $x$ in an $LogicFPL$-frame, it suffices to show, for every $x$, that $P(x)$ holds whenever $P(y)$ holds for all $y succ x$.
+  Indeed, if $P(x_1)$ fails for some point $x_1$, then $P(x_2)$ fails for some $x_2 succ x_1$, and repeating this yields an infinite ascending chain with respect to $prec$, which contradicts the converse well-foundedness of $prec$.
+] <rem:fpl_induction>
+
+== Completeness
+
+For $level = 1$, recall from @sect:seq_DPL that $GentzenDPL$ restricted to level 1 has the same derivable sequents as the sequent calculus for $LogicFPL$ of @IKK01.
+Hence most of the arguments of @IKK01 can be used as they are; however, what is proved there is soundness with respect to _finite_ $LogicFPL$-frames.
+We extend this soundness to arbitrary $LogicFPL$-frames.
+
+#lemma[Soundness of $seq(1)$ in $GentzenDPL$][
+  If $GentzenDPL proves Gamma seq(1) Delta$, then $M, x models Gamma seq(1) Delta$ for every $LogicFPL$-model $M$ and every $x in M$.
+] <lem:GentzenDPL_sound1>
+
+#proof[
+  By induction on the derivation in $GentzenDPL$.
+  Fix an $LogicFPL$-model $M$.
+  All rules other than $RImpR(1, 1)$ are immediate from the definition of satisfaction, so we only consider $RImpR(1, 1)$.
+
+  Let the conclusion be $Gamma, Pi seq(1) A -> B$, where $Pi := {C_j -> D_j colon j < k}$, and use the notation of $RImpR(1, 1)$.
+  By the induction hypothesis, for every $I subset.eq {0, dots, k - 1}$ and every $x in M$, we have $x models Delta_I, Gamma, A -> B, A seq(1) B, Gamma_I$.
+  We show that $x models Gamma, Pi seq(1) A -> B$ for every $x in M$ by the induction of @rem:fpl_induction; that is, we assume that $y models Gamma, Pi seq(1) A -> B$ for all $y succ x$.
+  Suppose $x models Gamma union Pi$, and let $y succ x$ with $y models A$.
+  By @lem:fpl_persist, $y models Gamma union Pi$, so $y models A -> B$ by the assumption.
+  Let $I := {j < k colon y models D_j}$.
+  Since $y models Delta_I union Gamma union \{ A -> B, A \}$, we have $y models B$ or $y models C_j$ for some $j in.not I$.
+  In the latter case, $x models C_j -> D_j$ and $x prec y$ give $y models D_j$, which contradicts $j in.not I$.
+  Hence $y models B$, and therefore $x models A -> B$.
+]
+
+Conversely, @IKK01 proves completeness by directly constructing finite models.
+The following is an immediate consequence of their argument (the direct construction of finite models will be described later for $level = 2$).
+
+#theorem[Completeness of $seq(1)$ in $GentzenDPL$, cf. @IKK01[Theorem 3.3]][
+  For finite sets $Gamma, Delta subset.eq FmlPL$, the following are equivalent.
+  + $GentzenDPL proves Gamma seq(1) Delta$.
+  + $M, x models Gamma seq(1) Delta$ for every $LogicFPL$-model $M$ and every $x in M$.
+  + $M, x models Gamma seq(1) Delta$ for every finite $LogicFPL$-model $M$ and every $x in M$.
+] <thm:gentzen_dpl_complete1>
+
+#proof[
+  (1) to (2) is @lem:GentzenDPL_sound1, (2) to (3) is obvious, and (3) to (1) follows from @IKK01[Theorem 3.3].
+]
+
+We now turn to the semantics for $level = 2$.
+
+#lemma[
+  Let $(x_n)_(n < omega)$ be an infinite descending chain of an $LogicFPL$-model $M$, and let $A, B in FmlPL$.
+  Then there exists $N$ such that, for all $n >= N$, if $x_n models A -> B$ and $x_n models A$, then $x_n models B$.
+] <lem:chain_mp>
+
+#proof[
+  Apply @lem:chain_persist to $A -> B$.
+  If $x_n models A -> B$ for all $n$, let $N := 0$.
+  Indeed, if $x_n models A$, then $x_(n + 1) models A -> B$ and $x_(n + 1) prec x_n$ give $x_n models B$.
+  Otherwise, there exists $N$ such that $x_n nmodels A -> B$ for all $n >= N$, and this $N$ works since the assumption $x_n models A -> B$ never holds for $n >= N$.
+]
+
+#lemma[Soundness of $seq(2)$ in $GentzenDPL$][
+  If $GentzenDPL proves Gamma seq(2) Delta$, then $Gamma seq(2) Delta$ is eventually always satisfied on every infinite descending chain of every $LogicFPL$-model.
+] <lem:gentzen_dpl_sound2>
+
+#proof[
+  By induction on the derivation in $GentzenDPL$.
+  Fix an $LogicFPL$-model $M$ and an infinite descending chain $(x_n)_(n < omega)$ of $M$, and consider the last rule of the derivation.
+  #struct[$RAx(2)$, $RBotL(2)$][
+    $x_n models Gamma seq(2) Delta$ for all $n$, so $N := 0$ works.
+  ]
+  #struct[$RLift(1, 2)$][
+    The premise $Gamma seq(1) Delta$ is satisfied at every point of $M$ by @lem:GentzenDPL_sound1, so $N := 0$ works.
+  ]
+  #struct[$RWk(2, 2)$, $RAndL(2, 2)$, $RAndR(2, 2)$, $ROrL(2, 2)$, $ROrR(2, 2)$][
+    By the induction hypothesis, we obtain $N$ for the premise (or $N_1, N_2$ if there are two premises).
+    Taking this $N$ (or $max(N_1, N_2)$), the conclusion is satisfied by the definition of satisfaction.
+  ]
+  #struct[$RImpL(2, 2)$][
+    Let the conclusion be $A -> B, Gamma seq(2) Delta$.
+    Let $N_1$ and $N_2$ be obtained from the induction hypothesis for the premises $Gamma seq(2) Delta, A$ and $B, Gamma seq(2) Delta$, let $N_3$ be as in @lem:chain_mp, and let $N := max(N_1, N_2, N_3)$.
+    Let $n >= N$, and suppose $x_n models A -> B$ and $x_n models Gamma$.
+    By the first premise, $x_n$ satisfies some formula in $Delta$, or $x_n models A$.
+    In the latter case, $x_n models B$ by @lem:chain_mp, and then $x_n$ satisfies some formula in $Delta$ by the second premise.
+  ]
+]
+
+In @thm:gentzen_dpl_complete1 we omitted the proof of completeness by directly constructing finite models; we give it for $level = 2$.
+We first make some definitions on sequents.
+
+#definition[
+  Let $Gamma, Gamma', Delta, Delta' subset.eq FmlPL$ be finite sets.
+  We write $Gamma seq(level) Delta subset.eq Gamma' seq(level) Delta'$ if $Gamma subset.eq Gamma'$ and $Delta subset.eq Delta'$.
+
+  A sequent $Gamma seq(level) Delta$ is _$and or$-saturated_ if it satisfies the following four conditions.
+  - If $A and B in Gamma$, then $A in Gamma$ and $B in Gamma$.
+  - If $A and B in Delta$, then $A in Delta$ or $B in Delta$.
+  - If $A or B in Gamma$, then $A in Gamma$ or $B in Gamma$.
+  - If $A or B in Delta$, then $A in Delta$ and $B in Delta$.
+
+  A sequent $Gamma seq(level) Delta$ is _$->$-left-saturated_ if it satisfies the following condition.
+  - If $A -> B in Gamma$, then $A in Delta$ or $B in Gamma$.
+
+  Let $Lambda subset.eq FmlPL$ be a subformula closed finite set.
+  A sequent $Gamma seq(level) Delta$ is _$Lambda$-maximal_ if it satisfies the following three conditions.
+  - $Gamma union Delta subset.eq Lambda$.
+  - $GentzenDPL nproves Gamma seq(level) Delta$.
+  - For every $A in Lambda$, if $A in.not Gamma$ then $GentzenDPL proves A, Gamma seq(level) Delta$, and if $A in.not Delta$ then $GentzenDPL proves Gamma seq(level) Delta, A$.
+] <def:saturated>
+
+From now on, $Lambda$ denotes a subformula closed finite set.
+
+#lemma[Lindenbaum Lemma][
+  Suppose $Gamma union Delta subset.eq Lambda$ and $GentzenDPL nproves Gamma seq(level) Delta$.
+  Then there exists a $Lambda$-maximal sequent $Gamma^+ seq(level) Delta^+ supset.eq Gamma seq(level) Delta$.
+] <lem:lindenbaum>
+
+#proof[
+  The set ${Gamma' seq(level) Delta' supset.eq Gamma seq(level) Delta colon Gamma' union Delta' subset.eq Lambda, GentzenDPL nproves Gamma' seq(level) Delta'}$ is finite since $Lambda$ is finite, and nonempty since it contains $Gamma seq(level) Delta$.
+  Hence we can take a $subset.eq$-maximal element $Gamma^+ seq(level) Delta^+$ of it.
+  If $A in Lambda$ and $A in.not Gamma^+$, then $Gamma^+ seq(level) Delta^+ subset.neq A, Gamma^+ seq(level) Delta^+$, so $GentzenDPL proves A, Gamma^+ seq(level) Delta^+$ by $subset.eq$-maximality.
+  The case $A in.not Delta^+$ is similar.
+]
+
+#lemma[
+  + A $Lambda$-maximal sequent $Gamma seq(level) Delta$ is $and or$-saturated.
+  + A $Lambda$-maximal sequent $Gamma seq(2) Delta$ is $->$-left-saturated.
+] <lem:maximal_saturated>
+
+#proof[
+  (1) is shown from the rules for $and$ and $or$ in the same way as (2).
+  We show (2).
+  Let $Gamma seq(2) Delta$ be $Lambda$-maximal and $A -> B in Gamma$.
+  Since $Lambda$ is subformula closed, $A, B in Lambda$.
+  Suppose $A in.not Delta$ and $B in.not Gamma$.
+  Then $GentzenDPL proves Gamma seq(2) Delta, A$ and $GentzenDPL proves B, Gamma seq(2) Delta$ by the $Lambda$-maximality.
+  By $RImpL(2, 2)$, $GentzenDPL proves A -> B, Gamma seq(2) Delta$, that is, $GentzenDPL proves Gamma seq(2) Delta$, a contradiction.
+]
+
+#lemma[Truth lemma on tail of $omega$-extension][
+  Let $Gamma seq(level) Delta$ be an $and or$-saturated and $->$-left-saturated sequent.
+  Let $M = chevron.l W, prec, forces chevron.r$ be an $LogicFPL$-model, and let $r in M$ be a point with $M, r nmodels Gamma seq(level) Delta$, that is, $r$ satisfies every formula in $Gamma$ and no formula in $Delta$.
+  Let $M^omega$ be an $omega$-extension of $M$ at $r$ such that $t_n omegaforces p <==> r forces p$ for all $p in PropVar$ and $n < omega$.
+  Then, for all $A in FmlPL$ and $n < omega$, the following hold.
+  - If $A in Gamma$, then $M^omega, t_n models A$.
+  - If $A in Delta$, then $M^omega, t_n nmodels A$.
+] <lem:truth_tail>
+
+#proof[
+  By @lem:omega_ext_conservative, $M^omega, y models A <==> M, y models A$ for $y = r$ and every $y succ r$.
+  In particular, $M^omega, r models A$ if $A in Gamma$, and $M^omega, r nmodels A$ if $A in Delta$.
+  We show the claim by induction on $A$, simultaneously for all $n < omega$.
+  #struct[$A equiv p$][
+    $t_n omegaforces p <==> r forces p$, and $r forces p$ if $p in Gamma$, and $r nforces p$ if $p in Delta$.
+  ]
+  #struct[$A equiv bot$][
+    Since $M^omega, r nmodels bot$, we have $bot in.not Gamma$.
+    If $bot in Delta$, then $M^omega, t_n nmodels bot$.
+  ]
+  #struct[$A equiv B and C$, $A equiv B or C$][
+    By the $and or$-saturation and the induction hypothesis.
+  ]
+  #struct[$A equiv B -> C in Gamma$][
+    Let $y omegasucc t_n$.
+    Then $y = t_m$ for some $m < n$, $y = r$, or $y succ r$.
+    We show that $M^omega, y models B$ implies $M^omega, y models C$.
+    If $y succ r$, this follows from $M^omega, r models B -> C$.
+    Suppose $y = t_m$ or $y = r$.
+    By the $->$-left-saturation, $B in Delta$ or $C in Gamma$.
+    If $B in Delta$, then $M^omega, y nmodels B$ by the induction hypothesis (or by the remark above if $y = r$), so the claim holds.
+    If $C in Gamma$, then $M^omega, y models C$ similarly.
+  ]
+  #struct[$A equiv B -> C in Delta$][
+    Since $M^omega, r nmodels B -> C$, there exists $y succ r$ such that $M^omega, y models B$ and $M^omega, y nmodels C$.
+    Since $y omegasucc t_n$ as well, we have $M^omega, t_n nmodels B -> C$.
+  ]
+]
+
+#theorem[Completeness of $seq(2)$ in $GentzenDPL$][
+  For finite sets $Gamma, Delta subset.eq FmlPL$, the following are equivalent.
+  + $GentzenDPL proves Gamma seq(2) Delta$.
+  + $Gamma seq(2) Delta$ is eventually always satisfied on every infinite descending chain of every $LogicFPL$-model.
+  + $Gamma seq(2) Delta$ is eventually always satisfied on the tail $(t_n)_(n < omega)$ of every $omega$-extension of every $LogicFPL$-model.
+  + $Gamma seq(2) Delta$ is eventually always satisfied on the tail $(t_n)_(n < omega)$ of every $omega$-extension of every finite $LogicFPL$-model.
+] <thm:gentzen_dpl_complete2>
+
+#proof[
+  (1) to (2) is @lem:gentzen_dpl_sound2.
+  (2) to (3) holds since an $omega$-extension is an $LogicFPL$-model by @lem:omega_ext_frame, and its tail is an infinite descending chain by @lem:omega_ext_converge.
+  (3) to (4) is obvious.
+
+  We show (4) to (1) by contraposition.
+  Suppose $GentzenDPL nproves Gamma seq(2) Delta$, and let $Lambda := Subfml(Gamma union Delta)$.
+  By @lem:lindenbaum, there is a $Lambda$-maximal sequent $Gamma^+ seq(2) Delta^+ supset.eq Gamma seq(2) Delta$, and it is $and or$-saturated and $->$-left-saturated by @lem:maximal_saturated.
+  If $GentzenDPL proves Gamma^+ seq(1) Delta^+$, then $GentzenDPL proves Gamma^+ seq(2) Delta^+$ by $RLift(1, 2)$; hence $GentzenDPL nproves Gamma^+ seq(1) Delta^+$.
+  By @thm:gentzen_dpl_complete1, there exist a finite $LogicFPL$-model $M = chevron.l W, prec, forces chevron.r$ and a point $r in M$ such that $M, r nmodels Gamma^+ seq(1) Delta^+$.
+  Define an $omega$-extension $M^omega$ of $M$ at $r$ by letting $omegaforces$ be the same as $forces$ on $W$ and $t_n omegaforces p <==> r forces p$ for $n <= omega$.
+  It satisfies the two conditions of @lem:omega_ext_persist, so it is persistent, and hence $M^omega$ is an $omega$-extension of $M$.
+  Moreover, $M^omega$ satisfies the assumptions of @lem:truth_tail, so for every $n < omega$, $t_n$ satisfies every formula in $Gamma subset.eq Gamma^+$ and no formula in $Delta subset.eq Delta^+$.
+  Therefore $Gamma seq(2) Delta$ is not satisfied at any point of the tail, and in particular it is not eventually always satisfied.
+]
+
+Finally, we give the semantics for $level = 3$.
+
+#lemma[Soundness of $seq(3)$ in $GentzenDPL$][
+  Suppose $GentzenDPL proves Gamma seq(3) Delta$.
+  Let $M$ be an $LogicFPL$-model and $y in M$.
+  If there is an infinite descending chain converging to $y$, then $M, y models Gamma seq(3) Delta$.
+] <lem:gentzen_dpl_sound3>
+
+#proof[
+  By induction on the derivation in $GentzenDPL$.
+  Fix $M$, $y$, and an infinite descending chain $(x_k)_(k < omega)$ converging to $y$, and consider the last rule of the derivation.
+  All rules other than $RLift(2, 3)$ are immediate from the definition of satisfaction.
+  Let the premise of $RLift(2, 3)$ be $Pi_1, Phi seq(2) Pi_2$, where $Pi_1 := {A_i -> B_i colon i < n}$, $Pi_2 := {C_j -> D_j colon j < m}$, and $Phi$ is a finite set of propositional variables.
+  Suppose $M, y models Pi_1 union Phi$ and $M, y nmodels C_j -> D_j$ for all $j < m$; we derive a contradiction.
+
+  By @lem:gentzen_dpl_sound2 applied to the premise, there exists $N$ such that $M, x_k models Pi_1, Phi seq(2) Pi_2$ for all $k >= N$.
+  By convergence, $y prec x_k$ for all $k$, so $M, x_k models Pi_1 union Phi$ by @lem:fpl_persist.
+  Hence, for every $k >= N$, there exists $j < m$ with $M, x_k models C_j -> D_j$.
+
+  On the other hand, for each $j < m$, since $M, y nmodels C_j -> D_j$, there exists $z_j succ y$ with $M, z_j models C_j$ and $M, z_j nmodels D_j$.
+  By convergence, for each $j$ there exists $N_j$ such that $x_k prec z_j$ for all $k >= N_j$.
+
+  Let $k := max(N, N_0, dots, N_(m - 1))$.
+  Then $M, x_k models C_j -> D_j$ for some $j < m$, and since $x_k prec z_j$ and $M, z_j models C_j$, we have $M, z_j models D_j$, a contradiction.
+]
+
+#theorem[Completeness of $seq(3)$ in $GentzenDPL$][
+  For finite sets $Gamma, Delta subset.eq FmlPL$, the following are equivalent.
+  + $GentzenDPL proves Gamma seq(3) Delta$.
+  + $M, y models Gamma seq(3) Delta$ for every $LogicFPL$-model $M$ and every $y in M$ to which some infinite descending chain converges.
+  + $M^omega, t_omega models Gamma seq(3) Delta$ for the bottom $t_omega$ of every $omega$-extension $M^omega$ of every $LogicFPL$-model.
+  + $M^omega, t_omega models Gamma seq(3) Delta$ for the bottom $t_omega$ of every $omega$-extension $M^omega$ of every finite $LogicFPL$-model.
+] <thm:gentzen_dpl_complete3>
+
+#proof[
+  (1) to (2) is @lem:gentzen_dpl_sound3.
+  (2) to (3) holds since an $omega$-extension is an $LogicFPL$-model by @lem:omega_ext_frame, and its tail converges to its bottom by @lem:omega_ext_converge.
+  (3) to (4) is obvious.
+
+  We show (4) to (1) by contraposition.
+  Suppose $GentzenDPL nproves Gamma seq(3) Delta$, and let $Lambda := Subfml(Gamma union Delta)$.
+  By @lem:lindenbaum, there is a $Lambda$-maximal sequent $Gamma^+ seq(3) Delta^+ supset.eq Gamma seq(3) Delta$, and it is $and or$-saturated by @lem:maximal_saturated.
+  Let $Gamma^+_->$ be the set of implications in $Gamma^+$, $Phi$ the set of propositional variables in $Gamma^+$, and $Delta^+_->$ the set of implications in $Delta^+$.
+
+  If $GentzenDPL proves Gamma^+_->, Phi seq(2) Delta^+_->$, then $GentzenDPL proves Gamma^+ seq(3) Delta^+$ by $RLift(2, 3)$ and $RWk(3, 3)$; hence $GentzenDPL nproves Gamma^+_->, Phi seq(2) Delta^+_->$.
+  By @lem:lindenbaum, there is a $Lambda$-maximal sequent $Gamma^+_2 seq(2) Delta^+_2 supset.eq Gamma^+_->, Phi seq(2) Delta^+_->$, and it is $and or$-saturated and $->$-left-saturated by @lem:maximal_saturated.
+  Since $GentzenDPL nproves Gamma^+_2 seq(1) Delta^+_2$ by $RLift(1, 2)$, by @thm:gentzen_dpl_complete1 there are a finite $LogicFPL$-model $M = chevron.l W, prec, forces chevron.r$ and a point $r in M$ such that $M, r nmodels Gamma^+_2 seq(1) Delta^+_2$.
+  Define an $omega$-extension $M^omega$ of $M$ at $r$ by the following valuation $omegaforces$.
+  - $x omegaforces p <==> x forces p$ for $x in W$.
+  - $t_n omegaforces p <==> r forces p$ for $n < omega$.
+  - $t_omega omegaforces p <==> p in Gamma^+$.
+  We check by @lem:omega_ext_persist that $omegaforces$ is persistent.
+  Condition (2), and condition (1) for $n < omega$, are obvious.
+  If $t_omega omegaforces p$, then $p in Gamma^+$, so $p in Phi subset.eq Gamma^+_2$, and hence $r forces p$ since $M, r models Gamma^+_2$; that is, $t_m omegaforces p$ for all $m < omega$.
+  Hence $omegaforces$ is persistent, and $M^omega$ is a well-defined $omega$-extension of $M$ at $r$.
+
+  #struct[Claim][
+    For every $A in FmlPL$, the following hold.
+    - If $A in Gamma^+$, then $M^omega, t_omega models A$.
+    - If $A in Delta^+$, then $M^omega, t_omega nmodels A$.
+
+    We show this by induction on $A$.
+    #struct[$A equiv p$][
+      If $p in Gamma^+$, then $M^omega, t_omega models p$ by the definition of $omegaforces$.
+      Suppose $p in Delta^+$.
+      If $M^omega, t_omega models p$, that is, $p in Gamma^+$, then $GentzenDPL proves Gamma^+ seq(3) Delta^+$ by $RAx(3)$ and $RWk(3, 3)$, a contradiction.
+      Hence $M^omega, t_omega nmodels p$.
+    ]
+    #struct[$A equiv bot$][
+      If $bot in Gamma^+$, then $GentzenDPL proves Gamma^+ seq(3) Delta^+$ by $RBotL(3)$ and $RWk(3, 3)$, a contradiction.
+      If $bot in Delta^+$, then $M^omega, t_omega nmodels bot$.
+    ]
+    #struct[$A equiv B and C$, $A equiv B or C$][
+      By the $and or$-saturation and the induction hypothesis.
+    ]
+    #struct[$A equiv B -> C in Gamma^+$][
+      We have $B -> C in Gamma^+_-> subset.eq Gamma_2^+$.
+      Since $M^omega$ satisfies the assumptions of @lem:truth_tail for $Gamma_2^+ seq(2) Delta_2^+$, $M$ and $r$, we have $M^omega, t_n models B -> C$ for all $n < omega$.
+      Let $y omegasucc t_omega$.
+      Then $y = t_n$ for some $n < omega$, $y = r$, or $y succ r$, and in each case there is a point $t$ of the tail with $t omegaprec y$: $t := t_(n + 1)$ if $y = t_n$, and $t := t_0$ otherwise.
+      Since $M^omega, t models B -> C$, $M^omega, y models B$ implies $M^omega, y models C$.
+      Hence $M^omega, t_omega models B -> C$.
+    ]
+    #struct[$A equiv B -> C in Delta^+$][
+      Since $B -> C in Delta^+_-> subset.eq Delta_2^+$, we have $M^omega, t_0 nmodels B -> C$ by @lem:truth_tail.
+      Since $t_omega omegaprec t_0$, we have $M^omega, t_omega nmodels B -> C$ by @lem:fpl_persist.
+    ]
+    This concludes the proof of the Claim.
+  ]
+  By the Claim and $Gamma seq(3) Delta subset.eq Gamma^+ seq(3) Delta^+$, we have $M^omega, t_omega nmodels Gamma seq(3) Delta$.
+]
+
+From the completeness for each level, we can also prove the cut-admissibility of $GentzenDPL$ (@cor:gentzen_dpl_cut) directly, without going through the embedding into modal logic.
+
+#proof[Semantical proof of @cor:gentzen_dpl_cut][
+  By induction on the derivation in $GentzenDPL + RCut(level, level)$.
+  Suppose the last rule is $RCut(level, level)$.
+  By the induction hypothesis, $GentzenDPL proves Gamma_1 seq(level) Delta_1, A$ and $GentzenDPL proves A, Gamma_2 seq(level) Delta_2$.
+  Let $M$ be an $LogicFPL$-model and $x in M$.
+  If $M, x models Gamma_1 seq(level) Delta_1, A$ and $M, x models A, Gamma_2 seq(level) Delta_2$, then $M, x models Gamma_1, Gamma_2 seq(level) Delta_1, Delta_2$.
+  Indeed, suppose $M, x models Gamma_1 union Gamma_2$.
+  By the first premise, $M, x$ satisfies some formula in $Delta_1$, or $M, x models A$; in the latter case, $M, x$ satisfies some formula in $Delta_2$ by the second premise.
+  Using this, we show $GentzenDPL proves Gamma_1, Gamma_2 seq(level) Delta_1, Delta_2$ for each level.
+  #struct[$level = 1$][
+    By @thm:gentzen_dpl_complete1, the two premises are satisfied at every point of every $LogicFPL$-model, and hence so is the conclusion.
+    Therefore the conclusion is derivable by @thm:gentzen_dpl_complete1.
+  ]
+  #struct[$level = 2$][
+    By @thm:gentzen_dpl_complete2, for every infinite descending chain $(x_n)_(n < omega)$ of every $LogicFPL$-model $M$, there exist $N_1$ and $N_2$ such that $M, x_n models Gamma_1 seq(2) Delta_1, A$ for all $n >= N_1$ and $M, x_n models A, Gamma_2 seq(2) Delta_2$ for all $n >= N_2$.
+    Hence $M, x_n models Gamma_1, Gamma_2 seq(2) Delta_1, Delta_2$ for all $n >= max(N_1, N_2)$, and the conclusion is derivable by @thm:gentzen_dpl_complete2.
+  ]
+  #struct[$level = 3$][
+    By @thm:gentzen_dpl_complete3, for every $LogicFPL$-model $M$ and every $y in M$ to which some infinite descending chain converges, the two premises are satisfied at $y$, and hence so is the conclusion.
+    Therefore the conclusion is derivable by @thm:gentzen_dpl_complete3.
+  ]
+]
+
+== Semantical proof of embedding theorem
+
+In this subsection, we give a semantical (and simpler) proof of the embedding theorem (@thm:iff_visser) of $GentzenDPL$ into $GentzenD$ via the Visser--Gödel translation.
+
+#definition[
+  A _$LogicGL$-model_ $M = chevron.l W, prec, forces chevron.r$ is a pair of an $LogicFPL$-frame $chevron.l W, prec chevron.r$ and a valuation $forces colon W times PropVar -> 2$.
+  The only difference from $LogicFPL$-models is that persistency is not required of the valuation.
+
+  For a $LogicGL$-model $M$, a point $x in M$ and $A in FmlML$, the satisfaction relation $M, x mmodels A$ for modal formulas is defined as follows.
+  - $M, x mmodels p$ iff $x forces p$.
+  - $M, x nmmodels bot$.
+  - $M, x mmodels A -> B$ iff $M, x mmodels A$ implies $M, x mmodels B$.
+  - $M, x mmodels Box A$ iff $M, y mmodels A$ for every $y succ x$.
+  Satisfaction of sets of formulas and of sequents is defined in the same way as for $LogicFPL$-models, and so are the notions of being eventually always satisfied on an infinite descending chain.
+
+  An _$omega$-extension_ of a $LogicGL$-model $M$ at $r$ is defined in the same way as @def:omega_ext, except that its valuation $omegaforces$ is only required to be the same as $forces$ on $W$, and persistency is not required.
+] <def:gl_model>
+
+An $LogicFPL$-model is a $LogicGL$-model whose valuation is persistent, and an $omega$-extension of an $LogicFPL$-model is also an $omega$-extension of it as a $LogicGL$-model.
+To avoid confusion, we write $pmodels$ for the satisfaction relation of propositional logic.
+
+#lemma[
+  Let $M$ be an $LogicFPL$-model.
+  For all $x in M$ and $A in FmlPL$, $M, x pmodels A <==> M, x mmodels A^Vis$.
+] <lem:fpl_to_gl>
+
+#proof[
+  By induction on $A$.
+  The cases of $bot$, $and$ and $or$ follow from the induction hypothesis.
+  #struct[$A equiv p$][
+    $M, x mmodels p^Vis$ means $M, x mmodels p and Box p$.
+    If $M, x mmodels p^Vis$, then $x forces p$, so $M, x pmodels p$.
+    Conversely, if $M, x pmodels p$, then $M, x mmodels Box p$ by the persistency of the valuation, so $M, x mmodels p^Vis$.
+  ]
+  #struct[$A equiv B -> C$][
+    $
+      M, x pmodels B -> C & <==> #text[for every $y succ x$, $M, y pmodels B$ implies $M, y pmodels C$] \
+                          & <==> #text[for every $y succ x$, $M, y mmodels B^Vis$ implies $M, y mmodels C^Vis$] \
+                          & <==> M, x mmodels Box(B^Vis -> C^Vis) \
+                          & <==> M, x mmodels (B -> C)^Vis
+    $
+  ]
+]
+
+#lemma[
+  Let $M = chevron.l W, prec, forces chevron.r$ be a $LogicGL$-model.
+  Define a valuation $pforces$ on $W$ by $x pforces p$ iff $x forces p$ and $y forces p$ for every $y succ x$, and let $M_upright("P") := chevron.l W, prec, pforces chevron.r$.
+  Then $M_upright("P")$ is an $LogicFPL$-model, and $M_upright("P"), x pmodels A <==> M, x mmodels A^Vis$ for all $x in W$ and $A in FmlPL$.
+] <lem:gl_to_fpl>
+
+#proof[
+  Suppose $x prec y$ and $x pforces p$.
+  Then $y forces p$, and every $z succ y$ satisfies $z succ x$ by the transitivity of $prec$, so $z forces p$; hence $y pforces p$.
+  Thus $pforces$ is persistent, and $M_upright("P")$ is an $LogicFPL$-model.
+  The equivalence is shown by induction on $A$.
+  The case $A equiv p$ is exactly the definition of $pforces$, since $M_upright("P"), x pmodels p$ iff $x pforces p$ iff $M, x mmodels p and Box p$.
+  The case $A equiv B -> C$ is as in @lem:fpl_to_gl, and the other cases follow from the induction hypothesis.
+]
+
+Neither @lem:fpl_to_gl nor @lem:gl_to_fpl changes the frame, and both are equivalences at each point.
+Hence they also hold for sequents: $M_upright("P"), x pmodels Gamma seq(level) Delta <==> M, x mmodels Gamma^Vis seq(level) Delta^Vis$ for every $LogicGL$-model $M$ and $x in M$, and $M, x pmodels Gamma seq(level) Delta <==> M, x mmodels Gamma^Vis seq(level) Delta^Vis$ for every $LogicFPL$-model $M$ and $x in M$.
+
+#lemma[
+  Let $M$ be a $LogicGL$-model and $M^omega$ an $omega$-extension of $M$ at $r$.
+  Then $M^omega_upright("P")$, obtained by the construction of @lem:gl_to_fpl, is an $omega$-extension of the $LogicFPL$-model $M_upright("P")$ at $r$.
+] <lem:gl_to_fpl_omega_ext>
+
+#proof[
+  The frames of $M^omega_upright("P")$ and $M_upright("P")$ are those of $M^omega$ and $M$, respectively, so the former is the $omega$-extension of the latter at $r$.
+  The valuation of $M^omega_upright("P")$ is persistent by @lem:gl_to_fpl.
+  Every $y omegasucc x$ belongs to $W$ for $x in W$, and the valuation of $M^omega$ is the same as that of $M$ on $W$, so the valuation of $M^omega_upright("P")$ is the same as that of $M_upright("P")$ on $W$.
+]
+
+We quote the following facts from @KKIM25.
+
+#proposition[Completeness of $seq(1)$ of $GentzenD$, cf. @KKIM25[Theorem 5.4]][
+  For finite sets $Gamma, Delta subset.eq FmlML$, the following are equivalent.
+  + $GentzenD proves Gamma seq(1) Delta$.
+  + $M, x mmodels Gamma seq(1) Delta$ for every point $x$ of every $LogicGL$-model $M$.
+] <prop:gentzen_d_complete1>
+
+#proposition[Completeness of $seq(2)$ of $GentzenD$, cf. @KKIM25[Theorem 5.6]][
+  For finite sets $Gamma, Delta subset.eq FmlML$, the following are equivalent.
+  + $GentzenD proves Gamma seq(2) Delta$.
+  + $Gamma seq(2) Delta$ is eventually always satisfied on the tail $(t_n)_(n < omega)$ of every $omega$-extension of every $LogicGL$-model.
+] <prop:gentzen_d_complete2>
+
+#proposition[Completeness of $seq(3)$ of $GentzenD$, cf. @KKIM25[Theorem 5.8]][
+  For finite sets $Gamma, Delta subset.eq FmlML$, the following are equivalent.
+  + $GentzenD proves Gamma seq(3) Delta$.
+  + $M^omega, t_omega mmodels Gamma seq(3) Delta$ for the bottom $t_omega$ of every $omega$-extension $M^omega$ of every $LogicGL$-model.
+] <prop:gentzen_d_complete3>
+
+Combining these propositions with the lemmas above, we can prove @thm:iff_visser semantically.
+
+#proof[Semantical proof of @thm:iff_visser][
+  We show $GentzenDPL proves Gamma seq(level) Delta <==> GentzenD proves Gamma^Vis seq(level) Delta^Vis$ for each $level = 1, 2, 3$.
+  #struct[$level = 1$][
+    By (2) of @thm:gentzen_dpl_complete1, the left side is equivalent to: $M, x pmodels Gamma seq(1) Delta$ for every point $x$ of every $LogicFPL$-model $M$.
+    By @prop:gentzen_d_complete1, the right side is equivalent to: $M, x mmodels Gamma^Vis seq(1) Delta^Vis$ for every point $x$ of every $LogicGL$-model $M$.
+    #struct[$(==>)$][
+      Let $M$ be a $LogicGL$-model and $x in M$.
+      Since $M_upright("P")$ is an $LogicFPL$-model by @lem:gl_to_fpl, we have $M_upright("P"), x pmodels Gamma seq(1) Delta$ by the assumption, and hence $M, x mmodels Gamma^Vis seq(1) Delta^Vis$ by @lem:gl_to_fpl.
+    ]
+    #struct[$(<==)$][
+      Let $M$ be an $LogicFPL$-model and $x in M$.
+      Since $M$ is a $LogicGL$-model, $M, x mmodels Gamma^Vis seq(1) Delta^Vis$ by the assumption, and hence $M, x pmodels Gamma seq(1) Delta$ by @lem:fpl_to_gl.
+    ]
+  ]
+  #struct[$level = 2$][
+    By (3) of @thm:gentzen_dpl_complete2, the left side is equivalent to: $Gamma seq(2) Delta$ is eventually always satisfied on the tail of every $omega$-extension of every $LogicFPL$-model.
+    By @prop:gentzen_d_complete2, the right side is equivalent to: $Gamma^Vis seq(2) Delta^Vis$ is eventually always satisfied on the tail of every $omega$-extension of every $LogicGL$-model.
+    #struct[$(==>)$][
+      Let $M$ be a $LogicGL$-model and $M^omega$ an $omega$-extension of $M$.
+      Since $M^omega_upright("P")$ is an $omega$-extension of the $LogicFPL$-model $M_upright("P")$ by @lem:gl_to_fpl_omega_ext, the assumption gives $N$ such that $M^omega_upright("P"), t_n pmodels Gamma seq(2) Delta$ for all $n >= N$.
+      By @lem:gl_to_fpl, $M^omega, t_n mmodels Gamma^Vis seq(2) Delta^Vis$ for all $n >= N$.
+    ]
+    #struct[$(<==)$][
+      Let $M$ be an $LogicFPL$-model and $M^omega$ an $omega$-extension of $M$.
+      Since $M^omega$ is also an $omega$-extension of the $LogicGL$-model $M$, the assumption gives $N$ such that $M^omega, t_n mmodels Gamma^Vis seq(2) Delta^Vis$ for all $n >= N$.
+      Since $M^omega$ is an $LogicFPL$-model by @lem:omega_ext_frame, $M^omega, t_n pmodels Gamma seq(2) Delta$ for all $n >= N$ by @lem:fpl_to_gl.
+    ]
+  ]
+  #struct[$level = 3$][
+    By (3) of @thm:gentzen_dpl_complete3, the left side is equivalent to: $M^omega, t_omega pmodels Gamma seq(3) Delta$ for the bottom $t_omega$ of every $omega$-extension $M^omega$ of every $LogicFPL$-model.
+    By @prop:gentzen_d_complete3, the right side is equivalent to: $M^omega, t_omega mmodels Gamma^Vis seq(3) Delta^Vis$ for the bottom $t_omega$ of every $omega$-extension $M^omega$ of every $LogicGL$-model.
+    #struct[$(==>)$][
+      Let $M$ be a $LogicGL$-model and $M^omega$ an $omega$-extension of $M$.
+      Since $M^omega_upright("P")$ is an $omega$-extension of the $LogicFPL$-model $M_upright("P")$ by @lem:gl_to_fpl_omega_ext, the assumption gives $M^omega_upright("P"), t_omega pmodels Gamma seq(3) Delta$, and hence $M^omega, t_omega mmodels Gamma^Vis seq(3) Delta^Vis$ by @lem:gl_to_fpl.
+    ]
+    #struct[$(<==)$][
+      Let $M$ be an $LogicFPL$-model and $M^omega$ an $omega$-extension of $M$.
+      Since $M^omega$ is also an $omega$-extension of the $LogicGL$-model $M$, the assumption gives $M^omega, t_omega mmodels Gamma^Vis seq(3) Delta^Vis$.
+      Since $M^omega$ is an $LogicFPL$-model by @lem:omega_ext_frame, $M^omega, t_omega pmodels Gamma seq(3) Delta$ by @lem:fpl_to_gl.
+    ]
+  ]
+]
 
 = Concluding remarks and open problems <sect:conclusion>
 
