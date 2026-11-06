@@ -1,6 +1,7 @@
 module
 
 public import Subintuitionistic.Modal.Sequent
+public import Mathlib.Order.Filter.AtTopBot.Basic
 
 /-!
 # Kripke semantics of `𝐆𝐋`
@@ -126,6 +127,12 @@ scoped[Modal] infix:45 " ⊧ " => Model.ValidateSequent
 
 lemma validateSequent_singleton_iff : M ⊧ (Γ ⟹ {A}) ↔ ∀ x : M.World, (∀ C ∈ Γ, x ⊩ C) → x ⊩ A :=
   forall_congr' fun _ ↦ imp_congr_right fun _ ↦ by simp
+
+/-- The sequence `s` converges to `r`: every `s n` is a successor of `r`, and every successor of
+`r` is a successor of `s n` for all large enough `n`. -/
+structure ConvergesTo (M : Model κ α) (s : ℕ → M.World) (r : M.World) : Prop where
+  rel : ∀ n, r ≺ s n
+  eventually_rel : ∀ y, r ≺ y → ∀ᶠ n in Filter.atTop, s n ≺ y
 
 instance [M.IsFiniteGL] : M.IsGL where
   converseWellFounded := Finite.wellFounded_of_trans_of_irrefl _

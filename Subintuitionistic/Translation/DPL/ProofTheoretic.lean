@@ -5,7 +5,7 @@ public import Subintuitionistic.Propositional.DPL.Basic
 public import Subintuitionistic.Translation.Basic
 
 /-!
-# The embedding of `𝐃𝐏𝐋` into `𝐃`
+# The embedding of `𝐃𝐏𝐋` into `𝐃` by transforming derivations
 -/
 
 @[expose] public section

@@ -38,6 +38,15 @@ scoped[Propositional] infixr:68 " ⋎ " => Formula.or
 
 @[simp] lemma falsum_eq : (falsum : Formula α) = ⊥ := rfl
 
+def neg (A : Formula α) : Formula α := A 🡒 ⊥
+scoped[Propositional] prefix:75 "∼" => Formula.neg
+
+@[simp, grind =] lemma neg_eq (A : Formula α) : ∼A = A 🡒 ⊥ := rfl
+
+instance : Top (Formula α) := ⟨∼⊥⟩
+
+@[simp, grind =] lemma top_eq : (⊤ : Formula α) = ∼⊥ := rfl
+
 @[grind =] lemma bot_eq_falsum : (⊥ : Formula α) = falsum := rfl
 
 @[elab_as_elim, induction_eliminator]

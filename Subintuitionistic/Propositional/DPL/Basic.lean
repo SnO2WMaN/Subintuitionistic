@@ -177,6 +177,58 @@ lemma impR_of_mem (hP : imps P ⊆ Γ) (hAB : A 🡒 B ∈ Δ)
     ⊢ᴳ[𝐃𝐏𝐋] Γ ⟹[0] Δ :=
   (impR d).wk (Finset.union_subset subset_rfl hP) (Finset.singleton_subset_iff.mpr hAB)
 
+lemma refl (ℓ : Fin 3) (A : Formula α) : ⊢ᴳ[𝐃𝐏𝐋] {A} ⟹[ℓ] {A} := by
+  induction A generalizing ℓ with
+  | atom a => exact axm ℓ a
+  | falsum => exact botL_mem (by simp)
+  | and A B ihA ihB =>
+    exact andL_of_mem (A := A) (B := B) (by simp) <| andR_of_mem (A := A) (B := B) (by simp)
+      ((ihA ℓ).wk (by simp) (by simp)) ((ihB ℓ).wk (by simp) (by simp))
+  | or A B ihA ihB =>
+    exact orR_of_mem (A := A) (B := B) (by simp) <| orL_of_mem (A := A) (B := B) (by simp)
+      ((ihA ℓ).wk (by simp) (by simp)) ((ihB ℓ).wk (by simp) (by simp))
+  | imp A B ihA ihB =>
+    have hAB : imps {(A, B)} = {A 🡒 B} := by simp [imps]
+    have d₀ : ⊢ᴳ[𝐃𝐏𝐋] ∅ ∪ imps {(A, B)} ⟹[0] {A 🡒 B} := impR fun I hI ↦ by
+      rcases Finset.subset_singleton_iff.mp hI with rfl | rfl
+      · exact (ihA 0).wk (by simp) (by simp)
+      · exact (ihB 0).wk (by simp) (by simp)
+    have d₁ : ⊢ᴳ[𝐃𝐏𝐋] imps {(A, B)} ∪ (∅ : Finset α).image (#·) ⟹[1] imps {(A, B)} :=
+      d₀.liftUp₀₁.wk (by simp) (by simp [hAB])
+    match ℓ with
+    | 0 => exact d₀.wk (by simp [hAB]) subset_rfl
+    | 1 => exact d₁.wk (by simp [hAB]) (by simp [hAB])
+    | 2 => exact d₁.liftUp₁₂.wk (by simp [hAB]) (by simp [hAB])
+
+lemma toFPL {S : LayeredSequent α} (h : ⊢ᴳ[𝐃𝐏𝐋] S) (hS : S.level = 0) : ⊢ᴳ[𝐅𝐏𝐋] S.toSequent := by
+  induction h with
+  | axm _ a => exact logicFPL.Derivable.axm _
+  | botL => exact logicFPL.Derivable.botL
+  | wk _ hΓ hΔ ih => exact (ih hS).wk hΓ hΔ
+  | andL _ ih => exact (ih hS).andL
+  | andR _ _ ih₁ ih₂ => exact .andR (ih₁ hS) (ih₂ hS)
+  | orL _ _ ih₁ ih₂ => exact .orL (ih₁ hS) (ih₂ hS)
+  | orR _ ih => exact (ih hS).orR
+  | impR _ ih => exact .impR fun I hI ↦ ih I hI rfl
+  | impL | liftUp₀₁ | liftUp₁₂ => nomatch hS
+
+lemma toFPL' (h : ⊢ᴳ[𝐃𝐏𝐋] Γ ⟹[0] Δ) : ⊢ᴳ[𝐅𝐏𝐋] Γ ⟹ Δ := toFPL (S := Γ ⟹[0] Δ) (by simpa) rfl
+
+lemma ofFPL {S : Sequent α} (h : ⊢ᴳ[𝐅𝐏𝐋] S) : ⊢ᴳ[𝐃𝐏𝐋] S.ant ⟹[0] S.suc := by
+  induction h with
+  | axm A => exact refl 0 A
+  | botL => exact botL 0
+  | wk _ hΓ hΔ ih => exact ih.wk hΓ hΔ
+  | andL _ ih => exact ih.andL
+  | andR _ _ ih₁ ih₂ => exact andR ih₁ ih₂
+  | orL _ _ ih₁ ih₂ => exact orL ih₁ ih₂
+  | orR _ ih => exact ih.orR
+  | impR _ ih => exact impR ih
+
+lemma ofFPL' (h : ⊢ᴳ[𝐅𝐏𝐋] Γ ⟹ Δ) : ⊢ᴳ[𝐃𝐏𝐋] Γ ⟹[0] Δ := ofFPL h
+
+theorem iff_FPL : ⊢ᴳ[𝐃𝐏𝐋] Γ ⟹[0] Δ ↔ ⊢ᴳ[𝐅𝐏𝐋] Γ ⟹ Δ := ⟨toFPL', ofFPL'⟩
+
 end logicDPL.Derivable
 
 end Propositional

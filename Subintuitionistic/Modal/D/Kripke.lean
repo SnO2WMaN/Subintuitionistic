@@ -2,7 +2,7 @@ module
 
 public import Subintuitionistic.Modal.D.Basic
 public import Subintuitionistic.Modal.GL.Kripke
-public import Subintuitionistic.Modal.Kripke.Tail
+public import Subintuitionistic.Modal.Kripke.Extension
 public import Mathlib.Order.Filter.AtTopBot.Basic
 public import Mathlib.Order.Filter.Finite
 
@@ -115,8 +115,8 @@ end
 lemma truthlemma_tail (hΛ : Λ.SubformulaClosed) {t : (logicGL.countermodel Λ).World}
     (hbox : ∀ {A}, □A ∈ t.ant → A ∈ t.ant) {V : ℕ∞ → α → Prop}
     (hV : ∀ (n : ℕ) a, V n a ↔ #a ∈ t.ant) (A : Formula α) (n : ℕ) :
-    (A ∈ t.ant → Sum.inr (n : ℕ∞) ⊩[(logicGL.countermodel Λ).attachTail t V] A) ∧
-      (A ∈ t.suc → Sum.inr (n : ℕ∞) ⊮[(logicGL.countermodel Λ).attachTail t V] A) := by
+    (A ∈ t.ant → Sum.inr (n : ℕ∞) ⊩[(logicGL.countermodel Λ).ωExtension t V] A) ∧
+      (A ∈ t.suc → Sum.inr (n : ℕ∞) ⊮[(logicGL.countermodel Λ).ωExtension t V] A) := by
   induction A generalizing n with
   | atom a =>
     have := logicGL.countermodel.truthlemma hΛ t (A := #a)
@@ -133,16 +133,16 @@ lemma truthlemma_tail (hΛ : Λ.SubformulaClosed) {t : (logicGL.countermodel Λ)
   | box A ih =>
     constructor
     · rintro hA (y | j) Rny
-      · apply attachTail.forces_inl.mpr
-        rcases attachTail.rel_inr_inl.mp Rny with rfl | Rty
+      · apply ωExtension.forces_inl.mpr
+        rcases ωExtension.rel_inr_inl.mp Rny with rfl | Rty
         · exact (logicGL.countermodel.truthlemma hΛ _).1 (hbox hA)
         · exact (logicGL.countermodel.truthlemma hΛ y).1 (Rty.1 A hA).1
-      · obtain ⟨m, rfl⟩ := ENat.ne_top_iff_exists.mp (ne_top_of_lt (attachTail.rel_inr_inr.mp Rny))
+      · obtain ⟨m, rfl⟩ := ENat.ne_top_iff_exists.mp (ne_top_of_lt (ωExtension.rel_inr_inr.mp Rny))
         exact (ih m).1 (hbox hA)
     · intro hA hn
       obtain ⟨y, Rty, hy⟩ : ∃ y, t ≺ y ∧ y ⊮ A := by
         simpa using (logicGL.countermodel.truthlemma hΛ t).2 hA
-      exact hy (attachTail.forces_inl.mp (hn (.inl y) (attachTail.rel_inr_inl.mpr (.inr Rty))))
+      exact hy (ωExtension.forces_inl.mp (hn (.inl y) (ωExtension.rel_inr_inl.mpr (.inr Rty))))
 
 /-- - [KKIM25, Theorem 5.6] -/
 theorem complete₁
@@ -153,8 +153,8 @@ theorem complete₁
   have hΛ := Sequent.subformulaClosed_subfmls (S := Γ ⟹ Δ)
   obtain ⟨t, ht, hbox⟩ := exists_countermodel_world hΛ Sequent.subset_subfmls hd
   have key := truthlemma_tail hΛ hbox (V := fun _ a ↦ #a ∈ t.ant) fun _ _ ↦ Iff.rfl
-  obtain ⟨n, hn⟩ := hc ((logicGL.countermodel (Γ ⟹ Δ).subfmls).attachTail t fun _ a ↦ #a ∈ t.ant)
-    (fun n ↦ .inr n) fun n ↦ attachTail.rel_inr_inr.mpr (by exact_mod_cast n.lt_succ_self)
+  obtain ⟨n, hn⟩ := hc ((logicGL.countermodel (Γ ⟹ Δ).subfmls).ωExtension t fun _ a ↦ #a ∈ t.ant)
+    (fun n ↦ .inr n) ωExtension.rel_inr_succ
   obtain ⟨D, hD, hnD⟩ := hn fun C hC ↦ (key C n).1 (ht.1 hC)
   exact (key D n).2 (ht.2 hD) hnD
 
@@ -164,8 +164,8 @@ section
 
 variable {κ : Type*} (M : Model κ α) [M.IsGL] {r : M.World} {w : ℕ → M.World}
 
-lemma forces_of_liftUp₁₂ (hrw : ∀ n, r ≺ w n) (hw : ∀ n, w (n + 1) ≺ w n)
-    (hcof : ∀ y, r ≺ y → ∀ᶠ n in atTop, w n ≺ y) (d : ⊢ᴳ[𝐃] Γ.box ⟹[1] Δ.box) :
+lemma forces_of_liftUp₁₂ (hw : ∀ n, w (n + 1) ≺ w n) (hwr : M.ConvergesTo w r)
+    (d : ⊢ᴳ[𝐃] Γ.box ⟹[1] Δ.box) :
     r ⊩ (Γ.box ⟹ Δ.box) := by
   intro hΓ
   by_contra hΔ
@@ -173,11 +173,11 @@ lemma forces_of_liftUp₁₂ (hrw : ∀ n, r ≺ w n) (hw : ∀ n, w (n + 1) ≺
     intro D hD
     have hrD : r ⊮ □D := fun hrD ↦ hΔ ⟨□D, FormulaFinset.mem_box.mpr ⟨D, hD, rfl⟩, hrD⟩
     obtain ⟨y, Rry, hy⟩ : ∃ y, r ≺ y ∧ y ⊮ D := by simpa using hrD
-    exact (hcof y Rry).mono fun n Rny hn ↦ hy (hn y Rny)
+    exact (hwr.eventually_rel y Rry).mono fun n Rny hn ↦ hy (hn y Rny)
   have h₂ : ∀ n, ∀ C ∈ Γ.box, w n ⊩ C := by
     intro n C hC
     obtain ⟨B, -, rfl⟩ := FormulaFinset.mem_box.mp hC
-    exact fun y Rny ↦ hΓ _ hC y (IsTrans.trans _ _ _ (hrw n) Rny)
+    exact fun y Rny ↦ hΓ _ hC y (IsTrans.trans _ _ _ (hwr.rel n) Rny)
   obtain ⟨n, hn₁, hn₂⟩ :=
     ((eventually_forces M hw d rfl).and ((eventually_all_finset Δ).mpr h₁)).exists
   obtain ⟨E, hE, hnE⟩ := hn₁ (h₂ n)
@@ -185,16 +185,15 @@ lemma forces_of_liftUp₁₂ (hrw : ∀ n, r ≺ w n) (hw : ∀ n, w (n + 1) ≺
   exact hn₂ D hD hnE
 
 /-- - [KKIM25, Theorem 5.8] -/
-theorem forces_of_level₂ (hrw : ∀ n, r ≺ w n) (hw : ∀ n, w (n + 1) ≺ w n)
-    (hcof : ∀ y, r ≺ y → ∀ᶠ n in atTop, w n ≺ y) {S : LayeredSequent α} (h : ⊢ᴳ[𝐃] S)
-    (hS : S.level = 2) : r ⊩ S.toSequent := by
+theorem forces_of_level₂ (hw : ∀ n, w (n + 1) ≺ w n) (hwr : M.ConvergesTo w r)
+    {S : LayeredSequent α} (h : ⊢ᴳ[𝐃] S) (hS : S.level = 2) : r ⊩ S.toSequent := by
   induction h with
   | axm => exact fun h ↦ ⟨_, Finset.mem_singleton_self _, h _ (Finset.mem_singleton_self _)⟩
   | botL => exact fun h ↦ (h _ (Finset.mem_singleton_self _)).elim
   | wk _ hΓ hΔ ih => exact forcesSequent_wk (ih hS) hΓ hΔ
   | impL _ _ ih₁ ih₂ => exact forcesSequent_impL (ih₁ hS) (ih₂ hS)
   | impR _ ih => exact forcesSequent_impR (ih hS)
-  | liftUp₁₂ d => exact forces_of_liftUp₁₂ M hrw hw hcof d
+  | liftUp₁₂ d => exact forces_of_liftUp₁₂ M hw hwr d
   | boxGL | boxL | liftUp₀₁ => nomatch hS
 
 end
@@ -205,8 +204,8 @@ lemma truthlemma_bottom (hΛ : Λ.SubformulaClosed) {U : Sequent α} (hU : U.Sat
     (ht : (U.ant.prebox.box ⟹ U.suc.prebox.box) ⊆ t.toSequent)
     {V : ℕ∞ → α → Prop} (hV : ∀ (n : ℕ) a, V n a ↔ #a ∈ t.ant) (hV' : ∀ a, V ⊤ a ↔ #a ∈ U.ant)
     (A : Formula α) :
-    (A ∈ U.ant → Sum.inr ⊤ ⊩[(logicGL.countermodel Λ).attachTail t V] A) ∧
-      (A ∈ U.suc → Sum.inr ⊤ ⊮[(logicGL.countermodel Λ).attachTail t V] A) := by
+    (A ∈ U.ant → Sum.inr ⊤ ⊩[(logicGL.countermodel Λ).ωExtension t V] A) ∧
+      (A ∈ U.suc → Sum.inr ⊤ ⊮[(logicGL.countermodel Λ).ωExtension t V] A) := by
   have hchain := truthlemma_tail hΛ hbox hV
   induction A with
   | atom a =>
@@ -222,20 +221,19 @@ lemma truthlemma_bottom (hΛ : Λ.SubformulaClosed) {U : Sequent α} (hU : U.Sat
         ht.1 (FormulaFinset.mem_box.mpr ⟨A, FormulaFinset.mem_prebox.mpr hA, rfl⟩)
       rintro (y | j) Rxy
       · exact (hchain (□A) 0).1 hA' (.inl y) Rxy
-      · obtain ⟨m, rfl⟩ := ENat.ne_top_iff_exists.mp (ne_top_of_lt (attachTail.rel_inr_inr.mp Rxy))
+      · obtain ⟨m, rfl⟩ := ENat.ne_top_iff_exists.mp (ne_top_of_lt (ωExtension.rel_inr_inr.mp Rxy))
         exact (hchain A m).1 (hbox hA')
     · intro hA hf
       have hA' : □A ∈ t.suc :=
         ht.2 (FormulaFinset.mem_box.mpr ⟨A, FormulaFinset.mem_prebox.mpr hA, rfl⟩)
       apply (hchain (□A) 0).2 hA'
       intro y Rxy
-      exact hf y (IsTrans.trans _ _ _ (attachTail.rel_inr_inr.mpr (ENat.natCast_lt_top 0)) Rxy)
+      exact hf y (IsTrans.trans _ _ _ (ωExtension.rel_inr_inr.mpr (ENat.natCast_lt_top 0)) Rxy)
 
 /-- - [KKIM25, Theorem 5.8] -/
 theorem complete₂
     (hc : ∀ {κ : Type u} (M : Model κ α) [M.IsGL] (r : M.World) (w : ℕ → M.World),
-      (∀ n, r ≺ w n) → (∀ n, w (n + 1) ≺ w n) → (∀ y, r ≺ y → ∀ᶠ n in atTop, w n ≺ y) →
-      r ⊩ (Γ ⟹ Δ)) :
+      (∀ n, w (n + 1) ≺ w n) → M.ConvergesTo w r → r ⊩ (Γ ⟹ Δ)) :
     ⊢ᴳ[𝐃] Γ ⟹[2] Δ := by
   by_contra hd
   have hΛ := Sequent.subformulaClosed_subfmls (S := Γ ⟹ Δ)
@@ -251,17 +249,8 @@ theorem complete₂
     exists_countermodel_world hΛ ⟨hsub.1.trans hUΛ.1, hsub.2.trans hUΛ.2⟩ hd₁
   let V : ℕ∞ → α → Prop := fun i a ↦ if i = ⊤ then #a ∈ U.ant else #a ∈ t.ant
   have key := truthlemma_bottom hΛ hsat hUd hbox ht (V := V) (by simp [V]) (by simp [V])
-  have hcof : ∀ y, ((logicGL.countermodel (Γ ⟹ Δ).subfmls).attachTail t V).Rel (.inr ⊤) y →
-      ∀ᶠ n : ℕ in atTop,
-        ((logicGL.countermodel (Γ ⟹ Δ).subfmls).attachTail t V).Rel (.inr n) y := by
-    rintro (y | j) Rxy
-    · exact .of_forall fun _ ↦ Rxy
-    · obtain ⟨m, rfl⟩ := ENat.ne_top_iff_exists.mp (ne_top_of_lt (attachTail.rel_inr_inr.mp Rxy))
-      exact eventually_atTop.mpr
-        ⟨m + 1, fun n hn ↦ attachTail.rel_inr_inr.mpr (by exact_mod_cast hn)⟩
-  have hr := hc ((logicGL.countermodel (Γ ⟹ Δ).subfmls).attachTail t V) (.inr ⊤) (fun n ↦ .inr n)
-    (fun n ↦ attachTail.rel_inr_inr.mpr (ENat.natCast_lt_top n))
-    (fun n ↦ attachTail.rel_inr_inr.mpr (by exact_mod_cast n.lt_succ_self)) hcof
+  have hr := hc ((logicGL.countermodel (Γ ⟹ Δ).subfmls).ωExtension t V) (.inr ⊤) (fun n ↦ .inr n)
+    ωExtension.rel_inr_succ ωExtension.convergesTo_top
   obtain ⟨D, hD, hrD⟩ := hr fun C hC ↦ (key C).1 (hU.1 hC)
   exact (key D).2 (hU.2 hD) hrD
 
@@ -274,8 +263,8 @@ theorem cut (d₁ : ⊢ᴳ[𝐃] Γ₁ ⟹[ℓ] insert A Δ₁) (d₂ : ⊢ᴳ[�
     exact complete₁ fun M _ w hw ↦ (((eventually_forces M hw d₁ rfl).and
       (eventually_forces M hw d₂ rfl)).mono fun _ hn ↦ forcesSequent_cut hn.1 hn.2).exists
   | 2, d₁, d₂ =>
-    exact complete₂ fun M _ r w hrw hw hcof ↦ forcesSequent_cut
-      (forces_of_level₂ M hrw hw hcof d₁ rfl) (forces_of_level₂ M hrw hw hcof d₂ rfl)
+    exact complete₂ fun M _ r w hw hwr ↦ forcesSequent_cut
+      (forces_of_level₂ M hw hwr d₁ rfl) (forces_of_level₂ M hw hwr d₂ rfl)
 
 section Derived
 

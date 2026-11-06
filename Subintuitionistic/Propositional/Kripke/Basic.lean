@@ -1,6 +1,7 @@
 module
 
 public import Subintuitionistic.Propositional.Sequent
+public import Subintuitionistic.ToMathlib.Order.InfiniteDescendingChain
 
 /-!
 # Kripke semantics of `𝐅𝐏𝐋`
@@ -37,10 +38,14 @@ instance : CoeFun (Model κ α) (fun M ↦ M.World → α → Prop) := ⟨fun M 
 
 /-- - [Vis81, 1.4]
 - [IKK01, Section 3] -/
-class IsFPL (M : Model κ α) : Prop extends IsTrans _ M.Rel, Std.Irrefl M.Rel where
+class IsFiniteFPL (M : Model κ α) : Prop extends IsTrans _ M.Rel, Std.Irrefl M.Rel where
   [finite : Finite M.World]
 
-attribute [instance] IsFPL.finite
+attribute [instance] IsFiniteFPL.finite
+
+/-- - [Vis81, 1.4] -/
+class IsFPL (M : Model κ α) : Prop extends IsTrans _ M.Rel where
+  converseWellFounded : WellFounded (Function.swap M.Rel)
 
 end Model
 
@@ -83,6 +88,50 @@ def ForcesSequent (M : Model κ α) (x : M.World) (S : Sequent α) : Prop :=
 scoped[Propositional] notation:55 x:56 " ⊩[" M "] " S:56 => Model.World.ForcesSequent M x S
 scoped[Propositional] notation:55 x:56 " ⊩ " S:56 => Model.World.ForcesSequent _ x S
 
+section
+
+variable {Γ Γ' Δ Δ' : FormulaFinset α}
+
+lemma forcesSequent_wk (h : x ⊩ (Γ ⟹ Δ)) (hΓ : Γ ⊆ Γ') (hΔ : Δ ⊆ Δ') : x ⊩ (Γ' ⟹ Δ') := by
+  grind [ForcesSequent]
+
+variable [DecidableEq α]
+
+lemma forcesSequent_andL (h : x ⊩ (insert A (insert B Γ) ⟹ Δ)) :
+    x ⊩ (insert (A ⋏ B) Γ ⟹ Δ) := by
+  intro hx
+  have := hx (A ⋏ B) (Finset.mem_insert_self _ _)
+  grind [ForcesSequent]
+
+lemma forcesSequent_andR (h₁ : x ⊩ (Γ ⟹ insert A Δ)) (h₂ : x ⊩ (Γ ⟹ insert B Δ)) :
+    x ⊩ (Γ ⟹ insert (A ⋏ B) Δ) := by
+  intro hx
+  obtain ⟨C, hC, hxC⟩ := h₁ hx
+  obtain ⟨D, hD, hxD⟩ := h₂ hx
+  rcases Finset.mem_insert.mp hC with rfl | hC
+  · rcases Finset.mem_insert.mp hD with rfl | hD
+    · exact ⟨_, Finset.mem_insert_self _ _, hxC, hxD⟩
+    · exact ⟨D, Finset.mem_insert_of_mem hD, hxD⟩
+  · exact ⟨C, Finset.mem_insert_of_mem hC, hxC⟩
+
+lemma forcesSequent_orL (h₁ : x ⊩ (insert A Γ ⟹ Δ)) (h₂ : x ⊩ (insert B Γ ⟹ Δ)) :
+    x ⊩ (insert (A ⋎ B) Γ ⟹ Δ) := by
+  intro hx
+  have := hx (A ⋎ B) (Finset.mem_insert_self _ _)
+  grind [ForcesSequent]
+
+lemma forcesSequent_orR (h : x ⊩ (Γ ⟹ insert A (insert B Δ))) :
+    x ⊩ (Γ ⟹ insert (A ⋎ B) Δ) := by
+  intro hx
+  obtain ⟨C, hC, hxC⟩ := h hx
+  rcases Finset.mem_insert.mp hC with rfl | hC
+  · exact ⟨_, Finset.mem_insert_self _ _, .inl hxC⟩
+  rcases Finset.mem_insert.mp hC with rfl | hC
+  · exact ⟨_, Finset.mem_insert_self _ _, .inr hxC⟩
+  · exact ⟨C, Finset.mem_insert_of_mem hC, hxC⟩
+
+end
+
 end Model.World
 
 namespace Model
@@ -98,6 +147,13 @@ scoped[Propositional] infix:45 " ⊧ " => Model.ValidateSequent
 @[grind =] lemma validateSequent_singleton_iff :
     M ⊧ (Γ ⟹ {A}) ↔ ∀ x : M.World, (∀ C ∈ Γ, x ⊩ C) → x ⊩ A :=
   forall_congr' fun _ ↦ imp_congr_right fun _ ↦ by simp
+
+abbrev InfiniteDescendingChain (M : Model κ α) := _root_.InfiniteDescendingChain M.Rel
+
+instance : CoeFun M.InfiniteDescendingChain (fun _ ↦ ℕ → M.World) := ⟨(·.toFun)⟩
+
+instance [M.IsFiniteFPL] : M.IsFPL where
+  converseWellFounded := Finite.wellFounded_of_trans_of_irrefl _
 
 end Model
 
