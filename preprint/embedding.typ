@@ -522,6 +522,18 @@ Therefore, $GentzenDPL proves emptyset seq(1) {A}$ if and only if $LogicFPL prov
   When $level = 2, 3$, we further apply $RLift(1, 2)$, and when $level = 3$ we apply $RLift(2, 3)$ to $B -> C seq(2) B -> C$ with $n = m = 1$ and $Phi = emptyset$, which is applicable since both sides consist of implications.
 ]
 
+#lemma[
+  $GentzenDPL proves Gamma seq(level) top, Delta$ for any $Gamma, Delta subset.eq FmlPL$ and $level = 1, 2, 3$.
+] <lem:GentzenDPL_top>
+
+#proof[
+  $GentzenDPL proves emptyset seq(level) top$ follows from derivation．Note that $top equiv bot -> bot$.
+  $
+    #prooftree(rule(name: [$RLift(2, 3)$], $emptyset seq(3) top$, rule(name: [$RLift(1, 2)$], $emptyset seq(2) top$, rule(name: [$RImpR(1, 1)$], $emptyset seq(1) top$, rule(name: [$RWk(1, 1)$], $top, bot seq(1) bot$, $bot seq(1) emptyset$)))))
+  $
+  $GentzenDPL proves Gamma seq(level) top, Delta$ is obtained from $RWk(level, level)$ for each level.
+]
+
 = Proof-theoretic embedding <sect:embedding>
 
 The main result of this section is @thm:iff_visser: $GentzenDPL proves Gamma seq(level) Delta$ if and only if $GentzenD proves Gamma^Vis seq(level) Delta^Vis$.
@@ -2382,6 +2394,126 @@ Combining these propositions with the lemmas above, we can prove @thm:iff_visser
       Since $M^omega$ is an $LogicFPL$-model by @lem:omega_ext_frame, $M^omega, t_omega pmodels Gamma seq(3) Delta$ by @lem:fpl_to_gl.
     ]
   ]
+]
+
+= Equivalence & Difference
+
+#let Der(l) = $upright("Der")_#l$
+$GentzenDPL$ に関して，導出できるシークエントは実際に各レベルごとに異なり，それは @prop:gl_d_s との関係と対応する．
+$Der(level) := { (Gamma, Delta) colon GentzenDPL proves Gamma seq(level) Delta }$ とする．
+
+#lemma[
+  $GentzenDPL proves Gamma seq(1) Delta$ ならば $GentzenDPL proves Gamma seq(3) Delta$ である．つまり $Der(1) subset.eq Der(3)$．
+] <lem:derivability_1_3>
+
+#proof[
+  $LogicFPL$-モデル $M$ の $omega$-拡大 $M^omega$ を任意にとる．
+  @lem:omega_ext_frame より $M^omega$ も $LogicFPL$-モデルだった．
+  $GentzenDPL proves Gamma seq(1) Delta$ と @thm:gentzen_dpl_complete1 より $M^omega$ のすべての点で $Gamma seq(1) Delta$ が充足される．
+  ここで充足関係では $level$ は無視できることを注意すると，特に $M^omega$ のbottom $t_omega$ で $Gamma seq(3) Delta$ も充足されることが言える．
+  よって @thm:gentzen_dpl_complete3 より $GentzenDPL proves Gamma seq(3) Delta$ である．
+]
+
+#lemma[
+  $GentzenDPL proves Gamma seq(3) Delta$ ならば $GentzenDPL proves Gamma seq(2) Delta$ である．つまり $Der(3) subset.eq Der(2)$．
+] <lem:derivability_3_2>
+
+#proof[
+  $GentzenDPL proves Gamma seq(3) Delta$ の証明図に関する帰納法によって明らか．
+  $RLift(2, 3)$ 以外の規則に関しては $level = 2$ のものに置き換えればよい．
+  $RLift(2, 3)$ に関しては 前提が$level = 2$ で証明できているのでよい．
+]
+
+#lemma[
+  任意の $A_0 -> B_0, ..., A_(n - 1) -> B_(n - 1)$ と命題変数の集合 $Phi$ について $GentzenDPL nproves {A_i -> B_i colon i < n} seq(1) Phi$．
+] <lem:underivability_level1>
+
+#proof[
+  $GentzenDPL$ の $level = 1$ に関する規則から明らか．
+]
+
+#lemma[
+  $GentzenDPL proves not top seq(level) emptyset$ when $level = 2, 3$.
+  But not $level = 1$.
+  特に， $Der(1) subset.neq Der(3)$ である．
+] <lem:difference_1_3>
+
+#proof[
+  $level = 1$ で導出できないことは @lem:underivability_level1 を $Gamma = {not top}$，$Delta = emptyset$ とすればよい．
+  $level = 2, 3$ は以下の導出より従う．
+  $
+    #prooftree(rule(name: [$RLift(2, 3)$], $not top seq(3) emptyset$, rule(name: [$RImpL(2, 2)$], $not top seq(2) emptyset$, noted([(@lem:GentzenDPL_top)], $emptyset seq(2) top$))))
+  $
+
+  真の包含であることは @lem:derivability_1_3 より従う．
+]
+
+#lemma[
+  $GentzenDPL proves top -> p seq(level) p$ when $level = 2$ but not $level = 1, 3$ では導出できない．
+  特に， $Der(3) subset.neq Der(2)$ である．
+] <lem:difference_3_2>
+
+#proof[
+  $level = 1$ で導出できないことは @lem:underivability_level1 を $Gamma = {top -> p}$，$Delta = {p}$ とすればよい．
+  $level = 2$ は以下の導出より従う．
+  $
+    #prooftree(rule(name: $RImpL(2, 2)$, $top -> p seq(2) p$, noted([(@lem:GentzenDPL_top)], $emptyset seq(2) top, p$), $p seq(2) p$))
+  $
+  $level = 3$ については，まず後件に命題変数 $p$ が付いているため $RLift(2, 3)$ で導出することは出来ない．
+  $RLift(2, 3)$ 以外の $level = 3$ に関する規則だけでこれが導出できないことは明らかであろう．
+  真の包含であることは @lem:derivability_3_2 より従う．
+]
+
+#theorem[
+  $Der(1) subset.neq Der(3) subset.neq Der(2)$．
+] <thm:derivability_difference>
+
+#proof[
+  @lem:difference_1_3, @lem:difference_3_2 より．
+]
+
+一方で，論理（つまり論理式の集合）のレベルでは $LogicFPL, LogicSPL, LogicDPL$ は同じである．
+
+#theorem[
+  $LogicFPL = LogicDPL = LogicSPL$．
+] <thm:logic_equivalence>
+
+#proof[
+  $LogicFPL subset.eq LogicDPL subset.eq LogicSPL$ は @lem:derivability_1_3 と @lem:derivability_3_2 より明らか．
+  $LogicSPL subset.eq LogicFPL$ と $LogicDPL subset.eq LogicFPL$ を示せば十分．
+
+  まず $LogicFPL$-モデル $M := chevron.l W, prec, forces chevron.r$ の _simple $omega$-extension_を $t_n omegaforces p <==> r forces p$ for any $n <= omega$ による $omegaforces$（$W$ に関しては $forces$ と同じ）によって定めるものとする．
+  これが $omega$-extensionとしてwell-definedなのは明らかであろう．
+  #struct[Claim][
+    $M^omega$ を $M$ の $r$ におけるsimple $omega$-extensionとする．
+    すべての $n <= omega$ と $A in FmlPL$ について，$M^omega, t_n models A$ ならば $M, r models A$ である．
+
+    $A$ に関する帰納法で示そう．
+    $A equiv p$ なら定義より明らか．
+    $A equiv B -> C$ の場合はまず任意の $x succ r$ について $M, x models B$ とする．
+    $x in W$ より @lem:omega_ext_conservative から $M^omega, x models B$．
+    $t_n omegaprec x$ なので $M^omega, x models C$．
+    再び @lem:omega_ext_conservative から $M, x models C$．
+    ゆえに $M, r models B -> C$．
+    $A equiv bot, B and C, B or C$ は帰納法の仮定などより従う．
+    これでclaimは示された．
+  ]
+
+  いま，$A in.not LogicFPL$ とすると，@thm:gentzen_dpl_complete1 よりある $LogicFPL$-model $M$ と $r$ で $M, r nmodels A$．
+  $M$ の $r$ によるsimple $omega$-extension $M^omega$ を取ると，claimより $M^omega, t_n nmodels A$ for any $n <= omega$．
+  つまり，$M^omega$ のtail $(t_n)_(n in omega)$ で $A$ はeventually always satisfiedにならないし，$t_omega$ でも充足されない．
+  ゆえに @thm:gentzen_dpl_complete2 と @thm:gentzen_dpl_complete3 から $A in.not LogicSPL$ および $A in.not LogicDPL$．
+  よって $LogicSPL subset.eq LogicFPL$ と $LogicDPL subset.eq LogicFPL$．
+]
+
+系として直ちに次のことが得られる．
+
+#corollary[
+  $A^Vis in LogicGL <==> A^Vis in LogicD <==> A^Vis in LogicS$ for any $A in FmlPL$.
+] <thm:visser_logic_equivalence>
+
+#proof[
+  Follows from @cor:mem_logic_iff and @thm:logic_equivalence.
 ]
 
 = Concluding remarks and open problems <sect:conclusion>
