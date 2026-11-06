@@ -17,60 +17,27 @@ open FormulaFinset (imps)
 
 variable {κ α : Type*} [DecidableEq α]
 
-section
-
-variable {M : Model κ α}
-
-/-- The rule `impR` preserves validity in an `𝐅𝐏𝐋` model. -/
-lemma forces_imp_of_forces_premises [M.IsFPL] {Θ : FormulaFinset α}
-    {P : Finset (Formula α × Formula α)} {A B : Formula α}
-    (ih : ∀ I ⊆ P, M ⊧ (insert (A 🡒 B) (insert A (Θ ∪ I.image Prod.snd)) ⟹
-      insert B ((P \ I).image Prod.fst)))
-    {x : M.World} (hx : ∀ C ∈ Θ ∪ imps P, x ⊩ C) : x ⊩ A 🡒 B := by
-  classical
-  have wf : WellFounded (Function.swap M.Rel) := Finite.wellFounded_of_trans_of_irrefl _
-  induction x using wf.induction with
-  | _ x ihx =>
-    intro y Rxy hyA
-    have hy : ∀ C ∈ Θ ∪ imps P, y ⊩ C := fun C hC ↦ forces_of_rel Rxy (hx C hC)
-    have hyAB : y ⊩ A 🡒 B := ihx y Rxy hy
-    obtain ⟨C, hC, hyC⟩ := ih (P.filter fun p ↦ y ⊩ p.2) (Finset.filter_subset _ _) y <| by
-      intro D hD
-      rcases Finset.mem_insert.mp hD with rfl | hD
-      · exact hyAB
-      rcases Finset.mem_insert.mp hD with rfl | hD
-      · exact hyA
-      rcases Finset.mem_union.mp hD with hD | hD
-      · exact hy D (Finset.mem_union_left _ hD)
-      · obtain ⟨p, hp, rfl⟩ := Finset.mem_image.mp hD
-        exact (Finset.mem_filter.mp hp).2
-    have hP : ∀ p ∈ P, x ⊩ p.1 🡒 p.2 := fun p hp ↦
-      hx _ <| Finset.mem_union_right _ <| Finset.mem_image_of_mem _ hp
-    rcases Finset.mem_insert.mp hC with rfl | hC
-    · exact hyC
-    · obtain ⟨p, hp, rfl⟩ := Finset.mem_image.mp hC
-      obtain ⟨hpP, hpy⟩ := Finset.mem_sdiff.mp hp
-      exact (hpy <| Finset.mem_filter.mpr ⟨hpP, hP p hpP y Rxy hyC⟩).elim
-
-end
-
 /-- - [IKK01, Theorem 3.2] -/
 theorem sound {S : Sequent α} (M : Model κ α) [M.IsFPL] (h : ⊢ᴳ[𝐅𝐏𝐋] S) : M ⊧ S := by
   intro x
   induction h generalizing x with
   | axm A => exact fun hx ↦ ⟨A, by simp, hx A (by simp)⟩
   | botL => exact fun hx ↦ absurd (hx ⊥ (by simp)) not_forces_bot
-  | wkL _ hΓ ih => exact fun hx ↦ ih x fun A hA ↦ hx A (hΓ hA)
-  | wkR _ hΔ ih => exact fun hx ↦ by grind [ForcesSequent, ih x hx]
+  | wk _ hΓ hΔ ih => exact forcesSequent_wk (ih x) hΓ hΔ
   | andL _ ih => simp_all [ForcesSequent]
   | @andR Γ Δ A B _ _ ih₁ ih₂ =>
     intro hx
     obtain ⟨C, hC, hxC⟩ := ih₁ x hx
     obtain ⟨D, hD, hxD⟩ := ih₂ x hx
-    have : x ⊩ A ⋏ B ∨ ∃ E ∈ Δ, x ⊩ E := by grind
-    obtain h | ⟨E, hE, hxE⟩ := this
-    · exact ⟨A ⋏ B, by simp, h⟩
-    · exact ⟨E, by simp [hE], hxE⟩
+    replace hC := Finset.mem_insert.mp hC;
+    replace hD := Finset.mem_insert.mp hD;
+    rcases hC with (rfl | hC) <;>
+    rcases hD with (rfl | hD);
+    · use C ⋏ D;
+      grind;
+    · grind;
+    · grind;
+    · grind;
   | @orL _ _ A B _ _ ih₁ ih₂ =>
     intro hx
     rcases hx (A ⋎ B) (by simp) with h | h
@@ -83,7 +50,32 @@ theorem sound {S : Sequent α} (M : Model κ α) [M.IsFPL] (h : ⊢ᴳ[𝐅𝐏�
     obtain h | ⟨D, hD, hxD⟩ := this
     · exact ⟨A ⋎ B, by simp, h⟩
     · exact ⟨D, by simp [hD], hxD⟩
-  | impR _ ih => exact fun hx ↦ ⟨_, by simp, forces_imp_of_forces_premises ih hx⟩
+  | @impR Θ A B P _ ih =>
+    intro hx
+    suffices x ⊩ A 🡒 B from ⟨_, by simp, this⟩
+    classical
+    induction x using (IsFPL.converseWellFounded (M := M)).induction with
+    | _ x ihx =>
+      intro y Rxy hyA
+      have hy : ∀ C ∈ Θ ∪ imps P, y ⊩ C := fun C hC ↦ forces_of_rel Rxy (hx C hC)
+      have hyAB : y ⊩ A 🡒 B := ihx y Rxy hy
+      obtain ⟨C, hC, hyC⟩ := ih (P.filter fun p ↦ y ⊩ p.2) (Finset.filter_subset _ _) y <| by
+        intro D hD
+        rcases Finset.mem_insert.mp hD with rfl | hD
+        · exact hyAB
+        rcases Finset.mem_insert.mp hD with rfl | hD
+        · exact hyA
+        rcases Finset.mem_union.mp hD with hD | hD
+        · exact hy D (Finset.mem_union_left _ hD)
+        · obtain ⟨p, hp, rfl⟩ := Finset.mem_image.mp hD
+          exact (Finset.mem_filter.mp hp).2
+      have hP : ∀ p ∈ P, x ⊩ p.1 🡒 p.2 := fun p hp ↦
+        hx _ <| Finset.mem_union_right _ <| Finset.mem_image_of_mem _ hp
+      rcases Finset.mem_insert.mp hC with rfl | hC
+      · exact hyC
+      · obtain ⟨p, hp, rfl⟩ := Finset.mem_image.mp hC
+        obtain ⟨hpP, hpy⟩ := Finset.mem_sdiff.mp hp
+        exact (hpy <| Finset.mem_filter.mpr ⟨hpP, hP p hpP y Rxy hyC⟩).elim
 
 end Propositional.logicFPL.Derivable
 
@@ -156,7 +148,7 @@ def countermodel (Λ : FormulaFinset α) : Model (SaturatedSequent Λ) α where
 
 namespace countermodel
 
-instance : (countermodel Λ).IsFPL where
+instance : (countermodel Λ).IsFiniteFPL where
   trans _ _ _ Rxy Ryz := ⟨Rxy.1.trans Ryz.1, fun C D h ↦ Ryz.2 C D (Rxy.1.subset h)⟩
   irrefl _ Rxx := lt_irrefl _ Rxx.1
 
@@ -220,7 +212,7 @@ universe u
 variable {α : Type u} [DecidableEq α] {S : Sequent α}
 
 /-- - [IKK01, Theorem 3.3] -/
-theorem complete (h : ∀ {κ : Type u} (M : Model κ α), [M.IsFPL] → M ⊧ S) : ⊢ᴳ[𝐅𝐏𝐋] S := by
+theorem complete (h : ∀ {κ : Type u} (M : Model κ α), [M.IsFiniteFPL] → M ⊧ S) : ⊢ᴳ[𝐅𝐏𝐋] S := by
   by_contra hS
   obtain ⟨x, hx⟩ := lindenbaum Sequent.subformulaClosed_subfmls Sequent.subset_subfmls hS
   obtain ⟨D, hD, hxD⟩ := h (countermodel S.subfmls) x
@@ -228,7 +220,7 @@ theorem complete (h : ∀ {κ : Type u} (M : Model κ α), [M.IsFPL] → M ⊧ S
   exact (countermodel.truthlemma Sequent.subformulaClosed_subfmls x).2 (hx.2 hD) hxD
 
 /-- - [IKK01, Theorem 3.2, Theorem 3.3] -/
-theorem iff_valid : ⊢ᴳ[𝐅𝐏𝐋] S ↔ ∀ {κ : Type u} (M : Model κ α), [M.IsFPL] → M ⊧ S :=
+theorem iff_valid : ⊢ᴳ[𝐅𝐏𝐋] S ↔ ∀ {κ : Type u} (M : Model κ α), [M.IsFiniteFPL] → M ⊧ S :=
   ⟨fun h _ M _ ↦ sound M h, complete⟩
 
 end Derivable
