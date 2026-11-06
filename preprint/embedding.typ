@@ -75,12 +75,14 @@ that is, that $LogicS$ is a modal companion of $LogicSPL$.
 However, his proof contains errors that cannot be repaired by straightforward local corrections (see @sect:errors_in_petrukhin).
 
 We now explain the organization and contributions of this paper.
-In @sect:preliminaries, we introduce the notation and definitions used in this paper, such as sequent calculi, and state some basic facts.
-In @sect:embedding, as the first of our two main results, by refering to the proof-theoretic proofs given in @YS17 and @Pet23 that $LogicKFour$ (resp. $LogicS$) is a modal companion of $LogicBPL$ (resp. $LogicSPL$), define by means of a sequent calculus $GentzenDPL$ a propositional logic $LogicDPL$ that can be embedded into the modal logic $LogicD$, and give a complete and detailed proof of the embedding theorem from scratch.
+In @sect:preliminaries, we introduce the notation and definitions used in this paper, such as sequent calculi and state some basic facts for modal logic $LogicGL, LogicS, LogicD$.
+In @sect:seq_DPL, 我々はこの論文で主に取り扱う3つのレベルを持ったシークエントの命題論理のシークエント計算体系 $GentzenDPL$ を導入し，その基本的な性質を述べる．
+In @sect:embedding, as the first of our two main results, by refering to the proof-theoretic proofs given in @YS17 and @Pet23 that $LogicKFour$ (resp. $LogicS$) is a modal companion of $LogicBPL$ (resp. $LogicSPL$) that can be embedded into the modal logic $LogicD$, and give a complete and detailed proof of the embedding theorem from scratch.
 The result of @Pet23 itself is obtained by restricting the sequent calculus given here appropriately.
 Moreover, on the basis of the proof given here, we point out errors in @Pet23.
 Next, in @sect:semantics, as the second of our two main results, we define Kripke semantics for $LogicSPL$ and $LogicDPL$.
 Using this semantics together with the semantics of $LogicS$ and $LogicD$ given in @KK23 and @KKIM25, we give a semantic proof that $LogicSPL$ and $LogicDPL$ are modal companions of $LogicS$ and $LogicD$, respectively.
+@sect:inequiv_equiv では，導入した意味論や証明論的な解析により，各レベルでは導出できるシークエント異なることと，定理の集合としての $LogicFPL, LogicDPL, LogicSPL$ は異なることを示す．
 Finally, we give some concluding remarks and open problems in @sect:conclusion.
 
 == Acknowledgements
@@ -2396,11 +2398,14 @@ Combining these propositions with the lemmas above, we can prove @thm:iff_visser
   ]
 ]
 
-= Equivalence & Difference
+= Sequent inequivalence and logic equivalence <sect:inequiv_equiv>
 
 #let Der(l) = $upright("Der")_#l$
-$GentzenDPL$ に関して，導出できるシークエントは実際に各レベルごとに異なり，それは @prop:gl_d_s との関係と対応する．
-$Der(level) := { (Gamma, Delta) colon GentzenDPL proves Gamma seq(level) Delta }$ とする．
+
+この節では $GentzenDPL$ のシークエント計算においてレベルが無意味なガジェットではないということを調べる．
+つまり，$GentzenDPL$ に関して，導出できるシークエントは実際に各レベルごとに異なり，それは @prop:gl_d_s との関係と対応するということを示そう．
+一方で，シークエントのレベルでは異なるものの，実は論理（すなわち定理集合）としての $LogicFPL, LogicDPL, LogicSPL$ は同値であるということも示すことが出来る．
+ここでは $Der(level) := { (Gamma, Delta) colon GentzenDPL proves Gamma seq(level) Delta }$ とする．
 
 #lemma[
   $GentzenDPL proves Gamma seq(1) Delta$ ならば $GentzenDPL proves Gamma seq(3) Delta$ である．つまり $Der(1) subset.eq Der(3)$．
@@ -2460,7 +2465,7 @@ $Der(level) := { (Gamma, Delta) colon GentzenDPL proves Gamma seq(level) Delta }
     #prooftree(rule(name: $RImpL(2, 2)$, $top -> p seq(2) p$, noted([(@lem:GentzenDPL_top)], $emptyset seq(2) top, p$), $p seq(2) p$))
   $
   $level = 3$ については，まず後件に命題変数 $p$ が付いているため $RLift(2, 3)$ で導出することは出来ない．
-  $RLift(2, 3)$ 以外の $level = 3$ に関する規則だけでこれが導出できないことは明らかであろう．
+  $RLift(2, 3)$ 以外の $level = 3$ に関する規則だけで $top -> p seq(3) p$ が導出できないことは明らかであろう．
   真の包含であることは @lem:derivability_3_2 より従う．
 ]
 
@@ -2472,7 +2477,8 @@ $Der(level) := { (Gamma, Delta) colon GentzenDPL proves Gamma seq(level) Delta }
   @lem:difference_1_3, @lem:difference_3_2 より．
 ]
 
-一方で，論理（つまり論理式の集合）のレベルでは $LogicFPL, LogicSPL, LogicDPL$ は同じである．
+@thm:derivability_difference はシークエントのレベルでは $GentzenDPL$ はそれぞれのレベルで導出できるシークエントは異なることを明らかにした．
+しかしこれと対比して，実は論理（つまり論理式の集合）のレベルでは $LogicFPL, LogicSPL, LogicDPL$ は同じであることが意味論的な分析によってわかる．
 
 #theorem[
   $LogicFPL = LogicDPL = LogicSPL$．
@@ -2515,6 +2521,8 @@ $Der(level) := { (Gamma, Delta) colon GentzenDPL proves Gamma seq(level) Delta }
 #proof[
   Follows from @cor:mem_logic_iff and @thm:logic_equivalence.
 ]
+
+この意味で，Visser--Gödel変換は命題論理に対してかなり強い作用であると言えるだろう．
 
 = Concluding remarks and open problems <sect:conclusion>
 
