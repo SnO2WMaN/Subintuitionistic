@@ -75,12 +75,14 @@ that is, that $LogicS$ is a modal companion of $LogicSPL$.
 However, his proof contains errors that cannot be repaired by straightforward local corrections (see @sect:errors_in_petrukhin).
 
 We now explain the organization and contributions of this paper.
-In @sect:preliminaries, we introduce the notation and definitions used in this paper, such as sequent calculi, and state some basic facts.
-In @sect:embedding, as the first of our two main results, by refering to the proof-theoretic proofs given in @YS17 and @Pet23 that $LogicKFour$ (resp. $LogicS$) is a modal companion of $LogicBPL$ (resp. $LogicSPL$), define by means of a sequent calculus $GentzenDPL$ a propositional logic $LogicDPL$ that can be embedded into the modal logic $LogicD$, and give a complete and detailed proof of the embedding theorem from scratch.
+In @sect:preliminaries, we introduce the notation and definitions used in this paper, such as sequent calculi and state some basic facts for modal logic $LogicGL, LogicS, LogicD$.
+In @sect:seq_DPL, we introduce the sequent calculus $GentzenDPL$ for propositional logic $LogicFPL, LogicSPL, LogicDPL$, with three levels of sequents, which is the main calculus of study in this paper, and state its basic properties.
+In @sect:embedding, as the first of our two main results, by referring to the proof-theoretic proofs given in @YS17 and @Pet23 that $LogicKFour$ (resp. $LogicS$) is a modal companion of $LogicBPL$ (resp. $LogicSPL$), we show that the propositional logic $LogicDPL$ defined by $GentzenDPL$ can be embedded into the modal logic $LogicD$, giving a complete and detailed proof of the embedding theorem from scratch.
 The result of @Pet23 itself is obtained by restricting the sequent calculus given here appropriately.
 Moreover, on the basis of the proof given here, we point out errors in @Pet23.
 Next, in @sect:semantics, as the second of our two main results, we define Kripke semantics for $LogicSPL$ and $LogicDPL$.
 Using this semantics together with the semantics of $LogicS$ and $LogicD$ given in @KK23 and @KKIM25, we give a semantic proof that $LogicSPL$ and $LogicDPL$ are modal companions of $LogicS$ and $LogicD$, respectively.
+In @sect:inequiv_equiv, we use the semantics and proof-theoretic analysis introduced above to show that the derivable sequents differ from level to level, and yet $LogicFPL$, $LogicDPL$ and $LogicSPL$ coincide as sets of theorems.
 Finally, we give some concluding remarks and open problems in @sect:conclusion.
 
 == Acknowledgements
@@ -520,6 +522,18 @@ Therefore, $GentzenDPL proves emptyset seq(1) {A}$ if and only if $LogicFPL prov
     ))
   $
   When $level = 2, 3$, we further apply $RLift(1, 2)$, and when $level = 3$ we apply $RLift(2, 3)$ to $B -> C seq(2) B -> C$ with $n = m = 1$ and $Phi = emptyset$, which is applicable since both sides consist of implications.
+]
+
+#lemma[
+  $GentzenDPL proves Gamma seq(level) top, Delta$ for any $Gamma, Delta subset.eq FmlPL$ and $level = 1, 2, 3$.
+] <lem:GentzenDPL_top>
+
+#proof[
+  $GentzenDPL proves emptyset seq(level) top$ follows from derivation．Note that $top equiv bot -> bot$.
+  $
+    #prooftree(rule(name: [$RLift(2, 3)$], $emptyset seq(3) top$, rule(name: [$RLift(1, 2)$], $emptyset seq(2) top$, rule(name: [$RImpR(1, 1)$], $emptyset seq(1) top$, rule(name: [$RWk(1, 1)$], $top, bot seq(1) bot$, $bot seq(1) emptyset$)))))
+  $
+  $GentzenDPL proves Gamma seq(level) top, Delta$ is obtained from $RWk(level, level)$ for each level.
 ]
 
 = Proof-theoretic embedding <sect:embedding>
@@ -2383,6 +2397,131 @@ Combining these propositions with the lemmas above, we can prove @thm:iff_visser
     ]
   ]
 ]
+
+= Separation of levels and coincidence of logics <sect:inequiv_equiv>
+
+#let Der(l) = $upright("Der")_#l$
+
+In this section, we show that the level in the sequent calculus $GentzenDPL$ is not a meaningless device: the sequents derivable in $GentzenDPL$ actually differ from level to level, in a way that corresponds to the relationship in @prop:gl_d_s.
+On the other hand, despite this difference at the level of sequents, we show that $LogicFPL$, $LogicDPL$ and $LogicSPL$ coincide as logics, that is, as sets of theorems.
+We write $Der(level) := { (Gamma, Delta) colon GentzenDPL proves Gamma seq(level) Delta }$.
+
+#lemma[
+  If $GentzenDPL proves Gamma seq(1) Delta$, then $GentzenDPL proves Gamma seq(3) Delta$. That is, $Der(1) subset.eq Der(3)$.
+] <lem:derivability_1_3>
+
+#proof[
+  Take an arbitrary $omega$-extension $M^omega$ of an $LogicFPL$-model $M$.
+  By @lem:omega_ext_frame, $M^omega$ is again an $LogicFPL$-model.
+  By $GentzenDPL proves Gamma seq(1) Delta$ and @thm:gentzen_dpl_complete1, $Gamma seq(1) Delta$ is satisfied at every point of $M^omega$.
+  Since the satisfaction relation does not depend on $level$, in particular $Gamma seq(3) Delta$ is satisfied at the bottom $t_omega$ of $M^omega$.
+  Hence $GentzenDPL proves Gamma seq(3) Delta$ follows by @thm:gentzen_dpl_complete3.
+]
+
+#lemma[
+  If $GentzenDPL proves Gamma seq(3) Delta$, then $GentzenDPL proves Gamma seq(2) Delta$. That is, $Der(3) subset.eq Der(2)$.
+] <lem:derivability_3_2>
+
+#proof[
+  Clear by induction on a derivation of $GentzenDPL proves Gamma seq(3) Delta$.
+  Every rule other than $RLift(2, 3)$ can simply be replaced by its $level = 2$ counterpart.
+  For $RLift(2, 3)$, its premise is already derivable at $level = 2$, so there is nothing to do.
+]
+
+#lemma[
+  For any $A_0 -> B_0, ..., A_(n - 1) -> B_(n - 1)$ and set of propositional variables $Phi$, $GentzenDPL nproves {A_i -> B_i colon i < n} seq(1) Phi$.
+] <lem:underivability_level1>
+
+#proof[
+  Obvious from the rules of $GentzenDPL$ for $level = 1$.
+]
+
+#lemma[
+  $GentzenDPL proves not top seq(level) emptyset$ when $level = 2, 3$, but not when $level = 1$.
+  In particular, $Der(1) subset.neq Der(3)$.
+] <lem:difference_1_3>
+
+#proof[
+  Non-derivability at $level = 1$ follows by applying @lem:underivability_level1 with $Gamma = {not top}$ and $Delta = emptyset$.
+  Derivability at $level = 2, 3$ follows from the derivation below.
+  $
+    #prooftree(rule(name: [$RLift(2, 3)$], $not top seq(3) emptyset$, rule(name: [$RImpL(2, 2)$], $not top seq(2) emptyset$, noted([(@lem:GentzenDPL_top)], $emptyset seq(2) top$))))
+  $
+
+  Proper inclusion follows from @lem:derivability_1_3.
+]
+
+#lemma[
+  $GentzenDPL proves top -> p seq(level) p$ when $level = 2$, but not when $level = 1, 3$.
+  In particular, $Der(3) subset.neq Der(2)$.
+] <lem:difference_3_2>
+
+#proof[
+  Non-derivability at $level = 1$ follows by applying @lem:underivability_level1 with $Gamma = {top -> p}$ and $Delta = {p}$.
+  Derivability at $level = 2$ follows from the derivation below.
+  $
+    #prooftree(rule(name: $RImpL(2, 2)$, $top -> p seq(2) p$, noted([(@lem:GentzenDPL_top)], $emptyset seq(2) top, p$), $p seq(2) p$))
+  $
+  As for $level = 3$, since the propositional variable $p$ occurs in the succedent, the sequent cannot be obtained by $RLift(2, 3)$.
+  It is clear that it cannot be derived by the $level = 3$ rules other than $RLift(2, 3)$ either.
+  Proper inclusion follows from @lem:derivability_3_2.
+]
+
+#theorem[
+  $Der(1) subset.neq Der(3) subset.neq Der(2)$．
+] <thm:derivability_difference>
+
+#proof[
+  Follows from @lem:difference_1_3 and @lem:difference_3_2.
+]
+
+@thm:derivability_difference shows that, at the level of sequents, $GentzenDPL$ derives different sequents at each level.
+In contrast, a semantic analysis shows that at the sets of formulas, $LogicFPL$, $LogicSPL$ and $LogicDPL$ coincide.
+
+#theorem[
+  $LogicFPL = LogicDPL = LogicSPL$．
+] <thm:logic_equivalence>
+
+#proof[
+  $LogicFPL subset.eq LogicDPL subset.eq LogicSPL$ is clear from @lem:derivability_1_3 and @lem:derivability_3_2.
+  It suffices to show $LogicSPL subset.eq LogicFPL$ and $LogicDPL subset.eq LogicFPL$.
+
+  First, for an $LogicFPL$-model $M := chevron.l W, prec, forces chevron.r$, we define its _simple $omega$-extension_ by the valuation $omegaforces$ given by $t_n omegaforces p <==> r forces p$ for every $n <= omega$ (and equal to $forces$ on $W$).
+  It is clear that this is well-defined as an $omega$-extension.
+  #struct[Claim][
+    Let $M^omega$ be the simple $omega$-extension of $M$ at $r$.
+    For every $n <= omega$ and $A in FmlPL$, if $M^omega, t_n models A$ then $M, r models A$.
+
+    We prove this by induction on $A$.
+    If $A equiv p$, this is clear from the definition.
+    If $A equiv B -> C$, let $x succ r$ be arbitrary with $M, x models B$.
+    Since $x in W$, @lem:omega_ext_conservative gives $M^omega, x models B$.
+    Since $t_n omegaprec x$, we get $M^omega, x models C$.
+    Applying @lem:omega_ext_conservative again gives $M, x models C$.
+    Hence $M, r models B -> C$.
+    The cases $A equiv bot, B and C, B or C$ follow from the definition or induction hypothesis immediately.
+    This proves the claim.
+  ]
+
+  Now suppose $A in.not LogicFPL$.
+  By @thm:gentzen_dpl_complete1, there is an $LogicFPL$-model $M$ and a point $r$ with $M, r nmodels A$.
+  Taking the simple $omega$-extension $M^omega$ of $M$ at $r$, the claim gives $M^omega, t_n nmodels A$ for every $n <= omega$.
+  That is, $A$ is not eventually always satisfied on the tail $(t_n)_(n in omega)$ of $M^omega$, nor is it satisfied at $t_omega$.
+  Hence $A in.not LogicSPL$ and $A in.not LogicDPL$ follow from @thm:gentzen_dpl_complete2 and @thm:gentzen_dpl_complete3.
+  Therefore $LogicSPL subset.eq LogicFPL$ and $LogicDPL subset.eq LogicFPL$.
+]
+
+As an immediate corollary, we obtain the following.
+
+#corollary[
+  $A^Vis in LogicGL <==> A^Vis in LogicD <==> A^Vis in LogicS$ for any $A in FmlPL$.
+] <thm:visser_logic_equivalence>
+
+#proof[
+  Follows from @cor:mem_logic_iff and @thm:logic_equivalence.
+]
+
+In this sense, one could say that the Visser--Gödel translation acts quite strongly on propositional logics.
 
 = Concluding remarks and open problems <sect:conclusion>
 
